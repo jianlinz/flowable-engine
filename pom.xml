@@ -1618,6 +1618,21 @@
 				<module>modules/flowable-groovy-script-static-engine</module>
 				<module>tooling/archetypes/flowable-archetype-unittest</module>
 			</modules>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-source-plugin</artifactId>
+						<executions>
+							<execution>
+								<goals>
+									<goal>jar-no-fork</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
 		</profile>
 	</profiles>
 
