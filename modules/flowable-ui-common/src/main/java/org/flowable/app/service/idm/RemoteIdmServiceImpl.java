@@ -18,12 +18,15 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.proper.enterprise.platform.api.auth.model.Role;
 import com.proper.enterprise.platform.api.auth.model.User;
 import com.proper.enterprise.platform.api.auth.model.UserGroup;
+import com.proper.enterprise.platform.api.auth.service.RoleService;
 import com.proper.enterprise.platform.api.auth.service.UserGroupService;
 import com.proper.enterprise.platform.api.auth.service.UserService;
 import com.proper.enterprise.platform.core.entity.DataTrunk;
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -35,9 +38,11 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.ssl.SSLContextBuilder;
 import org.flowable.app.convert.RemoteGroupConvert;
+import org.flowable.app.convert.RemoteUserConvert;
 import org.flowable.app.model.common.RemoteGroup;
 import org.flowable.app.model.common.RemoteToken;
 import org.flowable.app.model.common.RemoteUser;
+import org.flowable.app.model.common.ResultListDataRepresentation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,9 +52,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 
 @Service
@@ -67,6 +70,8 @@ public class RemoteIdmServiceImpl implements RemoteIdmService {
     protected UserGroupService userGroupService;
     @Autowired
     protected UserService userService;
+    @Autowired
+    private RoleService roleService;
 
     @Override
     public RemoteUser authenticateUser(String username, String password) {
@@ -80,6 +85,19 @@ public class RemoteIdmServiceImpl implements RemoteIdmService {
 
     @Override
     public RemoteUser getUser(String userId) {
+        User user = userService.get(userId);
+        RemoteUser remoteUser = RemoteUserConvert.convert(user);
+        JsonNode json = null;
+        try {
+            json = objectMapper.readTree(objectMapper.writeValueAsString(remoteUser));
+        } catch (JsonProcessingException e) {
+            LOGGER.error("JsonProcessingException", e);
+        } catch (IOException e) {
+            LOGGER.error("IOException", e);
+        }
+        if (json != null) {
+            return parseUserInfo(json);
+        }
         return null;
     }
 
@@ -87,7 +105,7 @@ public class RemoteIdmServiceImpl implements RemoteIdmService {
     public List<RemoteUser> findUsersByNameFilter(String filter) {
         DataTrunk<? extends User> dataTrunk = userService.getUsersByCondiction(filter, null, null, null, "Y", 1,
                 10);
-        List<RemoteUser> remoteUsers = RemoteGroupConvert.convertToRemoteUsers(dataTrunk.getData());
+        List<RemoteUser> remoteUsers = RemoteUserConvert.convert(dataTrunk.getData());
         JsonNode json = null;
         try {
             json = objectMapper.readTree(objectMapper.writeValueAsString(remoteUsers));
@@ -115,7 +133,7 @@ public class RemoteIdmServiceImpl implements RemoteIdmService {
     @Override
     public List<RemoteGroup> findGroupsByNameFilter(String filter) {
         Collection<? extends UserGroup> userGroups = userGroupService.getGroups(filter, null, null);
-        List<RemoteGroup> remoteGroups = RemoteGroupConvert.convertToRemoteGroups(userGroups);
+        List<RemoteGroup> remoteGroups = RemoteGroupConvert.convert(userGroups);
         JsonNode json = null;
         try {
             json = objectMapper.readTree(objectMapper.writeValueAsString(remoteGroups));
@@ -128,6 +146,28 @@ public class RemoteIdmServiceImpl implements RemoteIdmService {
             return parseGroupsInfo(json);
         }
         return new ArrayList<>();
+    }
+
+    @Override
+    public ResultListDataRepresentation getRolesByNameFilter(String filter) {
+        String roleNameFilter = filter;
+        if (StringUtils.isEmpty(roleNameFilter)) {
+            roleNameFilter = "%";
+        } else {
+            roleNameFilter = "%" + roleNameFilter + "%";
+        }
+        Collection roles = roleService.getAllSimilarRolesByName(roleNameFilter);
+        Iterator iterator = roles.iterator();
+        List<Map<String, Object>> list = new ArrayList<>();
+        Map<String, Object> map;
+        while (iterator.hasNext()) {
+            Role role = (Role) iterator.next();
+            map = new TreeMap<>();
+            map.put("id", role.getId());
+            map.put("name", role.getName());
+            list.add(map);
+        }
+        return new ResultListDataRepresentation(list);
     }
 
     protected JsonNode callRemoteIdmService(String url, String username, String password) {

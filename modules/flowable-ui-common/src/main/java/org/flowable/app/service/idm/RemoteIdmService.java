@@ -17,6 +17,7 @@ import java.util.List;
 import org.flowable.app.model.common.RemoteGroup;
 import org.flowable.app.model.common.RemoteToken;
 import org.flowable.app.model.common.RemoteUser;
+import org.flowable.app.model.common.ResultListDataRepresentation;
 
 public interface RemoteIdmService {
 
@@ -33,5 +34,7 @@ public interface RemoteIdmService {
     RemoteGroup getGroup(String groupId);
 
     List<RemoteGroup> findGroupsByNameFilter(String filter);
+
+    ResultListDataRepresentation getRolesByNameFilter(String filter);
 
 }
