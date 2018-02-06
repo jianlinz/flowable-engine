@@ -17,7 +17,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.proper.enterprise.platform.api.auth.model.Role;
 import com.proper.enterprise.platform.api.auth.model.User;
 import com.proper.enterprise.platform.api.auth.model.UserGroup;
@@ -25,24 +24,8 @@ import com.proper.enterprise.platform.api.auth.service.RoleService;
 import com.proper.enterprise.platform.api.auth.service.UserGroupService;
 import com.proper.enterprise.platform.api.auth.service.UserService;
 import com.proper.enterprise.platform.core.entity.DataTrunk;
-import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.HttpHeaders;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.conn.ssl.NoopHostnameVerifier;
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.ssl.SSLContextBuilder;
-import org.flowable.app.convert.RemoteGroupConvert;
-import org.flowable.app.convert.RemoteUserConvert;
-import org.flowable.app.model.common.RemoteGroup;
-import org.flowable.app.model.common.RemoteToken;
-import org.flowable.app.model.common.RemoteUser;
-import org.flowable.app.model.common.ResultListDataRepresentation;
+import org.flowable.app.model.common.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +34,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.net.URLEncoder;
-import java.nio.charset.Charset;
 import java.util.*;
 
 
@@ -149,7 +131,7 @@ public class RemoteIdmServiceImpl implements RemoteIdmService {
     }
 
     @Override
-    public ResultListDataRepresentation getRolesByNameFilter(String filter) {
+    public List<RemoteRole> getRolesByNameFilter(String filter) {
         String roleNameFilter = filter;
         if (StringUtils.isEmpty(roleNameFilter)) {
             roleNameFilter = "%";
@@ -158,53 +140,77 @@ public class RemoteIdmServiceImpl implements RemoteIdmService {
         }
         Collection roles = roleService.getAllSimilarRolesByName(roleNameFilter);
         Iterator iterator = roles.iterator();
-        List<Map<String, Object>> list = new ArrayList<>();
-        Map<String, Object> map;
+        List<RemoteRole> list = new ArrayList<>();
         while (iterator.hasNext()) {
             Role role = (Role) iterator.next();
-            map = new TreeMap<>();
-            map.put("id", role.getId());
-            map.put("name", role.getName());
-            list.add(map);
+            list.add(RemoteRoleConvert.convert(role));
         }
-        return new ResultListDataRepresentation(list);
+        return list;
     }
 
-    protected JsonNode callRemoteIdmService(String url, String username, String password) {
-        HttpGet httpGet = new HttpGet(url);
-        httpGet.setHeader(HttpHeaders.AUTHORIZATION, "Basic " + new String(
-                Base64.encodeBase64((username + ":" + password).getBytes(Charset.forName("UTF-8")))));
+    private static class RemoteRoleConvert {
+        public static RemoteRole convert(Role role) {
+            RemoteRole remoteRole = new RemoteRole();
+            if (null == role || StringUtils.isEmpty(role.getId())) {
+                return null;
+            }
+            remoteRole.setId(role.getId());
+            remoteRole.setName(role.getName());
+            return remoteRole;
+        }
+    }
 
-        HttpClientBuilder clientBuilder = HttpClientBuilder.create();
-        SSLConnectionSocketFactory sslsf = null;
-        try {
-            SSLContextBuilder builder = new SSLContextBuilder();
-            builder.loadTrustMaterial(null, new TrustSelfSignedStrategy());
-            sslsf = new SSLConnectionSocketFactory(builder.build(), NoopHostnameVerifier.INSTANCE);
-            clientBuilder.setSSLSocketFactory(sslsf);
-        } catch (Exception e) {
-            LOGGER.warn("Could not configure SSL for http client", e);
+    private static class RemoteGroupConvert {
+        public static RemoteGroup convert(UserGroup userGroup) {
+            RemoteGroup remoteGroup = new RemoteGroup();
+            if (null == userGroup || StringUtils.isEmpty(userGroup.getId())) {
+                return null;
+            }
+            remoteGroup.setId(userGroup.getId());
+            remoteGroup.setName(userGroup.getName());
+            return remoteGroup;
         }
 
-        CloseableHttpClient client = clientBuilder.build();
 
-        try {
-            HttpResponse response = client.execute(httpGet);
-            if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-                return objectMapper.readTree(response.getEntity().getContent());
-            }
-        } catch (Exception e) {
-            LOGGER.warn("Exception while getting token", e);
-        } finally {
-            if (client != null) {
-                try {
-                    client.close();
-                } catch (IOException e) {
-                    LOGGER.warn("Exception while closing http client", e);
+        public static List<RemoteGroup> convert(Collection<? extends UserGroup> userGroups) {
+            List<RemoteGroup> remoteGroups = new ArrayList<>();
+            for (UserGroup userGroup : userGroups) {
+                RemoteGroup remoteGroup = convert(userGroup);
+                if (null == remoteGroup) {
+                    continue;
                 }
+                remoteGroups.add(remoteGroup);
             }
+            return remoteGroups;
         }
-        return null;
+    }
+
+    private static class RemoteUserConvert {
+        public static RemoteUser convert(User user) {
+            if (null == user || StringUtils.isEmpty(user.getId())) {
+                return null;
+            }
+            RemoteUser remoteUser = new RemoteUser();
+            remoteUser.setFirstName(user.getUsername());
+            remoteUser.setFullName(user.getUsername());
+            remoteUser.setGroups(RemoteGroupConvert.convert(user.getUserGroups()));
+            remoteUser.setId(user.getId());
+            remoteUser.setEmail(user.getEmail());
+            return remoteUser;
+        }
+
+
+        public static List<RemoteUser> convert(Collection<? extends User> users) {
+            List<RemoteUser> remoteUsers = new ArrayList<>();
+            for (User user : users) {
+                RemoteUser remoteUser = convert(user);
+                if (null == remoteUser) {
+                    continue;
+                }
+                remoteUsers.add(remoteUser);
+            }
+            return remoteUsers;
+        }
     }
 
     protected List<RemoteUser> parseUsersInfo(JsonNode json) {
