@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -13,9 +13,11 @@
 package org.flowable.task.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import com.proper.enterprise.platform.api.auth.model.Role;
 import org.flowable.engine.common.api.FlowableException;
 import org.flowable.engine.common.api.FlowableIllegalArgumentException;
 import org.flowable.engine.common.impl.db.SuspensionState;
@@ -32,6 +34,9 @@ import org.flowable.variable.api.type.VariableScopeType;
 import org.flowable.variable.api.types.VariableTypes;
 import org.flowable.variable.service.impl.AbstractVariableQueryImpl;
 import org.flowable.variable.service.impl.QueryVariableValue;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 /**
  * @author Joram Barrez
@@ -40,6 +45,7 @@ import org.flowable.variable.service.impl.QueryVariableValue;
  * @author Tijs Rademakers
  */
 public class TaskQueryImpl extends AbstractVariableQueryImpl<TaskQuery, Task> implements TaskQuery {
+//    protected static final Logger LOGGER = LoggerFactory.getLogger(TaskQueryImpl.class);
 
     private static final long serialVersionUID = 1L;
 
@@ -68,7 +74,9 @@ public class TaskQueryImpl extends AbstractVariableQueryImpl<TaskQuery, Task> im
     protected DelegationState delegationState;
     protected String candidateUser;
     protected String candidateGroup;
+    protected String candidateRole;
     protected List<String> candidateGroups;
+    protected List<String> candidateRoles;
     protected boolean ignoreAssigneeValue;
     protected String tenantId;
     protected String tenantIdLike;
@@ -121,6 +129,7 @@ public class TaskQueryImpl extends AbstractVariableQueryImpl<TaskQuery, Task> im
     protected TaskQueryImpl currentOrQueryObject;
 
     private List<String> cachedCandidateGroups;
+    private List<String> cachedCandidateRoles;
 
     public TaskQueryImpl() {
     }
@@ -527,6 +536,48 @@ public class TaskQueryImpl extends AbstractVariableQueryImpl<TaskQuery, Task> im
         return this;
     }
 
+
+    @Override
+    public TaskQueryImpl taskCandidateRole(String candidateRole) {
+        if (candidateRole == null) {
+            throw new FlowableIllegalArgumentException("Candidate group is null");
+        }
+
+        if (candidateRoles != null) {
+            throw new FlowableIllegalArgumentException("Invalid query usage: cannot set both candidateGroup and candidateGroupIn");
+        }
+
+        if (orActive) {
+            currentOrQueryObject.candidateRole = candidateRole;
+        } else {
+            this.candidateRole = candidateRole;
+        }
+        return this;
+    }
+
+    @Override
+    public TaskQuery taskCandidateRoleIn(List<String> candidateRoles) {
+        if (candidateRoles == null) {
+            throw new FlowableIllegalArgumentException("Candidate role list is null");
+        }
+
+        if (candidateRoles.isEmpty()) {
+            throw new FlowableIllegalArgumentException("Candidate role list is empty");
+        }
+
+        if (candidateRole != null) {
+            throw new FlowableIllegalArgumentException("Invalid query usage: cannot set both candidateRoleIn and " +
+                    "candidateRole");
+        }
+
+        if (orActive) {
+            currentOrQueryObject.candidateRoles = candidateRoles;
+        } else {
+            this.candidateRoles = candidateRoles;
+        }
+        return this;
+    }
+
     @Override
     public TaskQuery taskCandidateOrAssigned(String userIdForCandidateAndAssignee) {
         if (candidateGroup != null) {
@@ -534,6 +585,9 @@ public class TaskQueryImpl extends AbstractVariableQueryImpl<TaskQuery, Task> im
         }
         if (candidateUser != null) {
             throw new FlowableIllegalArgumentException("Invalid query usage: cannot set both candidateGroup and candidateUser");
+        }
+        if (candidateRole != null) {
+            throw new FlowableIllegalArgumentException("Invalid query usage: cannot set both candidateRole and candidateUser");
         }
 
         if (orActive) {
@@ -568,7 +622,7 @@ public class TaskQueryImpl extends AbstractVariableQueryImpl<TaskQuery, Task> im
         }
         return this;
     }
-    
+
     @Override
     public TaskQuery ignoreAssigneeValue() {
         if (orActive) {
@@ -686,7 +740,7 @@ public class TaskQueryImpl extends AbstractVariableQueryImpl<TaskQuery, Task> im
         }
         return this;
     }
-    
+
     @Override
     public TaskQuery caseInstanceId(String caseInstanceId) {
         if (orActive) {
@@ -698,7 +752,7 @@ public class TaskQueryImpl extends AbstractVariableQueryImpl<TaskQuery, Task> im
         }
         return this;
     }
-    
+
     @Override
     public TaskQuery caseDefinitionId(String caseDefinitionId) {
         if (orActive) {
@@ -710,7 +764,7 @@ public class TaskQueryImpl extends AbstractVariableQueryImpl<TaskQuery, Task> im
         }
         return this;
     }
-    
+
     @Override
     public TaskQuery planItemInstanceId(String planItemInstanceId) {
         if (orActive) {
@@ -722,7 +776,7 @@ public class TaskQueryImpl extends AbstractVariableQueryImpl<TaskQuery, Task> im
         }
         return this;
     }
-    
+
     @Override
     public TaskQueryImpl scopeId(String scopeId) {
         if (orActive) {
@@ -732,7 +786,7 @@ public class TaskQueryImpl extends AbstractVariableQueryImpl<TaskQuery, Task> im
         }
         return this;
     }
-    
+
     @Override
     public TaskQueryImpl subScopeId(String subScopeId) {
         if (orActive) {
@@ -742,7 +796,7 @@ public class TaskQueryImpl extends AbstractVariableQueryImpl<TaskQuery, Task> im
         }
         return this;
     }
-    
+
     @Override
     public TaskQueryImpl scopeType(String scopeType) {
         if (orActive) {
@@ -752,7 +806,7 @@ public class TaskQueryImpl extends AbstractVariableQueryImpl<TaskQuery, Task> im
         }
         return this;
     }
-    
+
     @Override
     public TaskQueryImpl scopeDefinitionId(String scopeDefinitionId) {
         if (orActive) {
@@ -932,8 +986,8 @@ public class TaskQueryImpl extends AbstractVariableQueryImpl<TaskQuery, Task> im
         }
         return this;
     }
-    
-    
+
+
     @Override
     public TaskQuery taskVariableExists(String name) {
         if (orActive) {
@@ -943,7 +997,7 @@ public class TaskQueryImpl extends AbstractVariableQueryImpl<TaskQuery, Task> im
         }
         return this;
     }
-    
+
     @Override
     public TaskQuery taskVariableNotExists(String name) {
         if (orActive) {
@@ -1063,7 +1117,7 @@ public class TaskQueryImpl extends AbstractVariableQueryImpl<TaskQuery, Task> im
         }
         return this;
     }
-    
+
     @Override
     public TaskQuery processVariableExists(String name) {
         if (orActive) {
@@ -1073,7 +1127,7 @@ public class TaskQueryImpl extends AbstractVariableQueryImpl<TaskQuery, Task> im
         }
         return this;
     }
-    
+
     @Override
     public TaskQuery processVariableNotExists(String name) {
         if (orActive) {
@@ -1217,7 +1271,7 @@ public class TaskQueryImpl extends AbstractVariableQueryImpl<TaskQuery, Task> im
         }
         return this;
     }
-    
+
     @Override
     public TaskQuery cmmnDeploymentId(String cmmnDeploymentId) {
         if (orActive) {
@@ -1227,7 +1281,7 @@ public class TaskQueryImpl extends AbstractVariableQueryImpl<TaskQuery, Task> im
         }
         return this;
     }
-    
+
     @Override
     public TaskQuery cmmnDeploymentIdIn(List<String> cmmnDeploymentIds) {
         if (orActive) {
@@ -1365,6 +1419,7 @@ public class TaskQueryImpl extends AbstractVariableQueryImpl<TaskQuery, Task> im
         this.includeIdentityLinks = true;
         return this;
     }
+
     public Integer getTaskVariablesLimit() {
         return taskVariablesLimit;
     }
@@ -1393,17 +1448,53 @@ public class TaskQueryImpl extends AbstractVariableQueryImpl<TaskQuery, Task> im
         return null;
     }
 
+    public List<String> getCandidateRoles() {
+        if (candidateRole != null) {
+            List<String> candidateRoleList = new ArrayList<>(1);
+            candidateRoleList.add(candidateRole);
+            return candidateRoleList;
+
+        } else if (candidateRoles != null) {
+            return candidateRoles;
+
+        } else if (candidateUser != null) {
+            if (cachedCandidateRoles == null) {
+                cachedCandidateRoles = getRolesForCandidateUser(candidateUser);
+            }
+            return cachedCandidateRoles;
+        } else if (userIdForCandidateAndAssignee != null) {
+            if (cachedCandidateRoles == null) {
+                return getRolesForCandidateUser(userIdForCandidateAndAssignee);
+            }
+            return cachedCandidateRoles;
+        }
+        return null;
+    }
+
     protected List<String> getGroupsForCandidateUser(String candidateUser) {
         List<String> groupIds = new ArrayList<>();
         IdmIdentityService idmIdentityService = CommandContextUtil.getTaskServiceConfiguration().getIdmIdentityService();
         if (idmIdentityService != null) {
-            List<Group> groups = idmIdentityService.createGroupQuery().groupMember(candidateUser).list();
+            List<Group> groups = idmIdentityService.createGroupQueryByUserId(candidateUser);
             for (Group group : groups) {
                 groupIds.add(group.getId());
             }
         }
         return groupIds;
     }
+
+    protected List<String> getRolesForCandidateUser(String candidateUser) {
+        List<String> roleIds = new ArrayList<>();
+        IdmIdentityService idmIdentityService = CommandContextUtil.getTaskServiceConfiguration().getIdmIdentityService();
+        if (idmIdentityService != null) {
+            List<Role> roles = idmIdentityService.createRoleQueryByUserId(candidateUser);
+            for (Role role : roles) {
+                roleIds.add(role.getId());
+            }
+        }
+        return roleIds;
+    }
+
 
     @Override
     protected void ensureVariablesInitialized() {
@@ -1608,6 +1699,10 @@ public class TaskQueryImpl extends AbstractVariableQueryImpl<TaskQuery, Task> im
         return candidateGroup;
     }
 
+    public String getCandidateRole() {
+        return candidateRole;
+    }
+
     public boolean isIgnoreAssigneeValue() {
         return ignoreAssigneeValue;
     }
@@ -1623,7 +1718,7 @@ public class TaskQueryImpl extends AbstractVariableQueryImpl<TaskQuery, Task> im
     public String getExecutionId() {
         return executionId;
     }
-    
+
     public String getScopeId() {
         return scopeId;
     }
@@ -1779,7 +1874,7 @@ public class TaskQueryImpl extends AbstractVariableQueryImpl<TaskQuery, Task> im
     public List<String> getDeploymentIds() {
         return deploymentIds;
     }
-    
+
     public String getCmmnDeploymentId() {
         return cmmnDeploymentId;
     }
@@ -1863,18 +1958,21 @@ public class TaskQueryImpl extends AbstractVariableQueryImpl<TaskQuery, Task> im
     @Override
     public List<Task> list() {
         cachedCandidateGroups = null;
+        cachedCandidateRoles = null;
         return super.list();
     }
 
     @Override
     public List<Task> listPage(int firstResult, int maxResults) {
         cachedCandidateGroups = null;
+        cachedCandidateRoles = null;
         return super.listPage(firstResult, maxResults);
     }
 
     @Override
     public long count() {
         cachedCandidateGroups = null;
+        cachedCandidateRoles = null;
         return super.count();
     }
 

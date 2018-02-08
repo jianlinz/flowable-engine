@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -47,7 +47,7 @@ public class IdentityLinkEntityManagerImpl extends AbstractEntityManager<Identit
     @Override
     public void deleteIdentityLink(IdentityLinkEntity identityLink) {
         delete(identityLink, false);
-        
+
         FlowableEventDispatcher eventDispatcher = getEventDispatcher();
         if (eventDispatcher != null && eventDispatcher.isEnabled()) {
             getEventDispatcher().dispatchEvent(FlowableIdentityLinkEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_DELETED, identityLink));
@@ -68,59 +68,59 @@ public class IdentityLinkEntityManagerImpl extends AbstractEntityManager<Identit
     public List<IdentityLinkEntity> findIdentityLinksByProcessDefinitionId(String processDefinitionId) {
         return identityLinkDataManager.findIdentityLinksByProcessDefinitionId(processDefinitionId);
     }
+//delBy zhangjianlin
+//    @Override
+//    public List<IdentityLinkEntity> findIdentityLinkByTaskUserGroupAndType(String taskId, String userId, String groupId, String type) {
+//        return identityLinkDataManager.findIdentityLinkByTaskUserGroupAndType(taskId, userId, groupId, type);
+//    }
+//
+//    @Override
+//    public List<IdentityLinkEntity> findIdentityLinkByProcessInstanceUserGroupAndType(String processInstanceId, String userId, String groupId, String type) {
+//        return identityLinkDataManager.findIdentityLinkByProcessInstanceUserGroupAndType(processInstanceId, userId, groupId, type);
+//    }
+//
+//    @Override
+//    public List<IdentityLinkEntity> findIdentityLinkByProcessDefinitionUserAndGroup(String processDefinitionId, String userId, String groupId) {
+//        return identityLinkDataManager.findIdentityLinkByProcessDefinitionUserAndGroup(processDefinitionId, userId, groupId);
+//    }
+//
+//    @Override
+//    public IdentityLinkEntity addProcessInstanceIdentityLink(String processInstanceId, String userId, String groupId, String type) {
+//        IdentityLinkEntity identityLinkEntity = identityLinkDataManager.create();
+//        identityLinkEntity.setProcessInstanceId(processInstanceId);
+//        identityLinkEntity.setUserId(userId);
+//        identityLinkEntity.setGroupId(groupId);
+//        identityLinkEntity.setType(type);
+//        insert(identityLinkEntity);
+//        return identityLinkEntity;
+//    }
 
-    @Override
-    public List<IdentityLinkEntity> findIdentityLinkByTaskUserGroupAndType(String taskId, String userId, String groupId, String type) {
-        return identityLinkDataManager.findIdentityLinkByTaskUserGroupAndType(taskId, userId, groupId, type);
-    }
+//    @Override
+//    public IdentityLinkEntity addTaskIdentityLink(String taskId, String userId, String groupId, String type) {
+//        IdentityLinkEntity identityLinkEntity = identityLinkDataManager.create();
+//        identityLinkEntity.setTaskId(taskId);
+//        identityLinkEntity.setUserId(userId);
+//        identityLinkEntity.setGroupId(groupId);
+//        identityLinkEntity.setType(type);
+//        insert(identityLinkEntity);
+//
+//        return identityLinkEntity;
+//    }
 
-    @Override
-    public List<IdentityLinkEntity> findIdentityLinkByProcessInstanceUserGroupAndType(String processInstanceId, String userId, String groupId, String type) {
-        return identityLinkDataManager.findIdentityLinkByProcessInstanceUserGroupAndType(processInstanceId, userId, groupId, type);
-    }
-
-    @Override
-    public List<IdentityLinkEntity> findIdentityLinkByProcessDefinitionUserAndGroup(String processDefinitionId, String userId, String groupId) {
-        return identityLinkDataManager.findIdentityLinkByProcessDefinitionUserAndGroup(processDefinitionId, userId, groupId);
-    }
-    
-    @Override
-    public IdentityLinkEntity addProcessInstanceIdentityLink(String processInstanceId, String userId, String groupId, String type) {
-        IdentityLinkEntity identityLinkEntity = identityLinkDataManager.create();
-        identityLinkEntity.setProcessInstanceId(processInstanceId);
-        identityLinkEntity.setUserId(userId);
-        identityLinkEntity.setGroupId(groupId);
-        identityLinkEntity.setType(type);
-        insert(identityLinkEntity);
-        return identityLinkEntity;
-    }
-
-    @Override
-    public IdentityLinkEntity addTaskIdentityLink(String taskId, String userId, String groupId, String type) {
-        IdentityLinkEntity identityLinkEntity = identityLinkDataManager.create();
-        identityLinkEntity.setTaskId(taskId);
-        identityLinkEntity.setUserId(userId);
-        identityLinkEntity.setGroupId(groupId);
-        identityLinkEntity.setType(type);
-        insert(identityLinkEntity);
-        
-        return identityLinkEntity;
-    }
-
-    @Override
-    public IdentityLinkEntity addProcessDefinitionIdentityLink(String processDefinitionId, String userId, String groupId) {
-        IdentityLinkEntity identityLinkEntity = identityLinkDataManager.create();
-        identityLinkEntity.setProcessDefId(processDefinitionId);
-        identityLinkEntity.setUserId(userId);
-        identityLinkEntity.setGroupId(groupId);
-        identityLinkEntity.setType(IdentityLinkType.CANDIDATE);
-        insert(identityLinkEntity);
-        return identityLinkEntity;
-    }
+//    @Override
+//    public IdentityLinkEntity addProcessDefinitionIdentityLink(String processDefinitionId, String userId, String groupId) {
+//        IdentityLinkEntity identityLinkEntity = identityLinkDataManager.create();
+//        identityLinkEntity.setProcessDefId(processDefinitionId);
+//        identityLinkEntity.setUserId(userId);
+//        identityLinkEntity.setGroupId(groupId);
+//        identityLinkEntity.setType(IdentityLinkType.CANDIDATE);
+//        insert(identityLinkEntity);
+//        return identityLinkEntity;
+//    }
 
     @Override
     public IdentityLinkEntity addCandidateUser(String taskId, String userId) {
-        return addTaskIdentityLink(taskId, userId, null, IdentityLinkType.CANDIDATE);
+        return addTaskIdentityLink(taskId, userId, null, null, IdentityLinkType.CANDIDATE);
     }
 
     @Override
@@ -129,13 +129,13 @@ public class IdentityLinkEntityManagerImpl extends AbstractEntityManager<Identit
         for (String candidateUser : candidateUsers) {
             identityLinks.add(addCandidateUser(taskId, candidateUser));
         }
-        
+
         return identityLinks;
     }
 
     @Override
     public IdentityLinkEntity addCandidateGroup(String taskId, String groupId) {
-        return addTaskIdentityLink(taskId, null, groupId, IdentityLinkType.CANDIDATE);
+        return addTaskIdentityLink(taskId, null, groupId, null, IdentityLinkType.CANDIDATE);
     }
 
     @Override
@@ -146,10 +146,147 @@ public class IdentityLinkEntityManagerImpl extends AbstractEntityManager<Identit
         }
         return identityLinks;
     }
+//delBy zhangjianlin
+//    @Override
+//    public List<IdentityLinkEntity> deleteProcessInstanceIdentityLink(String processInstanceId, String userId, String groupId, String type) {
+//        List<IdentityLinkEntity> identityLinks = findIdentityLinkByProcessInstanceUserGroupAndType(processInstanceId, userId, groupId, type);
+//
+//        for (IdentityLinkEntity identityLink : identityLinks) {
+//            deleteIdentityLink(identityLink);
+//        }
+//
+//        return identityLinks;
+//    }
+//
+//    @Override
+//    public List<IdentityLinkEntity> deleteTaskIdentityLink(String taskId, List<IdentityLinkEntity> currentIdentityLinks, String userId, String groupId, String type) {
+//        List<IdentityLinkEntity> identityLinks = findIdentityLinkByTaskUserGroupAndType(taskId, userId, groupId, type);
+//
+//        List<IdentityLinkEntity> removedIdentityLinkEntities = new ArrayList<>();
+//        List<String> identityLinkIds = new ArrayList<>();
+//        for (IdentityLinkEntity identityLink : identityLinks) {
+//            deleteIdentityLink(identityLink);
+//            identityLinkIds.add(identityLink.getId());
+//            removedIdentityLinkEntities.add(identityLink);
+//        }
+//
+//        // fix deleteCandidate() in create TaskListener
+//        if (currentIdentityLinks != null) {
+//            for (IdentityLinkEntity identityLinkEntity : currentIdentityLinks) {
+//                if (IdentityLinkType.CANDIDATE.equals(identityLinkEntity.getType()) &&
+//                        !identityLinkIds.contains(identityLinkEntity.getId())) {
+//
+//                    if ((userId != null && userId.equals(identityLinkEntity.getUserId()))
+//                            || (groupId != null && groupId.equals(identityLinkEntity.getGroupId()))) {
+//
+//                        deleteIdentityLink(identityLinkEntity);
+//                        removedIdentityLinkEntities.add(identityLinkEntity);
+//
+//                    }
+//                }
+//            }
+//        }
+//
+//        return removedIdentityLinkEntities;
+//    }
+//
+//    @Override
+//    public List<IdentityLinkEntity> deleteProcessDefinitionIdentityLink(String processDefinitionId, String userId, String groupId) {
+//        List<IdentityLinkEntity> identityLinks = findIdentityLinkByProcessDefinitionUserAndGroup(processDefinitionId, userId, groupId);
+//        for (IdentityLinkEntity identityLink : identityLinks) {
+//            deleteIdentityLink(identityLink);
+//        }
+//
+//        return identityLinks;
+//    }
 
     @Override
-    public List<IdentityLinkEntity> deleteProcessInstanceIdentityLink(String processInstanceId, String userId, String groupId, String type) {
-        List<IdentityLinkEntity> identityLinks = findIdentityLinkByProcessInstanceUserGroupAndType(processInstanceId, userId, groupId, type);
+    public List<IdentityLinkEntity> deleteIdentityLinksByTaskId(String taskId) {
+        List<IdentityLinkEntity> identityLinks = findIdentityLinksByTaskId(taskId);
+        for (IdentityLinkEntity identityLink : identityLinks) {
+            deleteIdentityLink(identityLink);
+        }
+
+        return identityLinks;
+    }
+
+    @Override
+    public void deleteIdentityLinksByProcDef(String processDefId) {
+        identityLinkDataManager.deleteIdentityLinksByProcDef(processDefId);
+    }
+
+    @Override
+    public IdentityLinkEntity addProcessInstanceIdentityLink(String processInstanceId, String userId, String groupId, String roleId, String type) {
+        IdentityLinkEntity identityLinkEntity = identityLinkDataManager.create();
+        identityLinkEntity.setProcessInstanceId(processInstanceId);
+        identityLinkEntity.setUserId(userId);
+        identityLinkEntity.setGroupId(groupId);
+        identityLinkEntity.setRoleId(roleId);
+        identityLinkEntity.setType(type);
+        insert(identityLinkEntity);
+        return identityLinkEntity;
+    }
+
+    @Override
+    public IdentityLinkEntity addTaskIdentityLink(String taskId, String userId, String groupId, String roleId, String type) {
+        IdentityLinkEntity identityLinkEntity = identityLinkDataManager.create();
+        identityLinkEntity.setTaskId(taskId);
+        identityLinkEntity.setUserId(userId);
+        identityLinkEntity.setGroupId(groupId);
+        identityLinkEntity.setRoleId(roleId);
+        identityLinkEntity.setType(type);
+        insert(identityLinkEntity);
+
+        return identityLinkEntity;
+    }
+
+    @Override
+    public IdentityLinkEntity addProcessDefinitionIdentityLink(String processDefinitionId, String userId, String groupId, String roleId) {
+        IdentityLinkEntity identityLinkEntity = identityLinkDataManager.create();
+        identityLinkEntity.setProcessDefId(processDefinitionId);
+        identityLinkEntity.setUserId(userId);
+        identityLinkEntity.setGroupId(groupId);
+        identityLinkEntity.setRoleId(roleId);
+        identityLinkEntity.setType(IdentityLinkType.CANDIDATE);
+        insert(identityLinkEntity);
+        return identityLinkEntity;
+    }
+
+    @Override
+    public IdentityLinkEntity addCandidateRole(String taskId, String roleId) {
+        return addTaskIdentityLink(taskId, null, null, roleId, IdentityLinkType.CANDIDATE);
+    }
+
+    @Override
+    public List<IdentityLinkEntity> addCandidateRoles(String taskId, Collection<String> candidateRoles) {
+        List<IdentityLinkEntity> identityLinks = new ArrayList<>();
+        for (String candidateRole : candidateRoles) {
+            identityLinks.add(addCandidateRole(taskId, candidateRole));
+        }
+        return identityLinks;
+    }
+
+    //addBy zhangjianlin
+    @Override
+    public List<IdentityLinkEntity> findIdentityLinkByTaskUserGroupRoleAndType(String taskId, String userId, String groupId, String roleId, String type) {
+        return identityLinkDataManager.findIdentityLinkByTaskUserGroupRoleAndType(taskId, userId, groupId, roleId, type);
+    }
+
+    @Override
+    public List<IdentityLinkEntity> findIdentityLinkByProcessInstanceUserGroupRoleAndType(String processInstanceId, String userId, String groupId, String roleId, String type) {
+        return identityLinkDataManager.findIdentityLinkByProcessInstanceUserGroupRoleAndType(processInstanceId, userId, groupId, roleId, type);
+    }
+
+    @Override
+    public List<IdentityLinkEntity> findIdentityLinkByProcessDefinitionUserAndGroupAndRole(String processDefinitionId, String userId, String groupId, String roleId) {
+        return identityLinkDataManager.findIdentityLinkByProcessDefinitionUserAndGroupAndRole(processDefinitionId, userId, groupId, roleId);
+    }
+
+    @Override
+    public List<IdentityLinkEntity> deleteProcessInstanceIdentityLink(String processInstanceId, String userId, String
+            groupId, String roleId, String type) {
+        List<IdentityLinkEntity> identityLinks = findIdentityLinkByProcessInstanceUserGroupRoleAndType(processInstanceId,
+                userId, groupId, roleId, type);
 
         for (IdentityLinkEntity identityLink : identityLinks) {
             deleteIdentityLink(identityLink);
@@ -159,8 +296,10 @@ public class IdentityLinkEntityManagerImpl extends AbstractEntityManager<Identit
     }
 
     @Override
-    public List<IdentityLinkEntity> deleteTaskIdentityLink(String taskId, List<IdentityLinkEntity> currentIdentityLinks, String userId, String groupId, String type) {
-        List<IdentityLinkEntity> identityLinks = findIdentityLinkByTaskUserGroupAndType(taskId, userId, groupId, type);
+    public List<IdentityLinkEntity> deleteTaskIdentityLink(String taskId, List<IdentityLinkEntity>
+            currentIdentityLinks, String userId, String groupId, String roleId, String type) {
+        List<IdentityLinkEntity> identityLinks = findIdentityLinkByTaskUserGroupRoleAndType(taskId,
+                userId, groupId, roleId, type);
 
         List<IdentityLinkEntity> removedIdentityLinkEntities = new ArrayList<>();
         List<String> identityLinkIds = new ArrayList<>();
@@ -175,44 +314,32 @@ public class IdentityLinkEntityManagerImpl extends AbstractEntityManager<Identit
             for (IdentityLinkEntity identityLinkEntity : currentIdentityLinks) {
                 if (IdentityLinkType.CANDIDATE.equals(identityLinkEntity.getType()) &&
                         !identityLinkIds.contains(identityLinkEntity.getId())) {
-    
+
                     if ((userId != null && userId.equals(identityLinkEntity.getUserId()))
-                            || (groupId != null && groupId.equals(identityLinkEntity.getGroupId()))) {
-    
+                            || (groupId != null && groupId.equals(identityLinkEntity.getGroupId()))||(roleId != null &&
+                            roleId.equals(identityLinkEntity.getRoleId()))) {
+
                         deleteIdentityLink(identityLinkEntity);
                         removedIdentityLinkEntities.add(identityLinkEntity);
-    
+
                     }
                 }
             }
         }
-        
+
         return removedIdentityLinkEntities;
     }
 
     @Override
-    public List<IdentityLinkEntity> deleteProcessDefinitionIdentityLink(String processDefinitionId, String userId, String groupId) {
-        List<IdentityLinkEntity> identityLinks = findIdentityLinkByProcessDefinitionUserAndGroup(processDefinitionId, userId, groupId);
+    public List<IdentityLinkEntity> deleteProcessDefinitionIdentityLink(String processDefinitionId, String userId,
+                                                                        String groupId, String roleId) {
+        List<IdentityLinkEntity> identityLinks = findIdentityLinkByProcessDefinitionUserAndGroupAndRole
+                (processDefinitionId, userId, groupId, roleId);
         for (IdentityLinkEntity identityLink : identityLinks) {
             deleteIdentityLink(identityLink);
         }
-        
-        return identityLinks;
-    }
 
-    @Override
-    public List<IdentityLinkEntity> deleteIdentityLinksByTaskId(String taskId) {
-        List<IdentityLinkEntity> identityLinks = findIdentityLinksByTaskId(taskId);
-        for (IdentityLinkEntity identityLink : identityLinks) {
-            deleteIdentityLink(identityLink);
-        }
-        
         return identityLinks;
-    }
-
-    @Override
-    public void deleteIdentityLinksByProcDef(String processDefId) {
-        identityLinkDataManager.deleteIdentityLinksByProcDef(processDefId);
     }
 
     public IdentityLinkDataManager getIdentityLinkDataManager() {
@@ -222,5 +349,6 @@ public class IdentityLinkEntityManagerImpl extends AbstractEntityManager<Identit
     public void setIdentityLinkDataManager(IdentityLinkDataManager identityLinkDataManager) {
         this.identityLinkDataManager = identityLinkDataManager;
     }
+
 
 }

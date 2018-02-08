@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,6 +29,7 @@ public class IdentityLinkEntityImpl extends AbstractEntityNoRevision implements 
     protected String type;
     protected String userId;
     protected String groupId;
+    protected String roleId;
     protected String taskId;
     protected String processInstanceId;
     protected String processDefId;
@@ -49,6 +50,10 @@ public class IdentityLinkEntityImpl extends AbstractEntityNoRevision implements 
 
         if (this.groupId != null) {
             persistentState.put("groupId", this.groupId);
+        }
+
+        if (this.roleId != null) {
+            persistentState.put("roleId", this.roleId);
         }
 
         if (this.taskId != null) {
@@ -74,6 +79,11 @@ public class IdentityLinkEntityImpl extends AbstractEntityNoRevision implements 
     @Override
     public boolean isGroup() {
         return groupId != null;
+    }
+
+    @Override
+    public boolean isRole() {
+        return roleId != null;
     }
 
     @Override
@@ -105,11 +115,21 @@ public class IdentityLinkEntityImpl extends AbstractEntityNoRevision implements 
     }
 
     @Override
+    public String getRoleId() {
+        return roleId;
+    }
+
+    @Override
     public void setGroupId(String groupId) {
         if (this.userId != null && groupId != null) {
             throw new FlowableException("Cannot assign a groupId to a task assignment that already has a userId");
         }
         this.groupId = groupId;
+    }
+
+    @Override
+    public void setRoleId(String roleId) {
+        this.roleId = roleId;
     }
 
     @Override

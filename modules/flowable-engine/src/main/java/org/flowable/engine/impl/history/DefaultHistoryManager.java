@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -41,7 +41,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Manager class that centralises recording of all history-related operations that are originated from inside the engine.
- * 
+ *
  * @author Frederik Heremans
  * @author Joram Barrez
  */
@@ -116,7 +116,7 @@ public class DefaultHistoryManager extends AbstractHistoryManager {
             FlowableEventDispatcher eventDispatcher = getEventDispatcher();
             if (eventDispatcher != null && eventDispatcher.isEnabled()) {
                 eventDispatcher.dispatchEvent(
-                                FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.HISTORIC_PROCESS_INSTANCE_CREATED, historicProcessInstance));
+                        FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.HISTORIC_PROCESS_INSTANCE_CREATED, historicProcessInstance));
             }
 
             HistoricActivityInstanceEntity activityInstance = findActivityInstance(parentExecution, false, true);
@@ -126,7 +126,7 @@ public class DefaultHistoryManager extends AbstractHistoryManager {
 
         }
     }
-    
+
     @Override
     public void recordProcessInstanceDeleted(String processInstanceId) {
         if (getHistoryManager().isHistoryEnabled()) {
@@ -151,7 +151,7 @@ public class DefaultHistoryManager extends AbstractHistoryManager {
             }
         }
     }
-    
+
     @Override
     public void recordDeleteHistoricProcessInstancesByProcessDefinitionId(String processDefinitionId) {
         if (getHistoryManager().isHistoryEnabled()) {
@@ -184,7 +184,7 @@ public class DefaultHistoryManager extends AbstractHistoryManager {
                 FlowableEventDispatcher eventDispatcher = getEventDispatcher();
                 if (eventDispatcher != null && eventDispatcher.isEnabled()) {
                     eventDispatcher.dispatchEvent(
-                                    FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.HISTORIC_ACTIVITY_INSTANCE_CREATED, historicActivityInstanceEntity));
+                            FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.HISTORIC_ACTIVITY_INSTANCE_CREATED, historicActivityInstanceEntity));
                 }
 
             }
@@ -202,7 +202,7 @@ public class DefaultHistoryManager extends AbstractHistoryManager {
                 FlowableEventDispatcher eventDispatcher = getEventDispatcher();
                 if (eventDispatcher != null && eventDispatcher.isEnabled()) {
                     eventDispatcher.dispatchEvent(
-                                    FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.HISTORIC_ACTIVITY_INSTANCE_ENDED, historicActivityInstance));
+                            FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.HISTORIC_ACTIVITY_INSTANCE_ENDED, historicActivityInstance));
                 }
             }
         }
@@ -227,7 +227,7 @@ public class DefaultHistoryManager extends AbstractHistoryManager {
                 task.setExecutionId(execution.getId());
                 task.setProcessInstanceId(execution.getProcessInstanceId());
                 task.setProcessDefinitionId(execution.getProcessDefinitionId());
-                
+
                 if (execution.getTenantId() != null) {
                     task.setTenantId(execution.getTenantId());
                 }
@@ -262,7 +262,7 @@ public class DefaultHistoryManager extends AbstractHistoryManager {
 
     @Override
     public void recordTaskInfoChange(TaskEntity taskEntity) {
-        
+
         boolean assigneeChanged = false;
         if (isHistoryLevelAtLeast(HistoryLevel.AUDIT)) {
             HistoricTaskService historicTaskService = CommandContextUtil.getHistoricTaskService();
@@ -279,7 +279,7 @@ public class DefaultHistoryManager extends AbstractHistoryManager {
                 }
             }
         }
-        
+
         if (assigneeChanged && isHistoryLevelAtLeast(HistoryLevel.ACTIVITY)) {
             if (taskEntity.getExecutionId() != null) {
                 ExecutionEntity executionEntity = getExecutionEntityManager().findById(taskEntity.getExecutionId());
@@ -290,7 +290,7 @@ public class DefaultHistoryManager extends AbstractHistoryManager {
             }
         }
     }
-    
+
     // Variables related history
 
     @Override
@@ -353,10 +353,12 @@ public class DefaultHistoryManager extends AbstractHistoryManager {
             historicIdentityLinkEntity.setTaskId(identityLink.getTaskId());
             historicIdentityLinkEntity.setType(identityLink.getType());
             historicIdentityLinkEntity.setUserId(identityLink.getUserId());
+            //addBy zhangjianlin
+            historicIdentityLinkEntity.setRoleId(identityLink.getRoleId());
             historicIdentityLinkService.insertHistoricIdentityLink(historicIdentityLinkEntity, false);
         }
     }
-    
+
     @Override
     public void recordIdentityLinkDeleted(String identityLinkId) {
         if (isHistoryLevelAtLeast(HistoryLevel.AUDIT)) {

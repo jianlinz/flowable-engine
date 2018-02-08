@@ -73,7 +73,9 @@ public abstract class AbstractEngineConfiguration {
 
     protected static final Logger LOGGER = LoggerFactory.getLogger(AbstractEngineConfiguration.class);
 
-    /** The tenant id indicating 'no tenant' */
+    /**
+     * The tenant id indicating 'no tenant'
+     */
     public static final String NO_TENANT_ID = "";
 
     /**
@@ -92,7 +94,7 @@ public abstract class AbstractEngineConfiguration {
      * Upon building of the process engine, a check is performed and an update of the schema is performed if it is necessary.
      */
     public static final String DB_SCHEMA_UPDATE_TRUE = "true";
-
+    protected boolean extIdm = false;
     protected String databaseType;
     protected String jdbcDriver = "org.h2.Driver";
     protected String jdbcUrl = "jdbc:h2:tcp://localhost/~/flowable";
@@ -183,9 +185,9 @@ public abstract class AbstractEngineConfiguration {
     /**
      * Flag that can be set to configure or not a relational database is used. This is useful for custom implementations that do not use relational databases
      * at all.
-     *
+     * <p>
      * If true (default), the {@link AbstractEngineConfiguration#getDatabaseSchemaUpdate()} value will be used to determine what needs to happen wrt the database schema.
-     *
+     * <p>
      * If false, no validation or schema creation will be done. That means that the database schema must have been created 'manually' before but the engine does not validate whether the schema is
      * correct. The {@link AbstractEngineConfiguration#getDatabaseSchemaUpdate()} value will not be used.
      */
@@ -194,8 +196,8 @@ public abstract class AbstractEngineConfiguration {
     /**
      * Allows configuring a database table prefix which is used for all runtime operations of the process engine. For example, if you specify a prefix named 'PRE1.', Flowable will query for executions
      * in a table named 'PRE1.ACT_RU_EXECUTION_'.
-     *
-     * <p />
+     * <p>
+     * <p/>
      * <strong>NOTE: the prefix is not respected by automatic database schema management. If you use {@link AbstractEngineConfiguration#DB_SCHEMA_UPDATE_CREATE_DROP} or
      * {@link AbstractEngineConfiguration#DB_SCHEMA_UPDATE_TRUE}, Flowable will create the database tables using the default names, regardless of the prefix configured here.</strong>
      */
@@ -203,7 +205,7 @@ public abstract class AbstractEngineConfiguration {
 
     /**
      * Escape character for doing wildcard searches.
-     *
+     * <p>
      * This will be added at then end of queries that include for example a LIKE clause. For example: SELECT * FROM table WHERE column LIKE '%\%%' ESCAPE '\';
      */
     protected String databaseWildcardEscapeCharacter;
@@ -1322,4 +1324,11 @@ public abstract class AbstractEngineConfiguration {
         return this;
     }
 
+    public boolean isExtIdm() {
+        return extIdm;
+    }
+
+    public void setExtIdm(boolean extIdm) {
+        this.extIdm = extIdm;
+    }
 }

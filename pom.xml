@@ -1334,10 +1334,6 @@
 				<module>modules/flowable-content-spring-configurator</module>
 				<module>modules/flowable-content-rest</module>
 				<module>modules/flowable-spring</module>
-				<module>modules/flowable5-engine</module>
-				<module>modules/flowable5-compatibility</module>
-				<module>modules/flowable5-spring</module>
-				<module>modules/flowable5-spring-compatibility</module>
 				<module>modules/flowable-spring-boot</module>
 				<module>modules/flowable-common-rest</module>
 				<module>modules/flowable-rest</module>
@@ -1595,10 +1591,6 @@
 				<module>modules/flowable-content-spring-configurator</module>
 				<module>modules/flowable-content-rest</module>
 				<module>modules/flowable-spring</module>
-				<module>modules/flowable5-engine</module>
-				<module>modules/flowable5-compatibility</module>
-				<module>modules/flowable5-spring</module>
-				<module>modules/flowable5-spring-compatibility</module>
 				<module>modules/flowable-common-rest</module>
 				<module>modules/flowable-rest</module>
 				<module>modules/flowable-app-rest</module>

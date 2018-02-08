@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -39,17 +39,21 @@ public class AddIdentityLinkForProcessInstanceCmd implements Command<Void>, Seri
 
     protected String groupId;
 
+    protected String roleId;
+
     protected String type;
 
-    public AddIdentityLinkForProcessInstanceCmd(String processInstanceId, String userId, String groupId, String type) {
-        validateParams(processInstanceId, userId, groupId, type);
+    public AddIdentityLinkForProcessInstanceCmd(String processInstanceId, String userId, String groupId, String roleId,
+                                                String type) {
+        validateParams(processInstanceId, userId, groupId, roleId, type);
         this.processInstanceId = processInstanceId;
         this.userId = userId;
         this.groupId = groupId;
+        this.roleId = roleId;
         this.type = type;
     }
 
-    protected void validateParams(String processInstanceId, String userId, String groupId, String type) {
+    protected void validateParams(String processInstanceId, String userId, String groupId, String roleId, String type) {
 
         if (processInstanceId == null) {
             throw new FlowableIllegalArgumentException("processInstanceId is null");
@@ -59,7 +63,7 @@ public class AddIdentityLinkForProcessInstanceCmd implements Command<Void>, Seri
             throw new FlowableIllegalArgumentException("type is required when adding a new process instance identity link");
         }
 
-        if (userId == null && groupId == null) {
+        if (userId == null && groupId == null && roleId == null) {
             throw new FlowableIllegalArgumentException("userId and groupId cannot both be null");
         }
 
@@ -81,7 +85,7 @@ public class AddIdentityLinkForProcessInstanceCmd implements Command<Void>, Seri
             return null;
         }
 
-        IdentityLinkUtil.createProcessInstanceIdentityLink(processInstance, userId, groupId, type);
+        IdentityLinkUtil.createProcessInstanceIdentityLink(processInstance, userId, groupId, roleId, type);
         CommandContextUtil.getHistoryManager(commandContext).createProcessInstanceIdentityLinkComment(processInstanceId, userId, groupId, type, true);
 
         return null;

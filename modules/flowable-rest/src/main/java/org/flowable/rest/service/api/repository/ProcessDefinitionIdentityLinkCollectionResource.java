@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -38,10 +38,10 @@ import java.util.List;
  * @author Frederik Heremans
  */
 @RestController
-@Api(tags = { "Process Definitions" }, description = "Manage Process Definitions", authorizations = { @Authorization(value = "basicAuth") })
+@Api(tags = {"Process Definitions"}, description = "Manage Process Definitions", authorizations = {@Authorization(value = "basicAuth")})
 public class ProcessDefinitionIdentityLinkCollectionResource extends BaseProcessDefinitionResource {
 
-    @ApiOperation(value = "List candidate starters for a process-definition", nickname = "listProcessDefinitionIdentityLinks", tags = { "Process Definitions" })
+    @ApiOperation(value = "List candidate starters for a process-definition", nickname = "listProcessDefinitionIdentityLinks", tags = {"Process Definitions"})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Indicates the process definition was found and the requested identity links are returned."),
             @ApiResponse(code = 404, message = "Indicates the requested process definition was not found.")
@@ -52,7 +52,7 @@ public class ProcessDefinitionIdentityLinkCollectionResource extends BaseProcess
         return restResponseFactory.createRestIdentityLinks(repositoryService.getIdentityLinksForProcessDefinition(processDefinition.getId()));
     }
 
-    @ApiOperation(value = "Add a candidate starter to a process definition", tags = { "Process Definitions" },
+    @ApiOperation(value = "Add a candidate starter to a process definition", tags = {"Process Definitions"},
             notes = "It's possible to add either a user or a group.")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Indicates the process definition was found and the identity link was created."),
@@ -74,6 +74,8 @@ public class ProcessDefinitionIdentityLinkCollectionResource extends BaseProcess
 
         if (identityLink.getGroup() != null) {
             repositoryService.addCandidateStarterGroup(processDefinition.getId(), identityLink.getGroup());
+        } else if (identityLink.getRole() != null) {
+            repositoryService.addCandidateStarterRole(processDefinition.getId(), identityLink.getRole());
         } else {
             repositoryService.addCandidateStarterUser(processDefinition.getId(), identityLink.getUser());
         }

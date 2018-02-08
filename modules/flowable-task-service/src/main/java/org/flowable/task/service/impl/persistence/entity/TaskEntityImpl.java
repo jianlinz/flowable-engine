@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -77,7 +77,7 @@ public class TaskEntityImpl extends VariableScopeImpl implements TaskEntity, Cou
     protected String executionId;
     protected String processInstanceId;
     protected String processDefinitionId;
-    
+
     protected String scopeId;
     protected String subScopeId;
     protected String scopeType;
@@ -92,7 +92,7 @@ public class TaskEntityImpl extends VariableScopeImpl implements TaskEntity, Cou
     private boolean isCountEnabled;
     private int variableCount;
     private int identityLinkCount;
-    
+
 
     protected Date claimTime;
 
@@ -198,21 +198,21 @@ public class TaskEntityImpl extends VariableScopeImpl implements TaskEntity, Cou
     protected List<VariableInstanceEntity> loadVariableInstances() {
         return CommandContextUtil.getVariableInstanceEntityManager().findVariableInstancesByTaskId(id);
     }
-    
+
     @Override
     protected VariableInstanceEntity createVariableInstance(String variableName, Object value) {
         VariableInstanceEntity variableInstance = super.createVariableInstance(variableName, value);
-        
+
         CountingTaskUtil.handleInsertVariableInstanceEntityCount(variableInstance);
 
         return variableInstance;
-        
+
     }
-    
+
     @Override
     protected void deleteVariableInstanceForExplicitUserCall(VariableInstanceEntity variableInstance) {
         super.deleteVariableInstanceForExplicitUserCall(variableInstance);
-        
+
         CountingTaskUtil.handleDeleteVariableInstanceEntityCount(variableInstance, true);
     }
 
@@ -283,13 +283,13 @@ public class TaskEntityImpl extends VariableScopeImpl implements TaskEntity, Cou
     @Override
     public void addUserIdentityLink(String userId, String identityLinkType) {
         IdentityLinkEntityManager identityLinkEntityManager = CommandContextUtil.getIdentityLinkEntityManager();
-        identityLinkEntityManager.addTaskIdentityLink(this.id, userId, null, identityLinkType);
+        identityLinkEntityManager.addTaskIdentityLink(this.id, userId, null, null, identityLinkType);
     }
 
     @Override
     public void addGroupIdentityLink(String groupId, String identityLinkType) {
         IdentityLinkEntityManager identityLinkEntityManager = CommandContextUtil.getIdentityLinkEntityManager();
-        identityLinkEntityManager.addTaskIdentityLink(this.id, null, groupId, identityLinkType);
+        identityLinkEntityManager.addTaskIdentityLink(this.id, null, groupId, null, identityLinkType);
     }
 
     @Override
@@ -301,17 +301,19 @@ public class TaskEntityImpl extends VariableScopeImpl implements TaskEntity, Cou
     public void deleteCandidateGroup(String groupId) {
         deleteGroupIdentityLink(groupId, IdentityLinkType.CANDIDATE);
     }
-    
+
     @Override
     public void deleteUserIdentityLink(String userId, String identityLinkType) {
         IdentityLinkEntityManager identityLinkEntityManager = CommandContextUtil.getIdentityLinkEntityManager();
-        identityLinkEntityManager.deleteTaskIdentityLink(this.id, getIdentityLinks(), userId, null, identityLinkType);
+        identityLinkEntityManager.deleteTaskIdentityLink(this.id, getIdentityLinks(), userId, null, null,
+                identityLinkType);
     }
-    
+
     @Override
     public void deleteGroupIdentityLink(String groupId, String identityLinkType) {
         IdentityLinkEntityManager identityLinkEntityManager = CommandContextUtil.getIdentityLinkEntityManager();
-        identityLinkEntityManager.deleteTaskIdentityLink(this.id, getIdentityLinks(), null, groupId,identityLinkType);
+        identityLinkEntityManager.deleteTaskIdentityLink(this.id, getIdentityLinks(), null, groupId, null,
+                identityLinkType);
     }
 
     @Override
@@ -434,7 +436,7 @@ public class TaskEntityImpl extends VariableScopeImpl implements TaskEntity, Cou
     public void setProcessDefinitionId(String processDefinitionId) {
         this.processDefinitionId = processDefinitionId;
     }
-    
+
     @Override
     public String getScopeId() {
         return scopeId;
@@ -508,12 +510,12 @@ public class TaskEntityImpl extends VariableScopeImpl implements TaskEntity, Cou
     public void setEventName(String eventName) {
         this.eventName = eventName;
     }
-    
+
     @Override
     public String getEventHandlerId() {
         return eventHandlerId;
     }
-    
+
     @Override
     public void setEventHandlerId(String eventHandlerId) {
         this.eventHandlerId = eventHandlerId;
@@ -538,25 +540,25 @@ public class TaskEntityImpl extends VariableScopeImpl implements TaskEntity, Cou
     public DelegationState getDelegationState() {
         return delegationState;
     }
-    
+
     @Override
     public void addCandidateUser(String userId) {
         IdentityLinkEntityManager identityLinkEntityManager = CommandContextUtil.getIdentityLinkEntityManager();
         identityLinkEntityManager.addCandidateUser(this.id, userId);
     }
-    
+
     @Override
     public void addCandidateUsers(Collection<String> candidateUsers) {
         IdentityLinkEntityManager identityLinkEntityManager = CommandContextUtil.getIdentityLinkEntityManager();
-        identityLinkEntityManager.addCandidateUsers(this.id, candidateUsers);        
+        identityLinkEntityManager.addCandidateUsers(this.id, candidateUsers);
     }
-    
+
     @Override
     public void addCandidateGroup(String groupId) {
         IdentityLinkEntityManager identityLinkEntityManager = CommandContextUtil.getIdentityLinkEntityManager();
         identityLinkEntityManager.addCandidateGroup(this.id, groupId);
     }
-    
+
     @Override
     public void addCandidateGroups(Collection<String> candidateGroups) {
         IdentityLinkEntityManager identityLinkEntityManager = CommandContextUtil.getIdentityLinkEntityManager();

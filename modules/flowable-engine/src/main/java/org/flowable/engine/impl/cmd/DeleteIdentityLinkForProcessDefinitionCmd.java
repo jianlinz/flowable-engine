@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -38,11 +38,15 @@ public class DeleteIdentityLinkForProcessDefinitionCmd implements Command<Object
 
     protected String groupId;
 
-    public DeleteIdentityLinkForProcessDefinitionCmd(String processDefinitionId, String userId, String groupId) {
+    protected String roleId;
+
+    public DeleteIdentityLinkForProcessDefinitionCmd(String processDefinitionId, String userId, String groupId, String
+            roleId) {
         validateParams(userId, groupId, processDefinitionId);
         this.processDefinitionId = processDefinitionId;
         this.userId = userId;
         this.groupId = groupId;
+        this.roleId = roleId;
     }
 
     protected void validateParams(String userId, String groupId, String processDefinitionId) {
@@ -69,7 +73,8 @@ public class DeleteIdentityLinkForProcessDefinitionCmd implements Command<Object
             return null;
         }
 
-        CommandContextUtil.getIdentityLinkService().deleteProcessDefinitionIdentityLink(processDefinition.getId(), userId, groupId);
+        CommandContextUtil.getIdentityLinkService().deleteProcessDefinitionIdentityLink(processDefinition.getId(),
+                userId, groupId, roleId);
 
         return null;
     }

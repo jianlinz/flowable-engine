@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -161,6 +161,12 @@ public class TaskServiceImpl extends ServiceImpl implements TaskService {
     }
 
     @Override
+    public void addCandidateRole(String taskId, String roleId) {
+        commandExecutor.execute(new AddIdentityLinkCmd(taskId, roleId, AddIdentityLinkCmd.IDENTITY_ROLE, IdentityLinkType
+                .CANDIDATE));
+    }
+
+    @Override
     public void addUserIdentityLink(String taskId, String userId, String identityLinkType) {
         commandExecutor.execute(new AddIdentityLinkCmd(taskId, userId, AddIdentityLinkCmd.IDENTITY_USER, identityLinkType));
     }
@@ -171,23 +177,39 @@ public class TaskServiceImpl extends ServiceImpl implements TaskService {
     }
 
     @Override
+    public void addRoleIdentityLink(String taskId, String roleId, String identityLinkType) {
+        commandExecutor.execute(new AddIdentityLinkCmd(taskId, roleId, AddIdentityLinkCmd.IDENTITY_ROLE,
+                identityLinkType));
+    }
+
+    @Override
     public void deleteCandidateGroup(String taskId, String groupId) {
-        commandExecutor.execute(new DeleteIdentityLinkCmd(taskId, null, groupId, IdentityLinkType.CANDIDATE));
+        commandExecutor.execute(new DeleteIdentityLinkCmd(taskId, null, groupId, null, IdentityLinkType.CANDIDATE));
+    }
+
+    @Override
+    public void deleteCandidateRole(String taskId, String roleId) {
+        commandExecutor.execute(new DeleteIdentityLinkCmd(taskId, null, null, roleId, IdentityLinkType.CANDIDATE));
     }
 
     @Override
     public void deleteCandidateUser(String taskId, String userId) {
-        commandExecutor.execute(new DeleteIdentityLinkCmd(taskId, userId, null, IdentityLinkType.CANDIDATE));
+        commandExecutor.execute(new DeleteIdentityLinkCmd(taskId, userId, null, null, IdentityLinkType.CANDIDATE));
     }
 
     @Override
     public void deleteGroupIdentityLink(String taskId, String groupId, String identityLinkType) {
-        commandExecutor.execute(new DeleteIdentityLinkCmd(taskId, null, groupId, identityLinkType));
+        commandExecutor.execute(new DeleteIdentityLinkCmd(taskId, null, groupId, null, identityLinkType));
+    }
+
+    @Override
+    public void deleteRoleIdentityLink(String taskId, String roleId, String identityLinkType) {
+        commandExecutor.execute(new DeleteIdentityLinkCmd(taskId, null, null, roleId, identityLinkType));
     }
 
     @Override
     public void deleteUserIdentityLink(String taskId, String userId, String identityLinkType) {
-        commandExecutor.execute(new DeleteIdentityLinkCmd(taskId, userId, null, identityLinkType));
+        commandExecutor.execute(new DeleteIdentityLinkCmd(taskId, userId, null, null, identityLinkType));
     }
 
     @Override
@@ -232,14 +254,14 @@ public class TaskServiceImpl extends ServiceImpl implements TaskService {
 
     @Override
     public void completeTaskWithForm(String taskId, String formDefinitionId, String outcome,
-            Map<String, Object> variables, Map<String, Object> transientVariables) {
+                                     Map<String, Object> variables, Map<String, Object> transientVariables) {
 
         commandExecutor.execute(new CompleteTaskWithFormCmd(taskId, formDefinitionId, outcome, variables, transientVariables));
     }
 
     @Override
     public void completeTaskWithForm(String taskId, String formDefinitionId, String outcome,
-            Map<String, Object> variables, boolean localScope) {
+                                     Map<String, Object> variables, boolean localScope) {
 
         commandExecutor.execute(new CompleteTaskWithFormCmd(taskId, formDefinitionId, outcome, variables, localScope));
     }
@@ -407,7 +429,7 @@ public class TaskServiceImpl extends ServiceImpl implements TaskService {
     public Comment addComment(String taskId, String processInstance, String type, String message) {
         return commandExecutor.execute(new AddCommentCmd(taskId, processInstance, type, message));
     }
-    
+
     @Override
     public void saveComment(Comment comment) {
         commandExecutor.execute(new SaveCommentCmd((CommentEntity) comment));

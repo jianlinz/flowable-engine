@@ -12,6 +12,7 @@
  */
 package org.flowable.idm.api;
 
+import com.proper.enterprise.platform.api.auth.model.Role;
 import org.flowable.engine.common.api.FlowableIllegalArgumentException;
 
 import java.util.List;
@@ -77,6 +78,9 @@ public interface IdmIdentityService {
      */
     Group newGroup(String groupId);
 
+    List<Group> createGroupQueryByUserId(String userId);
+
+    List<Role> createRoleQueryByUserId(String userId);
     /**
      * Creates a {@link GroupQuery} that allows to programmatically query the groups.
      */

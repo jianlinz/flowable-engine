@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,6 +29,13 @@ public interface IdentityLinkInfo {
      * If the identity link involves a group, then this will be a non-null id of a group. That groupId can be used to query for user information through the GroupQuery API.
      */
     String getGroupId();
+
+    /**
+     * If the identity link involves a role, then this will be a non-null id of a role. That roleId can be used to
+     * query for user information through the RoleQuery API.
+     * addBy  zhangjl
+     */
+    String getRoleId();
 
     /**
      * The id of the task associated with this identity link.

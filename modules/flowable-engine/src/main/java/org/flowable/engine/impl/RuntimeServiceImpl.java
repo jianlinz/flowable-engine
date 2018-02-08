@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -412,42 +412,74 @@ public class RuntimeServiceImpl extends ServiceImpl implements RuntimeService {
 
     @Override
     public void addUserIdentityLink(String processInstanceId, String userId, String identityLinkType) {
-        commandExecutor.execute(new AddIdentityLinkForProcessInstanceCmd(processInstanceId, userId, null, identityLinkType));
+        commandExecutor.execute(new AddIdentityLinkForProcessInstanceCmd(processInstanceId, userId, null, null,
+                identityLinkType));
     }
 
     @Override
     public void addGroupIdentityLink(String processInstanceId, String groupId, String identityLinkType) {
-        commandExecutor.execute(new AddIdentityLinkForProcessInstanceCmd(processInstanceId, null, groupId, identityLinkType));
+        commandExecutor.execute(new AddIdentityLinkForProcessInstanceCmd(processInstanceId, null, groupId, null,
+                identityLinkType));
+    }
+
+    @Override
+    public void addRoleIdentityLink(String processInstanceId, String roleId, String identityLinkType) {
+        commandExecutor.execute(new AddIdentityLinkForProcessInstanceCmd(processInstanceId, null, null, roleId,
+                identityLinkType));
     }
 
     @Override
     public void addParticipantUser(String processInstanceId, String userId) {
-        commandExecutor.execute(new AddIdentityLinkForProcessInstanceCmd(processInstanceId, userId, null, IdentityLinkType.PARTICIPANT));
+        commandExecutor.execute(new AddIdentityLinkForProcessInstanceCmd(processInstanceId, userId, null, null,
+                IdentityLinkType.PARTICIPANT));
     }
 
     @Override
     public void addParticipantGroup(String processInstanceId, String groupId) {
-        commandExecutor.execute(new AddIdentityLinkForProcessInstanceCmd(processInstanceId, null, groupId, IdentityLinkType.PARTICIPANT));
+        commandExecutor.execute(new AddIdentityLinkForProcessInstanceCmd(processInstanceId, null, groupId, null,
+                IdentityLinkType.PARTICIPANT));
+    }
+
+    @Override
+    public void addParticipantRole(String processInstanceId, String roleId) {
+        commandExecutor.execute(new AddIdentityLinkForProcessInstanceCmd(processInstanceId, null, null, roleId,
+                IdentityLinkType.PARTICIPANT));
     }
 
     @Override
     public void deleteParticipantUser(String processInstanceId, String userId) {
-        commandExecutor.execute(new DeleteIdentityLinkForProcessInstanceCmd(processInstanceId, userId, null, IdentityLinkType.PARTICIPANT));
+        commandExecutor.execute(new DeleteIdentityLinkForProcessInstanceCmd(processInstanceId, userId, null, null,
+                IdentityLinkType.PARTICIPANT));
     }
 
     @Override
     public void deleteParticipantGroup(String processInstanceId, String groupId) {
-        commandExecutor.execute(new DeleteIdentityLinkForProcessInstanceCmd(processInstanceId, null, groupId, IdentityLinkType.PARTICIPANT));
+        commandExecutor.execute(new DeleteIdentityLinkForProcessInstanceCmd(processInstanceId, null, groupId, null,
+                IdentityLinkType.PARTICIPANT));
+    }
+
+    @Override
+    public void deleteParticipantRole(String processInstanceId, String roleId) {
+        commandExecutor.execute(new DeleteIdentityLinkForProcessInstanceCmd(processInstanceId, null, null, roleId,
+                IdentityLinkType.PARTICIPANT));
     }
 
     @Override
     public void deleteUserIdentityLink(String processInstanceId, String userId, String identityLinkType) {
-        commandExecutor.execute(new DeleteIdentityLinkForProcessInstanceCmd(processInstanceId, userId, null, identityLinkType));
+        commandExecutor.execute(new DeleteIdentityLinkForProcessInstanceCmd(processInstanceId, userId, null, null,
+                identityLinkType));
     }
 
     @Override
     public void deleteGroupIdentityLink(String processInstanceId, String groupId, String identityLinkType) {
-        commandExecutor.execute(new DeleteIdentityLinkForProcessInstanceCmd(processInstanceId, null, groupId, identityLinkType));
+        commandExecutor.execute(new DeleteIdentityLinkForProcessInstanceCmd(processInstanceId, null, groupId,
+                null, identityLinkType));
+    }
+
+    @Override
+    public void deleteRoleIdentityLink(String processInstanceId, String roleId, String identityLinkType) {
+        commandExecutor.execute(new DeleteIdentityLinkForProcessInstanceCmd(processInstanceId, null, null,
+                roleId, identityLinkType));
     }
 
     @Override
@@ -638,7 +670,7 @@ public class RuntimeServiceImpl extends ServiceImpl implements RuntimeService {
     public ChangeActivityStateBuilder createChangeActivityStateBuilder() {
         return new ChangeActivityStateBuilderImpl(this);
     }
-    
+
     @Override
     public Execution addMultiInstanceExecution(String activityId, String parentExecutionId, Map<String, Object> executionVariables) {
         return commandExecutor.execute(new AddMultiInstanceExecutionCmd(activityId, parentExecutionId, executionVariables));
@@ -648,7 +680,7 @@ public class RuntimeServiceImpl extends ServiceImpl implements RuntimeService {
     public void deleteMultiInstanceExecution(String executionId, boolean executionIsCompleted) {
         commandExecutor.execute(new DeleteMultiInstanceExecutionCmd(executionId, executionIsCompleted));
     }
-    
+
     public ProcessInstance startProcessInstance(ProcessInstanceBuilderImpl processInstanceBuilder) {
         if (processInstanceBuilder.getProcessDefinitionId() != null || processInstanceBuilder.getProcessDefinitionKey() != null) {
             return commandExecutor.execute(new StartProcessInstanceCmd<ProcessInstance>(processInstanceBuilder));

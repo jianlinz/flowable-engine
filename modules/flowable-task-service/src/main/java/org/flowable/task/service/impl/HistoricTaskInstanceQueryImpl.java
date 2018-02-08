@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.proper.enterprise.platform.api.auth.model.Role;
 import org.flowable.engine.common.api.FlowableException;
 import org.flowable.engine.common.api.FlowableIllegalArgumentException;
 import org.flowable.engine.common.impl.interceptor.CommandContext;
@@ -85,7 +86,9 @@ public class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<His
     protected String taskDefinitionKeyLike;
     protected String candidateUser;
     protected String candidateGroup;
+    protected String candidateRole;
     private List<String> candidateGroups;
+    private List<String> candidateRoles;
     protected String involvedUser;
     protected boolean ignoreAssigneeValue;
     protected Integer taskPriority;
@@ -230,7 +233,7 @@ public class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<His
         }
         return this;
     }
-    
+
     @Override
     public HistoricTaskInstanceQueryImpl caseInstanceId(String caseInstanceId) {
         if (inOrStatement) {
@@ -242,7 +245,7 @@ public class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<His
         }
         return this;
     }
-    
+
     @Override
     public HistoricTaskInstanceQueryImpl caseDefinitionId(String caseDefinitionId) {
         if (inOrStatement) {
@@ -254,7 +257,7 @@ public class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<His
         }
         return this;
     }
-    
+
     @Override
     public HistoricTaskInstanceQueryImpl planItemInstanceId(String planItemInstanceId) {
         if (inOrStatement) {
@@ -266,7 +269,7 @@ public class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<His
         }
         return this;
     }
-    
+
     @Override
     public HistoricTaskInstanceQueryImpl scopeId(String scopeId) {
         if (inOrStatement) {
@@ -276,7 +279,7 @@ public class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<His
         }
         return this;
     }
-    
+
     @Override
     public HistoricTaskInstanceQueryImpl subScopeId(String subScopeId) {
         if (inOrStatement) {
@@ -286,7 +289,7 @@ public class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<His
         }
         return this;
     }
-    
+
     @Override
     public HistoricTaskInstanceQueryImpl scopeType(String scopeType) {
         if (inOrStatement) {
@@ -296,7 +299,7 @@ public class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<His
         }
         return this;
     }
-    
+
     @Override
     public HistoricTaskInstanceQueryImpl scopeDefinitionId(String scopeDefinitionId) {
         if (inOrStatement) {
@@ -440,7 +443,7 @@ public class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<His
         }
         return this;
     }
-    
+
     @Override
     public HistoricTaskInstanceQuery cmmnDeploymentId(String cmmnDeploymentId) {
         if (inOrStatement) {
@@ -450,7 +453,7 @@ public class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<His
         }
         return this;
     }
-    
+
     @Override
     public HistoricTaskInstanceQuery cmmnDeploymentIdIn(List<String> cmmnDeploymentIds) {
         if (inOrStatement) {
@@ -847,7 +850,7 @@ public class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<His
             return variableValueLikeIgnoreCase(name, value, true);
         }
     }
-    
+
     @Override
     public HistoricTaskInstanceQuery taskVariableExists(String name) {
         if (inOrStatement) {
@@ -857,7 +860,7 @@ public class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<His
             return variableExists(name, true);
         }
     }
-    
+
     @Override
     public HistoricTaskInstanceQuery taskVariableNotExists(String name) {
         if (inOrStatement) {
@@ -977,7 +980,7 @@ public class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<His
             return variableValueLikeIgnoreCase(name, value, false);
         }
     }
-    
+
     @Override
     public HistoricTaskInstanceQuery processVariableExists(String name) {
         if (inOrStatement) {
@@ -987,7 +990,7 @@ public class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<His
             return variableExists(name, false);
         }
     }
-    
+
     @Override
     public HistoricTaskInstanceQuery processVariableNotExists(String name) {
         if (inOrStatement) {
@@ -1245,6 +1248,47 @@ public class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<His
     }
 
     @Override
+    public HistoricTaskInstanceQuery taskCandidateRole(String candidateRole) {
+        if (candidateRole == null) {
+            throw new FlowableIllegalArgumentException("Candidate role is null");
+        }
+
+        if (candidateRole != null) {
+            throw new FlowableIllegalArgumentException("Invalid query usage: cannot set both candidateRole and " +
+                    "candidateRoleIn");
+        }
+        if (inOrStatement) {
+            this.currentOrQueryObject.candidateRole = candidateRole;
+        } else {
+            this.candidateRole = candidateRole;
+        }
+        return this;
+    }
+
+    @Override
+    public HistoricTaskInstanceQuery taskCandidateRoleIn(List<String> candidateRoles) {
+        if (candidateRoles == null) {
+            throw new FlowableIllegalArgumentException("Candidate role list is null");
+        }
+
+        if (candidateRoles.isEmpty()) {
+            throw new FlowableIllegalArgumentException("Candidate role list is empty");
+        }
+
+        if (candidateRole != null) {
+            throw new FlowableIllegalArgumentException("Invalid query usage: cannot set both candidateRoleIn and " +
+                    "candidateRole");
+        }
+
+        if (inOrStatement) {
+            this.currentOrQueryObject.candidateRoles = candidateRoles;
+        } else {
+            this.candidateRoles = candidateRoles;
+        }
+        return this;
+    }
+
+    @Override
     public HistoricTaskInstanceQuery taskInvolvedUser(String involvedUser) {
         if (inOrStatement) {
             this.currentOrQueryObject.involvedUser = involvedUser;
@@ -1253,7 +1297,7 @@ public class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<His
         }
         return this;
     }
-    
+
     @Override
     public HistoricTaskInstanceQuery ignoreAssigneeValue() {
         if (inOrStatement) {
@@ -1523,11 +1567,25 @@ public class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<His
         return null;
     }
 
+    public List<String> getCandidateRoles() {
+        if (candidateRole != null) {
+            List<String> roleIds = new ArrayList<>();
+            roleIds.add(candidateRole);
+            return roleIds;
+        } else if (candidateGroups != null) {
+            return candidateGroups;
+
+        } else if (candidateUser != null) {
+            return getRolesForCandidateUser(candidateUser);
+        }
+        return null;
+    }
+
     protected List<String> getGroupsForCandidateUser(String candidateUser) {
         List<String> groupIds = new ArrayList<>();
         IdmIdentityService idmIdentityService = CommandContextUtil.getTaskServiceConfiguration().getIdmIdentityService();
         if (idmIdentityService != null) {
-            List<Group> groups = idmIdentityService.createGroupQuery().groupMember(candidateUser).list();
+            List<Group> groups = idmIdentityService.createGroupQueryByUserId(candidateUser);
             for (Group group : groups) {
                 groupIds.add(group.getId());
             }
@@ -1535,6 +1593,17 @@ public class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<His
         return groupIds;
     }
 
+    protected List<String> getRolesForCandidateUser(String candidateUser) {
+        List<String> roleIds = new ArrayList<>();
+        IdmIdentityService idmIdentityService = CommandContextUtil.getTaskServiceConfiguration().getIdmIdentityService();
+        if (idmIdentityService != null) {
+            List<Role> roles = idmIdentityService.createRoleQueryByUserId(candidateUser);
+            for (Role role : roles) {
+                roleIds.add(role.getId());
+            }
+        }
+        return roleIds;
+    }
     // getters and setters
     // //////////////////////////////////////////////////////
 
@@ -1553,7 +1622,7 @@ public class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<His
     public String getExecutionId() {
         return executionId;
     }
-    
+
     public String getScopeId() {
         return scopeId;
     }
@@ -1609,7 +1678,7 @@ public class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<His
     public List<String> getDeploymentIds() {
         return deploymentIds;
     }
-    
+
     public String getCmmnDeploymentId() {
         return cmmnDeploymentId;
     }
@@ -1796,6 +1865,10 @@ public class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<His
 
     public String getCandidateGroup() {
         return candidateGroup;
+    }
+
+    public String getCandidateRole() {
+        return candidateRole;
     }
 
     public String getInvolvedUser() {
