@@ -499,7 +499,7 @@
   </sql>
   
   <sql id="commonSelectHistoricTaskInstancesByQueryCriteriaSql">
-    <if test="candidateUser != null || candidateGroups != null">
+    <if test="candidateUser != null || candidateGroups != null || candidateRoles != null">
       inner join ${prefix}ACT_HI_IDENTITYLINK HI on HI.TASK_ID_ = RES.ID_
     </if>
     <if test="processFinished || processUnfinished || processInstanceBusinessKey != null || processInstanceBusinessKeyLike != null || processInstanceBusinessKeyLikeIgnoreCase != null">
@@ -527,7 +527,7 @@
       </if>       
     </foreach>
     <foreach collection="orQueryObjects" index="orIndex" item="orQueryObject">
-      <if test="orQueryObject.candidateUser != null || orQueryObject.candidateGroups != null">
+      <if test="orQueryObject.candidateUser != null || orQueryObject.candidateGroups != null || orQueryObject.candidateRoles != null">
         inner join ${prefix}ACT_HI_IDENTITYLINK HI_OR${orIndex} on HI_OR${orIndex}.TASK_ID_ = RES.ID_
       </if>
       <if test="orQueryObject.processFinished || orQueryObject.processUnfinished || orQueryObject.processInstanceBusinessKey != null || orQueryObject.processInstanceBusinessKeyLike != null || orQueryObject.processInstanceBusinessKeyLikeIgnoreCase != null">
@@ -1197,7 +1197,7 @@
               or
             </if>
             <if test="orQueryObject.candidateRoles != null &amp;&amp; orQueryObject.candidateRoles.size() &gt; 0">
-              I_OR${orIndex}.ROLE_ID_ IN
+              HI_OR${orIndex}.ROLE_ID_ IN
               <foreach item="role" index="index" collection="orQueryObject.candidateRoles"
                        open="(" separator="," close=")">
                 #{role}

@@ -1253,7 +1253,7 @@ public class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<His
             throw new FlowableIllegalArgumentException("Candidate role is null");
         }
 
-        if (candidateRole != null) {
+        if (candidateRoles != null) {
             throw new FlowableIllegalArgumentException("Invalid query usage: cannot set both candidateRole and " +
                     "candidateRoleIn");
         }
@@ -1572,8 +1572,8 @@ public class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<His
             List<String> roleIds = new ArrayList<>();
             roleIds.add(candidateRole);
             return roleIds;
-        } else if (candidateGroups != null) {
-            return candidateGroups;
+        } else if (candidateRoles != null) {
+            return candidateRoles;
 
         } else if (candidateUser != null) {
             return getRolesForCandidateUser(candidateUser);
