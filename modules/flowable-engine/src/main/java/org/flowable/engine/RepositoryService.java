@@ -459,7 +459,7 @@ public interface RepositoryService {
 
     /**
      * Removes the authorization of a candidate group for a process definition.
-     *
+     * 
      * @param processDefinitionId
      *            id of the process definition, cannot be null.
      * @param groupId
