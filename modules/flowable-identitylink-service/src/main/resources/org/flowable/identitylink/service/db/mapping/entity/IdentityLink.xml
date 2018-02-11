@@ -22,7 +22,7 @@
   </insert>
   
   <insert id="bulkInsertIdentityLink" parameterType="org.flowable.identitylink.service.impl.persistence.entity.IdentityLinkEntityImpl">
-    insert into ${prefix}ACT_RU_IDENTITYLINK (ID_, REV_, TYPE_, USER_ID_, GROUP_ID_,ROLE_ID_ TASK_ID_, PROC_INST_ID_, 
+    insert into ${prefix}ACT_RU_IDENTITYLINK (ID_, REV_, TYPE_, USER_ID_, GROUP_ID_,ROLE_ID_,TASK_ID_, PROC_INST_ID_, 
       PROC_DEF_ID_)
     values 
     <foreach collection="list" item="identityLink" index="index" separator=","> 
@@ -41,7 +41,7 @@
   <insert id="bulkInsertIdentityLink" databaseId="oracle" parameterType="org.flowable.identitylink.service.impl.persistence.entity.IdentityLinkEntityImpl">
     INSERT ALL
       <foreach collection="list" item="identityLink" index="index">
-        into ${prefix}ACT_RU_IDENTITYLINK (ID_, REV_, TYPE_, USER_ID_, GROUP_ID_,ROLE_ID_ TASK_ID_, PROC_INST_ID_, 
+        into ${prefix}ACT_RU_IDENTITYLINK (ID_, REV_, TYPE_, USER_ID_, GROUP_ID_,ROLE_ID_,TASK_ID_, PROC_INST_ID_, 
           PROC_DEF_ID_) VALUES
            (#{identityLink.id, jdbcType=VARCHAR},
             1,
