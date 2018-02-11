@@ -38,7 +38,7 @@ import org.flowable.validation.ValidationError;
 
 /**
  * Service providing access to the repository of process definitions and deployments.
- * 
+ *
  * @author Tom Baeyens
  * @author Falko Menge
  * @author Tijs Rademakers
@@ -53,7 +53,7 @@ public interface RepositoryService {
 
     /**
      * Deletes the given deployment.
-     *
+     * 
      * @param deploymentId
      *            id of the deployment, cannot be null.
      * @throws RuntimeException
