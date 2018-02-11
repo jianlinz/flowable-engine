@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -12,18 +12,18 @@
  */
 package org.flowable.task.api;
 
-import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
-
 import org.flowable.engine.common.api.FlowableIllegalArgumentException;
 import org.flowable.engine.common.api.query.Query;
 import org.flowable.identitylink.api.IdentityLink;
 import org.flowable.task.api.history.HistoricTaskInstanceQuery;
 
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
+
 /**
  * Interface containing shared methods between the {@link TaskQuery} and the {@link HistoricTaskInstanceQuery}.
- *
+ * 
  * @author Joram Barrez
  */
 public interface TaskInfoQuery<T extends TaskInfoQuery<?, ?>, V extends TaskInfo> extends Query<T, V> {
@@ -33,24 +33,24 @@ public interface TaskInfoQuery<T extends TaskInfoQuery<?, ?>, V extends TaskInfo
      */
     T taskId(String taskId);
 
-    /**
-     * Only select tasks with the given name
-     */
+    /** Only select tasks with the given name */
     T taskName(String name);
 
     /**
      * Only select tasks with a name that is in the given list
-     *
-     * @throws FlowableIllegalArgumentException When passed name list is empty or <code>null</code> or contains <code>null String</code>.
+     * 
+     * @throws FlowableIllegalArgumentException
+     *             When passed name list is empty or <code>null</code> or contains <code>null String</code>.
      */
     T taskNameIn(List<String> nameList);
 
     /**
      * Only select tasks with a name that is in the given list
-     * <p>
+     * 
      * This method, unlike the {@link #taskNameIn(List)} method will not take in account the upper/lower case: both the input parameters as the column value are lowercased when the query is executed.
-     *
-     * @throws FlowableIllegalArgumentException When passed name list is empty or <code>null</code> or contains <code>null String</code>.
+     * 
+     * @throws FlowableIllegalArgumentException
+     *             When passed name list is empty or <code>null</code> or contains <code>null String</code>.
      */
     T taskNameInIgnoreCase(List<String> nameList);
 
@@ -61,15 +61,13 @@ public interface TaskInfoQuery<T extends TaskInfoQuery<?, ?>, V extends TaskInfo
 
     /**
      * Only select tasks with a name matching the parameter. The syntax is that of SQL: for example usage: nameLike(%test%)
-     * <p>
+     * 
      * This method, unlike the {@link #taskNameLike(String)} method will not take in account the upper/lower case: both the input parameter as the column value are lowercased when the query is
      * executed.
      */
     T taskNameLikeIgnoreCase(String nameLike);
 
-    /**
-     * Only select tasks with the given description.
-     */
+    /** Only select tasks with the given description. */
     T taskDescription(String description);
 
     /**
@@ -79,30 +77,22 @@ public interface TaskInfoQuery<T extends TaskInfoQuery<?, ?>, V extends TaskInfo
 
     /**
      * Only select tasks with a description matching the parameter . The syntax is that of SQL: for example usage: descriptionLike(%test%)
-     * <p>
+     * 
      * This method, unlike the {@link #taskDescriptionLike(String)} method will not take in account the upper/lower case: both the input parameter as the column value are lowercased when the query is
      * executed.
      */
     T taskDescriptionLikeIgnoreCase(String descriptionLike);
 
-    /**
-     * Only select tasks with the given priority.
-     */
+    /** Only select tasks with the given priority. */
     T taskPriority(Integer priority);
 
-    /**
-     * Only select tasks with the given priority or higher.
-     */
+    /** Only select tasks with the given priority or higher. */
     T taskMinPriority(Integer minPriority);
 
-    /**
-     * Only select tasks with the given priority or lower.
-     */
+    /** Only select tasks with the given priority or lower. */
     T taskMaxPriority(Integer maxPriority);
 
-    /**
-     * Only select tasks which are assigned to the given user.
-     */
+    /** Only select tasks which are assigned to the given user. */
     T taskAssignee(String assignee);
 
     /**
@@ -112,7 +102,7 @@ public interface TaskInfoQuery<T extends TaskInfoQuery<?, ?>, V extends TaskInfo
 
     /**
      * Only select tasks which were last assigned to an assignee like the given value. The syntax that should be used is the same as in SQL, eg. %test%.
-     * <p>
+     * 
      * This method, unlike the {@link #taskAssigneeLike(String)} method will not take in account the upper/lower case: both the input parameter as the column value are lowercased when the query is
      * executed.
      */
@@ -120,14 +110,13 @@ public interface TaskInfoQuery<T extends TaskInfoQuery<?, ?>, V extends TaskInfo
 
     /**
      * Only select tasks with an assignee that is in the given list
-     *
-     * @throws FlowableIllegalArgumentException When passed name list is empty or <code>null</code> or contains <code>null String</code>.
+     * 
+     * @throws FlowableIllegalArgumentException
+     *             When passed name list is empty or <code>null</code> or contains <code>null String</code>.
      */
     T taskAssigneeIds(List<String> assigneeListIds);
 
-    /**
-     * Only select tasks for which the given user is the owner.
-     */
+    /** Only select tasks for which the given user is the owner. */
     T taskOwner(String owner);
 
     /**
@@ -137,37 +126,34 @@ public interface TaskInfoQuery<T extends TaskInfoQuery<?, ?>, V extends TaskInfo
 
     /**
      * Only select tasks which were last assigned to an owner like the given value. The syntax that should be used is the same as in SQL, eg. %test%.
-     * <p>
+     * 
      * This method, unlike the {@link #taskOwnerLike(String)} method will not take in account the upper/lower case: both the input parameter as the column value are lowercased when the query is
      * executed.
      */
     T taskOwnerLikeIgnoreCase(String ownerLikeIgnoreCase);
 
-    /**
-     * Only select tasks for which the given user is a candidate.
-     */
+    /** Only select tasks for which the given user is a candidate. */
     T taskCandidateUser(String candidateUser);
 
     /**
      * Only select tasks for which there exist an {@link IdentityLink} with the given user, including tasks which have been assigned to the given user (assignee) or owned by the given user (owner).
      */
     T taskInvolvedUser(String involvedUser);
-
+    
     /**
      * Allows to select a task using {@link #taskCandidateGroup(String)} {@link #taskCandidateGroupIn(List)} or {@link #taskCandidateUser(String)} but ignore the assignee value instead of querying for an empty assignee.
      */
     T ignoreAssigneeValue();
 
-    /**
-     * Only select tasks for which users in the given group are candidates.
-     */
+    /** Only select tasks for which users in the given group are candidates. */
     T taskCandidateGroup(String candidateGroup);
 
     /**
      * Only select tasks for which the 'candidateGroup' is one of the given groups.
-     *
-     * @throws FlowableIllegalArgumentException When query is executed and {@link #taskCandidateRole(String)} or {@link #taskCandidateUser(String)} has been executed on the query instance. When passed group list is empty or
-     *                                          <code>null</code>.
+     * 
+     * @throws FlowableIllegalArgumentException
+     *             When query is executed and {@link #taskCandidateGroup(String)} or {@link #taskCandidateUser(String)} has been executed on the query instance. When passed group list is empty or
+     *             <code>null</code>.
      */
     T taskCandidateGroupIn(List<String> candidateGroups);
 
@@ -209,9 +195,7 @@ public interface TaskInfoQuery<T extends TaskInfoQuery<?, ?>, V extends TaskInfo
      */
     T processInstanceIdIn(List<String> processInstanceIds);
 
-    /**
-     * Only select tasks foe the given business key
-     */
+    /** Only select tasks foe the given business key */
     T processInstanceBusinessKey(String processInstanceBusinessKey);
 
     /**
@@ -221,7 +205,7 @@ public interface TaskInfoQuery<T extends TaskInfoQuery<?, ?>, V extends TaskInfo
 
     /**
      * Only select tasks with a business key like the given value The syntax is that of SQL: for example usage: processInstanceBusinessKeyLike("%test%").
-     * <p>
+     * 
      * This method, unlike the {@link #processInstanceBusinessKeyLike(String)} method will not take in account the upper/lower case: both the input parameter as the column value are lowercased when
      * the query is executed.
      */
@@ -231,39 +215,39 @@ public interface TaskInfoQuery<T extends TaskInfoQuery<?, ?>, V extends TaskInfo
      * Only select tasks for the given execution.
      */
     T executionId(String executionId);
-
+    
     /**
      * Only select tasks for the given case instance.
      */
     T caseInstanceId(String caseInstanceId);
-
+    
     /**
      * Only select tasks for the given case definition.
      */
     T caseDefinitionId(String caseDefinitionId);
-
+    
     /**
-     * Only select tasks for the given plan item instance.
+     * Only select tasks for the given plan item instance. 
      */
     T planItemInstanceId(String planItemInstanceId);
-
+    
     /**
-     * Only select tasks for the given scope identifier.
+     * Only select tasks for the given scope identifier. 
      */
     T scopeId(String scopeId);
-
+    
     /**
-     * Only select tasks for the given sub scope identifier.
+     * Only select tasks for the given sub scope identifier. 
      */
     T subScopeId(String subScopeId);
-
+    
     /**
-     * Only select tasks for the given scope type.
+     * Only select tasks for the given scope type. 
      */
     T scopeType(String scopeType);
-
+    
     /**
-     * Only select tasks for the given scope definition identifier.
+     * Only select tasks for the given scope definition identifier. 
      */
     T scopeDefinitionId(String scopeDefinitionId);
 
@@ -330,15 +314,13 @@ public interface TaskInfoQuery<T extends TaskInfoQuery<?, ?>, V extends TaskInfo
 
     /**
      * Only select tasks which are part of a process instance which has a process definition key like the given value. The syntax that should be used is the same as in SQL, eg. %test%.
-     * <p>
+     * 
      * This method, unlike the {@link #processDefinitionKeyLike(String)} method will not take in account the upper/lower case: both the input parameter as the column value are lowercased when the
      * query is executed.
      */
     T processDefinitionKeyLikeIgnoreCase(String processDefinitionKeyLikeIgnoreCase);
 
-    /**
-     * Only select tasks that have a process definition for which the key is present in the given list
-     **/
+    /** Only select tasks that have a process definition for which the key is present in the given list **/
     T processDefinitionKeyIn(List<String> processDefinitionKeys);
 
     /**
@@ -358,7 +340,9 @@ public interface TaskInfoQuery<T extends TaskInfoQuery<?, ?>, V extends TaskInfo
 
     /**
      * Only select tasks which are part of a process instance whose definition belongs to the category which is present in the given list.
-     *
+     * 
+     * @throws FlowableIllegalArgumentException
+     *             When passed category list is empty or <code>null</code> or contains <code>null String</code>.
      * @param processCategoryInList
      * @throws FlowableIllegalArgumentException When passed category list is empty or <code>null</code> or contains <code>null String</code>.
      */
@@ -366,7 +350,9 @@ public interface TaskInfoQuery<T extends TaskInfoQuery<?, ?>, V extends TaskInfo
 
     /**
      * Only select tasks which are part of a process instance whose definition does not belong to the category which is present in the given list.
-     *
+     * 
+     * @throws FlowableIllegalArgumentException
+     *             When passed category list is empty or <code>null</code> or contains <code>null String</code>.
      * @param processCategoryNotInList
      * @throws FlowableIllegalArgumentException When passed category list is empty or <code>null</code> or contains <code>null String</code>.
      */
@@ -381,12 +367,12 @@ public interface TaskInfoQuery<T extends TaskInfoQuery<?, ?>, V extends TaskInfo
      * Only select tasks which are part of a process instance which has the given deployment id.
      */
     T deploymentIdIn(List<String> deploymentIds);
-
+    
     /**
      * Only select tasks which are related to a case instance for to the given deployment id.
      */
     T cmmnDeploymentId(String cmmnDeploymentId);
-
+    
     /**
      * Only select tasks which are related to a case instances for the given deployment id.
      */
@@ -429,66 +415,80 @@ public interface TaskInfoQuery<T extends TaskInfoQuery<?, ?>, V extends TaskInfo
     /**
      * Only select tasks which have a local variable value greater than the passed value when they ended. Booleans, Byte-arrays and {@link Serializable} objects (which are not primitive type wrappers)
      * are not supported.
-     *
-     * @param name  cannot be null.
-     * @param value cannot be null.
+     * 
+     * @param name
+     *            cannot be null.
+     * @param value
+     *            cannot be null.
      */
     T taskVariableValueGreaterThan(String name, Object value);
 
     /**
      * Only select tasks which have a local variable value greater than or equal to the passed value when they ended. Booleans, Byte-arrays and {@link Serializable} objects (which are not primitive
      * type wrappers) are not supported.
-     *
-     * @param name  cannot be null.
-     * @param value cannot be null.
+     * 
+     * @param name
+     *            cannot be null.
+     * @param value
+     *            cannot be null.
      */
     T taskVariableValueGreaterThanOrEqual(String name, Object value);
 
     /**
      * Only select tasks which have a local variable value less than the passed value when the ended.Booleans, Byte-arrays and {@link Serializable} objects (which are not primitive type wrappers) are
      * not supported.
-     *
-     * @param name  cannot be null.
-     * @param value cannot be null.
+     * 
+     * @param name
+     *            cannot be null.
+     * @param value
+     *            cannot be null.
      */
     T taskVariableValueLessThan(String name, Object value);
 
     /**
      * Only select tasks which have a local variable value less than or equal to the passed value when they ended. Booleans, Byte-arrays and {@link Serializable} objects (which are not primitive type
      * wrappers) are not supported.
-     *
-     * @param name  cannot be null.
-     * @param value cannot be null.
+     * 
+     * @param name
+     *            cannot be null.
+     * @param value
+     *            cannot be null.
      */
     T taskVariableValueLessThanOrEqual(String name, Object value);
 
     /**
      * Only select tasks which have a local variable value like the given value when they ended. This can be used on string variables only.
-     *
-     * @param name  cannot be null.
-     * @param value cannot be null. The string can include the wildcard character '%' to express like-strategy: starts with (string%), ends with (%string) or contains (%string%).
+     * 
+     * @param name
+     *            cannot be null.
+     * @param value
+     *            cannot be null. The string can include the wildcard character '%' to express like-strategy: starts with (string%), ends with (%string) or contains (%string%).
      */
     T taskVariableValueLike(String name, String value);
 
     /**
      * Only select tasks which have a local variable value like the given value (case insensitive) when they ended. This can be used on string variables only.
-     *
-     * @param name  cannot be null.
-     * @param value cannot be null. The string can include the wildcard character '%' to express like-strategy: starts with (string%), ends with (%string) or contains (%string%).
+     * 
+     * @param name
+     *            cannot be null.
+     * @param value
+     *            cannot be null. The string can include the wildcard character '%' to express like-strategy: starts with (string%), ends with (%string) or contains (%string%).
      */
     T taskVariableValueLikeIgnoreCase(String name, String value);
-
+    
     /**
      * Only select tasks which have a local variable with the given name.
-     *
-     * @param name cannot be null.
+     * 
+     * @param name
+     *            cannot be null.
      */
     T taskVariableExists(String name);
-
+    
     /**
      * Only select tasks which does not have a local variable with the given name.
-     *
-     * @param name cannot be null.
+     * 
+     * @param name
+     *            cannot be null.
      */
     T taskVariableNotExists(String name);
 
@@ -529,66 +529,80 @@ public interface TaskInfoQuery<T extends TaskInfoQuery<?, ?>, V extends TaskInfo
     /**
      * Only select tasks which have a global variable value greater than the passed value when they ended. Booleans, Byte-arrays and {@link Serializable} objects (which are not primitive type
      * wrappers) are not supported.
-     *
-     * @param name  cannot be null.
-     * @param value cannot be null.
+     * 
+     * @param name
+     *            cannot be null.
+     * @param value
+     *            cannot be null.
      */
     T processVariableValueGreaterThan(String name, Object value);
 
     /**
      * Only select tasks which have a global variable value greater than or equal to the passed value when they ended. Booleans, Byte-arrays and {@link Serializable} objects (which are not primitive
      * type wrappers) are not supported.
-     *
-     * @param name  cannot be null.
-     * @param value cannot be null.
+     * 
+     * @param name
+     *            cannot be null.
+     * @param value
+     *            cannot be null.
      */
     T processVariableValueGreaterThanOrEqual(String name, Object value);
 
     /**
      * Only select tasks which have a global variable value less than the passed value when the ended.Booleans, Byte-arrays and {@link Serializable} objects (which are not primitive type wrappers) are
      * not supported.
-     *
-     * @param name  cannot be null.
-     * @param value cannot be null.
+     * 
+     * @param name
+     *            cannot be null.
+     * @param value
+     *            cannot be null.
      */
     T processVariableValueLessThan(String name, Object value);
 
     /**
      * Only select tasks which have a global variable value less than or equal to the passed value when they ended. Booleans, Byte-arrays and {@link Serializable} objects (which are not primitive type
      * wrappers) are not supported.
-     *
-     * @param name  cannot be null.
-     * @param value cannot be null.
+     * 
+     * @param name
+     *            cannot be null.
+     * @param value
+     *            cannot be null.
      */
     T processVariableValueLessThanOrEqual(String name, Object value);
 
     /**
      * Only select tasks which have a global variable value like the given value when they ended. This can be used on string variables only.
-     *
-     * @param name  cannot be null.
-     * @param value cannot be null. The string can include the wildcard character '%' to express like-strategy: starts with (string%), ends with (%string) or contains (%string%).
+     * 
+     * @param name
+     *            cannot be null.
+     * @param value
+     *            cannot be null. The string can include the wildcard character '%' to express like-strategy: starts with (string%), ends with (%string) or contains (%string%).
      */
     T processVariableValueLike(String name, String value);
 
     /**
      * Only select tasks which have a global variable value like the given value (case insensitive) when they ended. This can be used on string variables only.
-     *
-     * @param name  cannot be null.
-     * @param value cannot be null. The string can include the wildcard character '%' to express like-strategy: starts with (string%), ends with (%string) or contains (%string%).
+     * 
+     * @param name
+     *            cannot be null.
+     * @param value
+     *            cannot be null. The string can include the wildcard character '%' to express like-strategy: starts with (string%), ends with (%string) or contains (%string%).
      */
     T processVariableValueLikeIgnoreCase(String name, String value);
-
+    
     /**
      * Only select tasks which have a global variable with the given name.
-     *
-     * @param name cannot be null.
+     * 
+     * @param name
+     *            cannot be null.
      */
     T processVariableExists(String name);
-
+    
     /**
      * Only select tasks which does not have a global variable with the given name.
-     *
-     * @param name cannot be null.
+     * 
+     * @param name
+     *            cannot be null.
      */
     T processVariableNotExists(String name);
 
@@ -624,7 +638,7 @@ public interface TaskInfoQuery<T extends TaskInfoQuery<?, ?>, V extends TaskInfo
 
     /**
      * All query clauses called will be added to a single or-statement. This or-statement will be included with the other already existing clauses in the query, joined by an 'and'.
-     * <p>
+     * 
      * Calling endOr() will add all clauses to the regular query again. Calling or() after endOr() has been called will result in an exception.
      */
     T or();

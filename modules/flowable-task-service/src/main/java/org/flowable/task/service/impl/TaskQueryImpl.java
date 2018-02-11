@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -11,11 +11,6 @@
  * limitations under the License.
  */
 package org.flowable.task.service.impl;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
 
 import com.proper.enterprise.platform.api.auth.model.Role;
 import org.flowable.engine.common.api.FlowableException;
@@ -37,6 +32,9 @@ import org.flowable.variable.service.impl.QueryVariableValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @author Joram Barrez
@@ -740,7 +738,7 @@ public class TaskQueryImpl extends AbstractVariableQueryImpl<TaskQuery, Task> im
         }
         return this;
     }
-
+    
     @Override
     public TaskQuery caseInstanceId(String caseInstanceId) {
         if (orActive) {
@@ -752,7 +750,7 @@ public class TaskQueryImpl extends AbstractVariableQueryImpl<TaskQuery, Task> im
         }
         return this;
     }
-
+    
     @Override
     public TaskQuery caseDefinitionId(String caseDefinitionId) {
         if (orActive) {
@@ -764,7 +762,7 @@ public class TaskQueryImpl extends AbstractVariableQueryImpl<TaskQuery, Task> im
         }
         return this;
     }
-
+    
     @Override
     public TaskQuery planItemInstanceId(String planItemInstanceId) {
         if (orActive) {
@@ -776,7 +774,7 @@ public class TaskQueryImpl extends AbstractVariableQueryImpl<TaskQuery, Task> im
         }
         return this;
     }
-
+    
     @Override
     public TaskQueryImpl scopeId(String scopeId) {
         if (orActive) {
@@ -786,7 +784,7 @@ public class TaskQueryImpl extends AbstractVariableQueryImpl<TaskQuery, Task> im
         }
         return this;
     }
-
+    
     @Override
     public TaskQueryImpl subScopeId(String subScopeId) {
         if (orActive) {
@@ -796,7 +794,7 @@ public class TaskQueryImpl extends AbstractVariableQueryImpl<TaskQuery, Task> im
         }
         return this;
     }
-
+    
     @Override
     public TaskQueryImpl scopeType(String scopeType) {
         if (orActive) {
@@ -806,7 +804,7 @@ public class TaskQueryImpl extends AbstractVariableQueryImpl<TaskQuery, Task> im
         }
         return this;
     }
-
+    
     @Override
     public TaskQueryImpl scopeDefinitionId(String scopeDefinitionId) {
         if (orActive) {
@@ -986,8 +984,8 @@ public class TaskQueryImpl extends AbstractVariableQueryImpl<TaskQuery, Task> im
         }
         return this;
     }
-
-
+    
+    
     @Override
     public TaskQuery taskVariableExists(String name) {
         if (orActive) {
@@ -997,7 +995,7 @@ public class TaskQueryImpl extends AbstractVariableQueryImpl<TaskQuery, Task> im
         }
         return this;
     }
-
+    
     @Override
     public TaskQuery taskVariableNotExists(String name) {
         if (orActive) {
@@ -1117,7 +1115,7 @@ public class TaskQueryImpl extends AbstractVariableQueryImpl<TaskQuery, Task> im
         }
         return this;
     }
-
+    
     @Override
     public TaskQuery processVariableExists(String name) {
         if (orActive) {
@@ -1127,7 +1125,7 @@ public class TaskQueryImpl extends AbstractVariableQueryImpl<TaskQuery, Task> im
         }
         return this;
     }
-
+    
     @Override
     public TaskQuery processVariableNotExists(String name) {
         if (orActive) {
@@ -1271,7 +1269,7 @@ public class TaskQueryImpl extends AbstractVariableQueryImpl<TaskQuery, Task> im
         }
         return this;
     }
-
+    
     @Override
     public TaskQuery cmmnDeploymentId(String cmmnDeploymentId) {
         if (orActive) {
@@ -1281,7 +1279,7 @@ public class TaskQueryImpl extends AbstractVariableQueryImpl<TaskQuery, Task> im
         }
         return this;
     }
-
+    
     @Override
     public TaskQuery cmmnDeploymentIdIn(List<String> cmmnDeploymentIds) {
         if (orActive) {
@@ -1718,7 +1716,7 @@ public class TaskQueryImpl extends AbstractVariableQueryImpl<TaskQuery, Task> im
     public String getExecutionId() {
         return executionId;
     }
-
+    
     public String getScopeId() {
         return scopeId;
     }
@@ -1874,7 +1872,7 @@ public class TaskQueryImpl extends AbstractVariableQueryImpl<TaskQuery, Task> im
     public List<String> getDeploymentIds() {
         return deploymentIds;
     }
-
+    
     public String getCmmnDeploymentId() {
         return cmmnDeploymentId;
     }
