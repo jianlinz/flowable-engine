@@ -469,6 +469,7 @@ public interface RepositoryService {
      */
     void deleteCandidateStarterGroup(String processDefinitionId, String groupId);
     
+    
     /**
       * Removes the authorization of a candidate role for a process definition.
       * 
