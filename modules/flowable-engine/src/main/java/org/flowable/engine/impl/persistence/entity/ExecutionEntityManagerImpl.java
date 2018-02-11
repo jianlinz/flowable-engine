@@ -717,8 +717,8 @@ public class ExecutionEntityManagerImpl extends AbstractEntityManager<ExecutionE
 
         if (executionEntity.getId().equals(executionEntity.getProcessInstanceId())
                 && (!enableExecutionRelationshipCounts
-                || (enableExecutionRelationshipCounts && ((CountingExecutionEntity) executionEntity).getIdentityLinkCount() > 0))) {
-
+                        || (enableExecutionRelationshipCounts && ((CountingExecutionEntity) executionEntity).getIdentityLinkCount() > 0))) {
+            
             IdentityLinkService identityLinkService = CommandContextUtil.getIdentityLinkService();
             Collection<IdentityLinkEntity> identityLinks = identityLinkService.findIdentityLinksByProcessInstanceId(executionEntity.getProcessInstanceId());
 

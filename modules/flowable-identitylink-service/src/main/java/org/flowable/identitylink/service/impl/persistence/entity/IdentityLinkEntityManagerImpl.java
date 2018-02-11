@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -13,10 +13,6 @@
 
 package org.flowable.identitylink.service.impl.persistence.entity;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import org.flowable.engine.common.api.delegate.event.FlowableEngineEventType;
 import org.flowable.engine.common.api.delegate.event.FlowableEventDispatcher;
 import org.flowable.engine.common.impl.persistence.entity.data.DataManager;
@@ -24,6 +20,10 @@ import org.flowable.identitylink.service.IdentityLinkServiceConfiguration;
 import org.flowable.identitylink.service.IdentityLinkType;
 import org.flowable.identitylink.service.event.impl.FlowableIdentityLinkEventBuilder;
 import org.flowable.identitylink.service.impl.persistence.entity.data.IdentityLinkDataManager;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * @author Tom Baeyens
@@ -47,7 +47,7 @@ public class IdentityLinkEntityManagerImpl extends AbstractEntityManager<Identit
     @Override
     public void deleteIdentityLink(IdentityLinkEntity identityLink) {
         delete(identityLink, false);
-
+        
         FlowableEventDispatcher eventDispatcher = getEventDispatcher();
         if (eventDispatcher != null && eventDispatcher.isEnabled()) {
             getEventDispatcher().dispatchEvent(FlowableIdentityLinkEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_DELETED, identityLink));
@@ -214,7 +214,7 @@ public class IdentityLinkEntityManagerImpl extends AbstractEntityManager<Identit
     public void deleteIdentityLinksByProcDef(String processDefId) {
         identityLinkDataManager.deleteIdentityLinksByProcDef(processDefId);
     }
-
+    
     @Override
     public IdentityLinkEntity addProcessInstanceIdentityLink(String processInstanceId, String userId, String groupId, String roleId, String type) {
         IdentityLinkEntity identityLinkEntity = identityLinkDataManager.create();
@@ -236,7 +236,7 @@ public class IdentityLinkEntityManagerImpl extends AbstractEntityManager<Identit
         identityLinkEntity.setRoleId(roleId);
         identityLinkEntity.setType(type);
         insert(identityLinkEntity);
-
+        
         return identityLinkEntity;
     }
 
@@ -263,10 +263,10 @@ public class IdentityLinkEntityManagerImpl extends AbstractEntityManager<Identit
         for (String candidateRole : candidateRoles) {
             identityLinks.add(addCandidateRole(taskId, candidateRole));
         }
+        
         return identityLinks;
     }
 
-    //addBy zhangjianlin
     @Override
     public List<IdentityLinkEntity> findIdentityLinkByTaskUserGroupRoleAndType(String taskId, String userId, String groupId, String roleId, String type) {
         return identityLinkDataManager.findIdentityLinkByTaskUserGroupRoleAndType(taskId, userId, groupId, roleId, type);
@@ -314,19 +314,19 @@ public class IdentityLinkEntityManagerImpl extends AbstractEntityManager<Identit
             for (IdentityLinkEntity identityLinkEntity : currentIdentityLinks) {
                 if (IdentityLinkType.CANDIDATE.equals(identityLinkEntity.getType()) &&
                         !identityLinkIds.contains(identityLinkEntity.getId())) {
-
+    
                     if ((userId != null && userId.equals(identityLinkEntity.getUserId()))
                             || (groupId != null && groupId.equals(identityLinkEntity.getGroupId()))||(roleId != null &&
                             roleId.equals(identityLinkEntity.getRoleId()))) {
 
                         deleteIdentityLink(identityLinkEntity);
                         removedIdentityLinkEntities.add(identityLinkEntity);
-
+    
                     }
                 }
             }
         }
-
+        
         return removedIdentityLinkEntities;
     }
 
@@ -338,7 +338,7 @@ public class IdentityLinkEntityManagerImpl extends AbstractEntityManager<Identit
         for (IdentityLinkEntity identityLink : identityLinks) {
             deleteIdentityLink(identityLink);
         }
-
+        
         return identityLinks;
     }
 
@@ -349,6 +349,5 @@ public class IdentityLinkEntityManagerImpl extends AbstractEntityManager<Identit
     public void setIdentityLinkDataManager(IdentityLinkDataManager identityLinkDataManager) {
         this.identityLinkDataManager = identityLinkDataManager;
     }
-
 
 }

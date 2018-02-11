@@ -33,7 +33,7 @@ public class IdentityLinkUtil {
                 processInstanceExecution.getId(), userId, groupId, roleId, type);
 
         CommandContextUtil.getHistoryManager().recordIdentityLinkCreated(identityLinkEntity);
-
+        
         if (CountingEntityUtil.isExecutionRelatedEntityCountEnabledGlobally()) {
             CountingExecutionEntity countingExecutionEntity = (CountingExecutionEntity) processInstanceExecution;
             if (CountingEntityUtil.isExecutionRelatedEntityCountEnabled(countingExecutionEntity)) {
@@ -50,7 +50,7 @@ public class IdentityLinkUtil {
                                                String type) {
         List<IdentityLinkEntity> removedIdentityLinkEntities = CommandContextUtil.getIdentityLinkService().deleteTaskIdentityLink(
                 taskEntity.getId(), taskEntity.getIdentityLinks(), userId, groupId, roleId, type);
-
+        
         handleTaskIdentityLinkDeletions(taskEntity, removedIdentityLinkEntities, true);
     }
 

@@ -13,7 +13,7 @@
 package org.flowable.engine.impl.history.async;
 
 public interface HistoryJsonConstants {
-
+    
     String TYPE = "type";
     
     String TYPE_PROCESS_INSTANCE_START = "process-instance-start";

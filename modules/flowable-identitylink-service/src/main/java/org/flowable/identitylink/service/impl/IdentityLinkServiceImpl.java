@@ -131,7 +131,7 @@ public class IdentityLinkServiceImpl extends ServiceImpl implements IdentityLink
     public IdentityLinkEntity addCandidateRole(String taskId, String roleId) {
         return getIdentityLinkEntityManager().addCandidateRole(taskId,roleId);
     }
-
+    
     @Override
     public List<IdentityLinkEntity> addCandidateRoles(String taskId, Collection<String> candidateRoles) {
         return getIdentityLinkEntityManager().addCandidateRoles(taskId, candidateRoles);

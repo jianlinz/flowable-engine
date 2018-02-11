@@ -424,12 +424,12 @@ public class TaskServiceImpl extends ServiceImpl implements TaskService {
     public Comment addComment(String taskId, String processInstance, String message) {
         return commandExecutor.execute(new AddCommentCmd(taskId, processInstance, message));
     }
-    
+
     @Override
     public Comment addComment(String taskId, String processInstance, String type, String message) {
         return commandExecutor.execute(new AddCommentCmd(taskId, processInstance, type, message));
     }
-
+    
     @Override
     public void saveComment(Comment comment) {
         commandExecutor.execute(new SaveCommentCmd((CommentEntity) comment));
