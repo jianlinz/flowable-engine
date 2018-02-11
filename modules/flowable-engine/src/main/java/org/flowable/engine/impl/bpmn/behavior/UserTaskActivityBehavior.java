@@ -284,11 +284,11 @@ public class UserTaskActivityBehavior extends TaskActivityBehavior {
                             List<IdentityLinkEntity> identityLinkEntities = CommandContextUtil.getIdentityLinkService().addCandidateGroups(task.getId(), candidates);
                             IdentityLinkUtil.handleTaskIdentityLinkAdditions(task, identityLinkEntities);
                         }
-
+                        
                     } else if (value instanceof Collection) {
                         List<IdentityLinkEntity> identityLinkEntities = CommandContextUtil.getIdentityLinkService().addCandidateGroups(task.getId(), (Collection) value);
                         IdentityLinkUtil.handleTaskIdentityLinkAdditions(task, identityLinkEntities);
-
+                        
                     } else {
                         throw new FlowableIllegalArgumentException("Expression did not resolve to a string or collection of strings");
                     }

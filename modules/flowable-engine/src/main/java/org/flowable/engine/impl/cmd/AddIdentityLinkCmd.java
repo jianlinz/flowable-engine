@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -80,31 +80,31 @@ public class AddIdentityLinkCmd extends NeedsActiveTaskCmd<Void> {
 
         String oldAssigneeId = task.getAssignee();
         String oldOwnerId = task.getOwner();
-
+        
         boolean assignedToNoOne = false;
         if (IdentityLinkType.ASSIGNEE.equals(identityType)) {
-
+            
             if (oldAssigneeId == null && identityId == null) {
                 return null;
             }
-
+            
             if (oldAssigneeId != null && oldAssigneeId.equals(identityId)) {
                 return null;
             }
-
+            
             TaskHelper.changeTaskAssignee(task, identityId);
             assignedToNoOne = identityId == null;
-
+            
         } else if (IdentityLinkType.OWNER.equals(identityType)) {
-
+            
             if (oldOwnerId == null && identityId == null) {
                 return null;
             }
-
+            
             if (oldOwnerId != null && oldOwnerId.equals(identityId)) {
                 return null;
             }
-
+            
             TaskHelper.changeTaskOwner(task, identityId);
             assignedToNoOne = identityId == null;
 
@@ -112,7 +112,7 @@ public class AddIdentityLinkCmd extends NeedsActiveTaskCmd<Void> {
             IdentityLinkEntity identityLinkEntity = CommandContextUtil.getIdentityLinkService()
                     .createTaskIdentityLink(task.getId(), identityId, null, null, identityType);
             IdentityLinkUtil.handleTaskIdentityLinkAddition(task, identityLinkEntity);
-
+            
         } else if (IDENTITY_GROUP == identityIdType) {
             IdentityLinkEntity identityLinkEntity = CommandContextUtil.getIdentityLinkService()
                     .createTaskIdentityLink(task.getId(), null, identityId, null, identityType);
@@ -121,6 +121,7 @@ public class AddIdentityLinkCmd extends NeedsActiveTaskCmd<Void> {
         } else if (IDENTITY_ROLE == identityIdType) {
             IdentityLinkEntity identityLinkEntity = CommandContextUtil.getIdentityLinkService().createTaskIdentityLink(task.getId(), null, null, identityId, identityType);
             IdentityLinkUtil.handleTaskIdentityLinkAddition(task, identityLinkEntity);
+            
         }
 
         boolean forceNullUserId = false;
