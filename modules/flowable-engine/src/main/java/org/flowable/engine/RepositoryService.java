@@ -458,13 +458,14 @@ public interface RepositoryService {
     void deleteCandidateStarterUser(String processDefinitionId, String userId);
 
     /**
+     * Removes the authorization of a candidate group for a process definition.
      *
      * @param processDefinitionId
      *            id of the process definition, cannot be null.
      * @param groupId
      *            id of the group involve, cannot be null.
      * @throws FlowableObjectNotFoundException
-     *             when the process definition or group doesn't
+     *             when the process definition or group doesn't exist.
      */
     void deleteCandidateStarterGroup(String processDefinitionId, String groupId);
     
