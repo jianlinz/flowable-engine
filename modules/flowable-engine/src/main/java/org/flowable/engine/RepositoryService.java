@@ -184,11 +184,11 @@ public interface RepositoryService {
      * If a process definition is in state suspended, it will not be possible to start new process instances based on the process definition.
      * 
      * <strong>Note: all the process instances of the process definition will still be active (ie. not suspended)!</strong>
-     *
+     * 
      * @throws FlowableObjectNotFoundException
      *             if no such processDefinition can be found
      * @throws FlowableException
-     *             if the process definition is already in state susp
+     *             if the process definition is already in state suspended.
      */
     void suspendProcessDefinitionByKey(String processDefinitionKey);
 
@@ -200,7 +200,7 @@ public interface RepositoryService {
      * @param suspendProcessInstances
      *            If true, all the process instances of the provided process definition will be suspended too.
      * @param suspensionDate
-     *            The date on which the process definition will be suspended. If null, the process definition is suspended immediately. Note: The job executor needs to be active to use *
+     *            The date on which the process definition will be suspended. If null, the process definition is suspended immediately. Note: The job executor needs to be active to use this!
      * @throws FlowableObjectNotFoundException
      *             if no such processDefinition can be found
      * @throws FlowableException
@@ -453,10 +453,21 @@ public interface RepositoryService {
      * @param userId
      *            id of the user involve, cannot be null.
      * @throws FlowableObjectNotFoundException
-     *             when the process definition or user doesn't 
+     *             when the process definition or user doesn't exist.
      */
     void deleteCandidateStarterUser(String processDefinitionId, String userId);
 
+    /**
+     *
+     * @param processDefinitionId
+     *            id of the process definition, cannot be null.
+     * @param groupId
+     *            id of the group involve, cannot be null.
+     * @throws FlowableObjectNotFoundException
+     *             when the process definition or group doesn't
+     */
+    void deleteCandidateStarterGroup(String processDefinitionId, String groupId);
+    
     /**
       * Removes the authorization of a candidate role for a process definition.
       * 
@@ -468,17 +479,7 @@ public interface RepositoryService {
       *             when the process definition or group doesn't  
      */
     void deleteCandidateStarterRole(String processDefinitionId, String roleId);
-    /**
-      *
-      * @param processDefinitionId
-      *            id of the process definition, cannot be null.
-      * @param groupId
-      *            id of the group involve, cannot be null.
-      * @throws FlowableObjectNotFoundException
-      *             when the process definition or group doesn't
-     */
-    void deleteCandidateStarterGroup(String processDefinitionId, String groupId);
-
+    
     /**
      * Retrieves the {@link IdentityLink}s associated with the given process definition. Such an {@link IdentityLink} informs how a certain identity (eg. group or user) is authorized for a certain
      * process definition
@@ -498,10 +499,10 @@ public interface RepositoryService {
 
     /**
      * Retrieves the {@link DmnDecisionTable}s associated with the given process definition.
-     * 
+     *
      * @param processDefinitionId
      *            id of the process definition, cannot be null.
-     * 
+     *
      */
     List<DmnDecisionTable> getDecisionTablesForProcessDefinition(String processDefinitionId);
 
