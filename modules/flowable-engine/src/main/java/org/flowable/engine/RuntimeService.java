@@ -412,7 +412,17 @@ public interface RuntimeService {
      *             when the process instance or group doesn't exist.
      */
     void addGroupIdentityLink(String processInstanceId, String groupId, String identityLinkType);
-
+    
+    /**
+     * Involves a role with a process instance. The type of identityLink is defined by the given identityLink.
+     *
+     * @param processInstanceId id of the process instance, cannot be null.
+     * @param roleId            id of the role to involve, cannot be null.
+     * @param identityLinkType  type of identity, cannot be null (@see {@link IdentityLinkType}).
+     * @throws FlowableObjectNotFoundException when the process instance or role doesn't exist.
+     */
+    void addRoleIdentityLink(String processInstanceId, String roleId, String identityLinkType);
+    
     /**
      * Convenience shorthand for {@link #addUserIdentityLink(String, String, String)}; with type {@link IdentityLinkType#CANDIDATE}
      * 

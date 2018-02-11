@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -670,7 +670,7 @@ public class RuntimeServiceImpl extends ServiceImpl implements RuntimeService {
     public ChangeActivityStateBuilder createChangeActivityStateBuilder() {
         return new ChangeActivityStateBuilderImpl(this);
     }
-
+    
     @Override
     public Execution addMultiInstanceExecution(String activityId, String parentExecutionId, Map<String, Object> executionVariables) {
         return commandExecutor.execute(new AddMultiInstanceExecutionCmd(activityId, parentExecutionId, executionVariables));
@@ -680,7 +680,7 @@ public class RuntimeServiceImpl extends ServiceImpl implements RuntimeService {
     public void deleteMultiInstanceExecution(String executionId, boolean executionIsCompleted) {
         commandExecutor.execute(new DeleteMultiInstanceExecutionCmd(executionId, executionIsCompleted));
     }
-
+    
     public ProcessInstance startProcessInstance(ProcessInstanceBuilderImpl processInstanceBuilder) {
         if (processInstanceBuilder.getProcessDefinitionId() != null || processInstanceBuilder.getProcessDefinitionKey() != null) {
             return commandExecutor.execute(new StartProcessInstanceCmd<ProcessInstance>(processInstanceBuilder));
