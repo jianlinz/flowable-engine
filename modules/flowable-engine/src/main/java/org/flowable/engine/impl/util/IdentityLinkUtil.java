@@ -12,14 +12,14 @@
  */
 package org.flowable.engine.impl.util;
 
-import java.util.List;
-
 import org.flowable.engine.impl.persistence.CountingExecutionEntity;
 import org.flowable.engine.impl.persistence.entity.ExecutionEntity;
 import org.flowable.identitylink.service.IdentityLinkType;
 import org.flowable.identitylink.service.impl.persistence.entity.IdentityLinkEntity;
 import org.flowable.task.service.impl.persistence.CountingTaskEntity;
 import org.flowable.task.service.impl.persistence.entity.TaskEntity;
+
+import java.util.List;
 
 /**
  * @author Tijs Rademakers
@@ -40,9 +40,9 @@ public class IdentityLinkUtil {
                 countingExecutionEntity.setIdentityLinkCount(countingExecutionEntity.getIdentityLinkCount() + 1);
             }
         }
-
+        
         processInstanceExecution.getIdentityLinks().add(identityLinkEntity);
-
+        
         return identityLinkEntity;
     }
 
@@ -64,13 +64,13 @@ public class IdentityLinkUtil {
         }
         processInstanceEntity.getIdentityLinks().removeAll(removedIdentityLinkEntities);
     }
-
+    
     public static void handleTaskIdentityLinkAdditions(TaskEntity taskEntity, List<IdentityLinkEntity> identityLinkEntities) {
         for (IdentityLinkEntity identityLinkEntity : identityLinkEntities) {
             handleTaskIdentityLinkAddition(taskEntity, identityLinkEntity);
         }
     }
-
+    
     public static void handleTaskIdentityLinkAddition(TaskEntity taskEntity, IdentityLinkEntity identityLinkEntity) {
         CommandContextUtil.getHistoryManager().recordIdentityLinkCreated(identityLinkEntity);
 
@@ -80,7 +80,7 @@ public class IdentityLinkUtil {
                 countingTaskEntity.setIdentityLinkCount(countingTaskEntity.getIdentityLinkCount() + 1);
             }
         }
-
+        
         taskEntity.getIdentityLinks().add(identityLinkEntity);
         if (identityLinkEntity.getUserId() != null && taskEntity.getProcessInstanceId() != null) {
             ExecutionEntity executionEntity = CommandContextUtil.getExecutionEntityManager().findById(taskEntity.getProcessInstanceId());
@@ -94,7 +94,7 @@ public class IdentityLinkUtil {
                     null, null, IdentityLinkType.PARTICIPANT);
         }
     }
-
+    
     public static void handleTaskIdentityLinkDeletions(TaskEntity taskEntity, List<IdentityLinkEntity> identityLinks, boolean cascaseHistory) {
         for (IdentityLinkEntity identityLinkEntity : identityLinks) {
             if (cascaseHistory) {
@@ -102,7 +102,7 @@ public class IdentityLinkUtil {
             }
             handleTaskIdentityLinkDeletion(taskEntity, identityLinkEntity);
         }
-
+        
         taskEntity.getIdentityLinks().removeAll(identityLinks);
     }
 
@@ -111,10 +111,10 @@ public class IdentityLinkUtil {
             CountingTaskEntity countingTaskEntity = (CountingTaskEntity) taskEntity;
             if (CountingEntityUtil.isTaskRelatedEntityCountEnabled(countingTaskEntity)) {
                 countingTaskEntity.setIdentityLinkCount(countingTaskEntity.getIdentityLinkCount() - 1);
-            }
+            }   
         }
     }
-
+    
     protected static void handleProcessInstanceIdentityLinkDeletion(ExecutionEntity processInstanceEntity, IdentityLinkEntity identityLink) {
         if (CountingEntityUtil.isExecutionRelatedEntityCountEnabledGlobally()) {
             CountingExecutionEntity executionEntity = (CountingExecutionEntity) processInstanceEntity;
