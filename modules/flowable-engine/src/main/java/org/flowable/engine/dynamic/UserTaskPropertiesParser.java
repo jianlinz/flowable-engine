@@ -48,6 +48,7 @@ public class UserTaskPropertiesParser extends BasePropertiesParser {
         putPropertyValue(DYNAMIC_VALUE, flowElementNode.path(USER_TASK_CANDIDATE_ROLES), candidateRolesNode);
 
         ObjectNode propertiesNode = objectMapper.createObjectNode();
+        
         propertiesNode.set(USER_TASK_NAME, taskNameNode);
         propertiesNode.set(USER_TASK_ASSIGNEE, assigneeNode);
         propertiesNode.set(USER_TASK_CANDIDATE_USERS, candidateUsersNode);

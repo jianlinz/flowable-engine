@@ -277,6 +277,7 @@ public class DynamicBpmnServiceImpl extends ServiceImpl implements DynamicBpmnSe
         changeUserTaskCandidateUsers(id, candidateUsers, infoNode);
         return infoNode;
     }
+    
 
     @Override
     public void changeUserTaskCandidateUsers(String id, List<String> candidateUsers, ObjectNode infoNode) {

@@ -470,6 +470,7 @@ public interface RuntimeService {
      *             when the task or group doesn't exist.
      */
     void deleteParticipantGroup(String processInstanceId, String groupId);
+    
     /**
      * Convenience shorthand for {@link #deleteRoleIdentityLink(String, String, String)}; with type
      * {@link IdentityLinkType#CANDIDATE}
@@ -506,6 +507,7 @@ public interface RuntimeService {
      *             when the task or group doesn't exist.
      */
     void deleteGroupIdentityLink(String processInstanceId, String groupId, String identityLinkType);
+    
     /**
      * Removes the association between a group and a process instance for the given identityLinkType.
      *
