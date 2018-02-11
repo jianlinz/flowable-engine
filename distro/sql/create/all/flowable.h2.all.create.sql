@@ -20,7 +20,7 @@ values ('common.schema.version', '6.2.1.0', 1);
 
 insert into ACT_GE_PROPERTY
 values ('next.dbid', '1', 1);
--- addBy zhangjianlin
+
 create table ACT_RU_IDENTITYLINK (
     ID_ varchar(64),
     REV_ integer,
