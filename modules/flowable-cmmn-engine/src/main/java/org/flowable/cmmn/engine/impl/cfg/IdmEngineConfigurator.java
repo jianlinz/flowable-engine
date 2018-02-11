@@ -70,6 +70,7 @@ public class IdmEngineConfigurator extends AbstractEngineConfigurator {
         if (idmEngineConfiguration == null) {
             idmEngineConfiguration = new StandaloneIdmEngineConfiguration();
         }
+        
         initialiseCommonProperties(engineConfiguration, idmEngineConfiguration);
         
         idmEngineConfiguration.buildIdmEngine();
