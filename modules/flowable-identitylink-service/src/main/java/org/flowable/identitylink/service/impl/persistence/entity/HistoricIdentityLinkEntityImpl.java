@@ -98,8 +98,8 @@ public class HistoricIdentityLinkEntityImpl extends AbstractEntityNoRevision imp
 
     @Override
     public void setUserId(String userId) {
-        if (this.groupId != null && userId != null) {
-            throw new FlowableException("Cannot assign a userId to a task assignment that already has a groupId");
+        if ((this.groupId != null||this.roleId!=null )&& userId != null) {
+            throw new FlowableException("Cannot assign a userId to a task assignment that already has a groupId or roleId");
         }
         this.userId = userId;
     }
@@ -116,36 +116,16 @@ public class HistoricIdentityLinkEntityImpl extends AbstractEntityNoRevision imp
 
     @Override
     public void setGroupId(String groupId) {
-        int count = 0;
-        if (null != this.userId) {
-            count++;
-        }
-        if (null != groupId) {
-            count++;
-        }
-        if (null != this.roleId) {
-            count++;
-        }
-        if (count > 1) {
-            throw new FlowableException("Cannot assign a groupId to a task assignment that already has a userId");
+        if ((this.userId != null||this.roleId!=null )&& groupId != null) {
+            throw new FlowableException("Cannot assign a groupId to a task assignment that already has a userId or roleId");
         }
         this.groupId = groupId;
     }
 
     @Override
     public void setRoleId(String roleId) {
-        int count = 0;
-        if (null != this.userId) {
-            count++;
-        }
-        if (null != groupId) {
-            count++;
-        }
-        if (null != this.roleId) {
-            count++;
-        }
-        if (count > 1) {
-            throw new FlowableException("Cannot assign a groupId to a task assignment that already has a userId");
+        if ((this.userId != null||this.groupId!=null )&& roleId != null) {
+            throw new FlowableException("Cannot assign a roleId to a task assignment that already has a userId or groupId");
         }
         this.roleId = roleId;
     }

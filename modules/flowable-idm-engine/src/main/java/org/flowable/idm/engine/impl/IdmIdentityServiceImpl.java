@@ -73,15 +73,15 @@ public class IdmIdentityServiceImpl extends ServiceImpl implements IdmIdentitySe
     }
 
     @Override
-    public List<Group> createGroupQueryByUserId(String userId) {
+    public List<Group> queryGroupByUserId(String userId) {
         return createGroupQuery().groupMember(userId).list();
     }
 
     @Override
-    public List<Role> createRoleQueryByUserId(String userId) {
+    public List<Role> queryRoleByUserId(String userId) {
         return new ArrayList<>();
     }
-
+    
     @Override
     public User newUser(String userId) {
         return commandExecutor.execute(new CreateUserCmd(userId));

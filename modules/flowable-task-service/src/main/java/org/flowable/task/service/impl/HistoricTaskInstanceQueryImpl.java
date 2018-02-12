@@ -1585,7 +1585,7 @@ public class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<His
         List<String> groupIds = new ArrayList<>();
         IdmIdentityService idmIdentityService = CommandContextUtil.getTaskServiceConfiguration().getIdmIdentityService();
         if (idmIdentityService != null) {
-            List<Group> groups = idmIdentityService.createGroupQueryByUserId(candidateUser);
+            List<Group> groups = idmIdentityService.queryGroupByUserId(candidateUser);
             for (Group group : groups) {
                 groupIds.add(group.getId());
             }
@@ -1597,7 +1597,7 @@ public class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<His
         List<String> roleIds = new ArrayList<>();
         IdmIdentityService idmIdentityService = CommandContextUtil.getTaskServiceConfiguration().getIdmIdentityService();
         if (idmIdentityService != null) {
-            List<Role> roles = idmIdentityService.createRoleQueryByUserId(candidateUser);
+            List<Role> roles = idmIdentityService.queryRoleByUserId(candidateUser);
             for (Role role : roles) {
                 roleIds.add(role.getId());
             }

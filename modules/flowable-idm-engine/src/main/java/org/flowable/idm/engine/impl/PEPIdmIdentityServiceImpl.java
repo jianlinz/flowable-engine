@@ -50,7 +50,7 @@ public class PEPIdmIdentityServiceImpl implements IdmIdentityService {
     }
 
     @Override
-    public List<Group> createGroupQueryByUserId(String userId) {
+    public List<Group> queryGroupByUserId(String userId) {
         try {
             Collection<? extends UserGroup> userGroups = getUserService().getUserGroups(userId);
             return GroupConvert.convert(userGroups);
@@ -60,7 +60,7 @@ public class PEPIdmIdentityServiceImpl implements IdmIdentityService {
     }
 
     @Override
-    public List<Role> createRoleQueryByUserId(String userId) {
+    public List<Role> queryRoleByUserId(String userId) {
         try {
             Collection<? extends Role> roles = getUserService().getUserRoles(userId);
             return new ArrayList<>(roles);

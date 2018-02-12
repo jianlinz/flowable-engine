@@ -39,49 +39,32 @@ public interface IdentityLinkService {
     IdentityLinkEntity addCandidateGroup(String taskId, String groupId);
     
     List<IdentityLinkEntity> addCandidateGroups(String taskId, Collection<String> candidateGroups);
-//delBy zhangjianlin
-//    IdentityLinkEntity createProcessInstanceIdentityLink(String processInstanceId, String userId, String groupId, String type);
-//
-//    IdentityLinkEntity createTaskIdentityLink(String taskId, String userId, String groupId, String type);
-//
-//    IdentityLinkEntity createProcessDefinitionIdentityLink(String processDefinitionId, String userId, String groupId);
-
+    
+    IdentityLinkEntity createProcessInstanceIdentityLink(String processInstanceId, String userId, String groupId, 
+                                                         String roleId,String type);
+    
+    IdentityLinkEntity createTaskIdentityLink(String taskId, String userId, String groupId, String roleId,String type);
+    
+    IdentityLinkEntity createProcessDefinitionIdentityLink(String processDefinitionId, String userId, String groupId,
+                                                           String roleId);
+    
     IdentityLinkEntity createIdentityLink();
     
     void insertIdentityLink(IdentityLinkEntity identityLink);
     
     void deleteIdentityLink(IdentityLinkEntity identityLink);
-//delBy zhangjianlin
-//    List<IdentityLinkEntity> deleteProcessInstanceIdentityLink(String processInstanceId, String userId, String groupId, String type);
-//
-//    List<IdentityLinkEntity> deleteTaskIdentityLink(String taskId, List<IdentityLinkEntity> currentIdentityLinks, String userId, String groupId, String type);
-//
-//    List<IdentityLinkEntity> deleteProcessDefinitionIdentityLink(String processDefinitionId, String userId, String groupId);
-
+    
+    List<IdentityLinkEntity> deleteProcessInstanceIdentityLink(String processInstanceId, String userId, String groupId, String roleId, String type);
+    
+    List<IdentityLinkEntity> deleteTaskIdentityLink(String taskId, List<IdentityLinkEntity> currentIdentityLinks, String userId, String groupId, String roleId, String type);
+    
+    List<IdentityLinkEntity> deleteProcessDefinitionIdentityLink(String processDefinitionId, String userId, String groupId, String roleId);
+    
     List<IdentityLinkEntity> deleteIdentityLinksByTaskId(String taskId);
     
     void deleteIdentityLinksByProcessDefinitionId(String processDefinitionId);
-
-    //addBy zhangjianlin
+    
     IdentityLinkEntity addCandidateRole(String taskId, String roleId);
 
     List<IdentityLinkEntity> addCandidateRoles(String taskId, Collection<String> candidateRoles);
-
-    IdentityLinkEntity createProcessInstanceIdentityLink(String processInstanceId, String userId, String
-            groupId, String role, String type);
-
-    IdentityLinkEntity createTaskIdentityLink(String taskId, String userId, String groupId, String role, String type);
-
-    IdentityLinkEntity createProcessDefinitionIdentityLink(String processDefinitionId, String userId, String groupId,
-                                                           String role);
-
-    List<IdentityLinkEntity> deleteProcessInstanceIdentityLink(String processInstanceId, String userId, String
-            groupId, String roleId, String type);
-
-    List<IdentityLinkEntity> deleteTaskIdentityLink(String taskId, List<IdentityLinkEntity> currentIdentityLinks,
-                                                    String userId, String groupId, String roleId, String type);
-
-    List<IdentityLinkEntity> deleteProcessDefinitionIdentityLink(String processDefinitionId, String userId,
-                                                                 String groupId, String roleId);
-
 }

@@ -939,7 +939,7 @@
         <when test="bothCandidateAndAssigned">
           <!-- if dbIdentityUsed set true in process engine configuration -->
           <if test="userIdForCandidateAndAssignee != null">
-            <if test="candidateGroups == null">
+            <if test="candidateGroups == null &amp;&amp; candidateRoles == null ">
               and (RES.ASSIGNEE_ = #{userIdForCandidateAndAssignee}
                 or (
                 <if test="!ignoreAssigneeValue">
@@ -950,7 +950,7 @@
             </if>
           </if>
           <!-- if dbIdentityUsed set false in process engine configuration of using custom session factory of GroupIdentityManager -->
-          <if test="candidateGroups != null">
+          <if test="candidateGroups != null|| candidateRoles !=null">
             and (RES.ASSIGNEE_ = #{userIdForCandidateAndAssignee}
             
             or (
@@ -964,6 +964,13 @@
                         #{group}
                     </foreach>
                 </if>
+              <if test="candidateRoles.size() &gt; 0">
+                  or I.ROLE_ID_ IN
+                  <foreach item="role" index="index" collection="candidateRoles" open="(" separator=","
+                           close=")">
+                      #{role}
+                  </foreach>
+              </if>
                 )))
           </if>
         </when>
@@ -1342,7 +1349,7 @@
               <when test="orQueryObject.bothCandidateAndAssigned">
                 <!-- if dbIdentityUsed set true in process engine configuration -->
                 <if test="orQueryObject.userIdForCandidateAndAssignee != null">
-                  <if test="orQueryObject.candidateGroups == null">
+                  <if test="orQueryObject.candidateGroups == null &amp;&amp; orQueryObject.candidateRoles == null">
                     or (RES.ASSIGNEE_ = #{orQueryObject.userIdForCandidateAndAssignee}
                         or (
                         <if test="!orQueryObject.ignoreAssigneeValue">
@@ -1364,6 +1371,13 @@
                         or I_OR${orIndex}.GROUP_ID_ IN
                         <foreach item="group" index="index" collection="orQueryObject.candidateGroups" open="(" separator="," close=")">
                             #{group}
+                        </foreach>
+                    </if>
+                    <if test="orQueryObject.candidateRoles.size() &gt; 0">
+                        or I_OR${orIndex}.ROLE_ID_ IN
+                        <foreach item="role" index="index" collection="orQueryObject.candidateRoles"
+                                 open="(" separator="," close=")">
+                            #{role}
                         </foreach>
                     </if>
                   )))

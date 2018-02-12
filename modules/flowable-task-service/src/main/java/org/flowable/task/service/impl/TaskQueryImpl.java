@@ -29,8 +29,7 @@ import org.flowable.variable.api.type.VariableScopeType;
 import org.flowable.variable.api.types.VariableTypes;
 import org.flowable.variable.service.impl.AbstractVariableQueryImpl;
 import org.flowable.variable.service.impl.QueryVariableValue;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -1473,7 +1472,7 @@ public class TaskQueryImpl extends AbstractVariableQueryImpl<TaskQuery, Task> im
         List<String> groupIds = new ArrayList<>();
         IdmIdentityService idmIdentityService = CommandContextUtil.getTaskServiceConfiguration().getIdmIdentityService();
         if (idmIdentityService != null) {
-            List<Group> groups = idmIdentityService.createGroupQueryByUserId(candidateUser);
+            List<Group> groups = idmIdentityService.queryGroupByUserId(candidateUser);
             for (Group group : groups) {
                 groupIds.add(group.getId());
             }
@@ -1485,7 +1484,7 @@ public class TaskQueryImpl extends AbstractVariableQueryImpl<TaskQuery, Task> im
         List<String> roleIds = new ArrayList<>();
         IdmIdentityService idmIdentityService = CommandContextUtil.getTaskServiceConfiguration().getIdmIdentityService();
         if (idmIdentityService != null) {
-            List<Role> roles = idmIdentityService.createRoleQueryByUserId(candidateUser);
+            List<Role> roles = idmIdentityService.queryRoleByUserId(candidateUser);
             for (Role role : roles) {
                 roleIds.add(role.getId());
             }

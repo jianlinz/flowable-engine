@@ -353,7 +353,6 @@ public class DefaultHistoryManager extends AbstractHistoryManager {
             historicIdentityLinkEntity.setTaskId(identityLink.getTaskId());
             historicIdentityLinkEntity.setType(identityLink.getType());
             historicIdentityLinkEntity.setUserId(identityLink.getUserId());
-            //addBy zhangjianlin
             historicIdentityLinkEntity.setRoleId(identityLink.getRoleId());
             historicIdentityLinkService.insertHistoricIdentityLink(historicIdentityLinkEntity, false);
         }
