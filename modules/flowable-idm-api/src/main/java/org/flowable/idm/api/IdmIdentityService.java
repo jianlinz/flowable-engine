@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,7 +19,7 @@ import java.util.List;
 
 /**
  * Service to manage {@link User}s and {@link Group}s.
- *
+ * 
  * @author Tom Baeyens
  * @author Tijs Rademakers
  * @author Joram Barrez
@@ -28,17 +28,20 @@ public interface IdmIdentityService {
 
     /**
      * Creates a new user. The user is transient and must be saved using {@link #saveUser(User)}.
-     *
-     * @param userId id for the new user, cannot be null.
+     * 
+     * @param userId
+     *            id for the new user, cannot be null.
      */
     User newUser(String userId);
 
     /**
      * Saves the user. If the user already existed, the user is updated except user password.
      * Use {@link #updateUserPassword(User)} to update existing user password.
-     *
-     * @param user user to save, cannot be null.
-     * @throws RuntimeException when a user with the same name already exists.
+     * 
+     * @param user
+     *            user to save, cannot be null.
+     * @throws RuntimeException
+     *             when a user with the same name already exists.
      * @see #updateUserPassword(User)
      */
     void saveUser(User user);
@@ -62,14 +65,16 @@ public interface IdmIdentityService {
     NativeUserQuery createNativeUserQuery();
 
     /**
-     * @param userId id of user to delete, cannot be null. When an id is passed for an unexisting user, this operation is ignored.
+     * @param userId
+     *            id of user to delete, cannot be null. When an id is passed for an unexisting user, this operation is ignored.
      */
     void deleteUser(String userId);
 
     /**
      * Creates a new group. The group is transient and must be saved using {@link #saveGroup(Group)}.
-     *
-     * @param groupId id for the new group, cannot be null.
+     * 
+     * @param groupId
+     *            id for the new group, cannot be null.
      */
     Group newGroup(String groupId);
      
@@ -89,31 +94,39 @@ public interface IdmIdentityService {
 
     /**
      * Saves the group. If the group already existed, the group is updated.
-     *
-     * @param group group to save. Cannot be null.
-     * @throws RuntimeException when a group with the same name already exists.
+     * 
+     * @param group
+     *            group to save. Cannot be null.
+     * @throws RuntimeException
+     *             when a group with the same name already exists.
      */
     void saveGroup(Group group);
 
     /**
      * Deletes the group. When no group exists with the given id, this operation is ignored.
-     *
-     * @param groupId id of the group that should be deleted, cannot be null.
+     * 
+     * @param groupId
+     *            id of the group that should be deleted, cannot be null.
      */
     void deleteGroup(String groupId);
 
     /**
-     * @param userId  the userId, cannot be null.
-     * @param groupId the groupId, cannot be null.
-     * @throws RuntimeException when the given user or group doesn't exist or when the user is already member of the group.
+     * @param userId
+     *            the userId, cannot be null.
+     * @param groupId
+     *            the groupId, cannot be null.
+     * @throws RuntimeException
+     *             when the given user or group doesn't exist or when the user is already member of the group.
      */
     void createMembership(String userId, String groupId);
 
     /**
      * Delete the membership of the user in the group. When the group or user don't exist or when the user is not a member of the group, this operation is ignored.
-     *
-     * @param userId  the user's id, cannot be null.
-     * @param groupId the group's id, cannot be null.
+     * 
+     * @param userId
+     *            the user's id, cannot be null.
+     * @param groupId
+     *            the group's id, cannot be null.
      */
     void deleteMembership(String userId, String groupId);
 
@@ -124,38 +137,45 @@ public interface IdmIdentityService {
 
     /**
      * Sets the picture for a given user.
-     *
+     * 
      * @param userId
-     * @param picture can be null to delete the picture.
-     * @throws org.flowable.engine.common.api.FlowableObjectNotFoundException if the user doesn't exist.
+     * @param picture
+     *            can be null to delete the picture.
+     * @throws org.flowable.engine.common.api.FlowableObjectNotFoundException
+     *             if the user doesn't exist.
      */
     void setUserPicture(String userId, Picture picture);
 
     /**
      * Retrieves the picture for a given user.
-     *
+     * 
      * @param userId
      * @return null if the user doesn't have a picture.
-     * @throws org.flowable.engine.common.api.FlowableObjectNotFoundException if the user doesn't exist.
+     *
+     * @throws org.flowable.engine.common.api.FlowableObjectNotFoundException
+     *             if the user doesn't exist.
      */
     Picture getUserPicture(String userId);
 
     /**
      * Creates a new token. The token is transient and must be saved using {@link #saveToken(Token)}.
-     *
-     * @param id id for the new token, cannot be null.
+     * 
+     * @param id
+     *            id for the new token, cannot be null.
      */
     Token newToken(String id);
 
     /**
      * Saves the token. If the token already existed, the token is updated.
-     *
-     * @param token token to save, cannot be null.
+     * 
+     * @param token
+     *            token to save, cannot be null.
      */
     void saveToken(Token token);
 
     /**
-     * @param tokenId id of token to delete, cannot be null. When an id is passed for an unexisting token, this operation is ignored.
+     * @param tokenId
+     *            id of token to delete, cannot be null. When an id is passed for an unexisting token, this operation is ignored.
      */
     void deleteToken(String tokenId);
 
@@ -169,19 +189,13 @@ public interface IdmIdentityService {
      */
     NativeTokenQuery createNativeTokenQuery();
 
-    /**
-     * Generic extensibility key-value pairs associated with a user
-     */
+    /** Generic extensibility key-value pairs associated with a user */
     void setUserInfo(String userId, String key, String value);
 
-    /**
-     * Generic extensibility key-value pairs associated with a user
-     */
+    /** Generic extensibility key-value pairs associated with a user */
     String getUserInfo(String userId, String key);
 
-    /**
-     * Generic extensibility keys associated with a user
-     */
+    /** Generic extensibility keys associated with a user */
     List<String> getUserInfoKeys(String userId);
 
     /**
@@ -191,8 +205,9 @@ public interface IdmIdentityService {
 
     /**
      * Creates a new {@link Privilege} with the provided name.
-     *
-     * @throws FlowableIllegalArgumentException if privilegeName is null.
+     * 
+     * @throws FlowableIllegalArgumentException
+     *             if privilegeName is null.
      */
     Privilege createPrivilege(String privilegeName);
 
@@ -215,7 +230,7 @@ public interface IdmIdentityService {
      * Delete a privilege for a group.
      */
     void deleteGroupPrivilegeMapping(String privilegeId, String groupId);
-
+    
     /**
      * Get all privilege mappings for a specific privilege
      */
