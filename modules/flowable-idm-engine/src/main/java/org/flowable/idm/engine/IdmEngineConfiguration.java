@@ -20,7 +20,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import com.proper.enterprise.platform.core.PEPApplicationContext;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.transaction.TransactionFactory;
 import org.flowable.engine.common.AbstractEngineConfiguration;
@@ -209,7 +208,6 @@ public class IdmEngineConfiguration extends AbstractEngineConfiguration {
     // /////////////////////////////////////////////////////////////////
 
     protected void initServices() {
-        this.idmIdentityService=extIdm ? new PEPIdmIdentityServiceImpl() : new IdmIdentityServiceImpl();
         initService(idmIdentityService);
         initService(idmManagementService);
     }

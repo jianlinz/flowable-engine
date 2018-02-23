@@ -92,7 +92,6 @@ public abstract class AbstractEngineConfiguration {
      * Upon building of the process engine, a check is performed and an update of the schema is performed if it is necessary.
      */
     public static final String DB_SCHEMA_UPDATE_TRUE = "true";
-    protected boolean extIdm = false;
     protected String databaseType;
     protected String jdbcDriver = "org.h2.Driver";
     protected String jdbcUrl = "jdbc:h2:tcp://localhost/~/flowable";
@@ -1321,12 +1320,5 @@ public abstract class AbstractEngineConfiguration {
         this.customPostDeployers = customPostDeployers;
         return this;
     }
-
-    public boolean isExtIdm() {
-        return extIdm;
-    }
-
-    public void setExtIdm(boolean extIdm) {
-        this.extIdm = extIdm;
-    }
+    
 }
