@@ -64,9 +64,9 @@ public class RemoteIdmServiceImpl implements RemoteIdmService {
 
     @PostConstruct
     protected void init() {
-        url = environment.getRequiredProperty(PROPERTY_URL);
-        adminUser = environment.getRequiredProperty(PROPERTY_ADMIN_USER);
-        adminPassword = environment.getRequiredProperty(PROPERTY_ADMIN_PASSWORD);
+        url = environment.getProperty(PROPERTY_URL);
+        adminUser = environment.getProperty(PROPERTY_ADMIN_USER);
+        adminPassword = environment.getProperty(PROPERTY_ADMIN_PASSWORD);
     }
 
     @Override
