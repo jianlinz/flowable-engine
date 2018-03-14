@@ -25,6 +25,7 @@ task pack(type: Jar) {
         exclude 'editor-app/configuration/properties/assignment-popup.html'
         exclude 'editor-app/configuration/properties-assignment-controller.js'
         exclude 'editor-app/configuration/toolbar-custom-actions.js'
+        exclude 'editor-app/editor-controller.js'
         exclude 'scripts/app-cfg.js'
         exclude 'scripts/resource-loader.js'
         exclude 'scripts/services/identity-services.js'
