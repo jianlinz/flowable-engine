@@ -15,22 +15,16 @@ apply plugin: 'maven'
 
 group = 'com.proper.enterprise.platform'
 archivesBaseName = 'flowable-web-designer'
-version = '6.2.1-SNAPSHOT'
+version = '6.3.0-SNAPSHOT'
 
 task pack(type: Jar) {
     metaInf {
         into 'resources'
         from 'src/main/webapp'
-        exclude 'editor-app/editor.html'
-        exclude 'editor-app/popups/validate-model.html'
         exclude 'editor-app/configuration/properties/assignment-display-template.html'
         exclude 'editor-app/configuration/properties/assignment-popup.html'
-        exclude 'editor-app/configuration/properties/errorgrid-critical.html'
-        exclude 'editor-app/configuration/properties/default-value-display-template.html'
         exclude 'editor-app/configuration/properties-assignment-controller.js'
-        exclude 'editor-app/configuration/multiinstance-property-write-template.html'
         exclude 'editor-app/configuration/toolbar-custom-actions.js'
-        exclude 'editor-app/configuration/toolbar-default-actions.js'
         exclude 'scripts/app-cfg.js'
         exclude 'scripts/resource-loader.js'
         exclude 'scripts/services/identity-services.js'
