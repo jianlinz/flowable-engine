@@ -9,7 +9,7 @@
     <parent>
       <groupId>com.proper.enterprise.platform</groupId>
       <artifactId>flowable-ui-admin</artifactId>
-      <version>6.2.1-SNAPSHOT</version>
+      <version>6.3.0-SNAPSHOT</version>
     </parent>
 
     <properties>
@@ -18,7 +18,7 @@
   		<java.version>1.7</java.version>
 
   		<!-- Libraries versions -->
-  		<flowable.version>6.2.1-SNAPSHOT</flowable.version>
+  		<flowable.version>6.3.0-SNAPSHOT</flowable.version>
   		<jetty.version>9.1.3.v20140225</jetty.version>
 
   		<!-- Web container version -->
@@ -588,12 +588,6 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-all</artifactId>
-			<version>1.9.5</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
 			<scope>test</scope>
@@ -633,7 +627,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.16</version>
 				<configuration>
 					<argLine>-XX:MaxPermSize=128m -Xmx256m</argLine>
 					<forkCount>1</forkCount>

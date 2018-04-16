@@ -12,7 +12,7 @@
 		<groupId>com.proper.enterprise.platform</groupId>
 		<artifactId>flowable-root</artifactId>
 		<relativePath>../..</relativePath>
-		<version>6.2.1-SNAPSHOT</version>
+		<version>6.3.0-SNAPSHOT</version>
 	</parent>
 
 	<properties>
@@ -130,14 +130,10 @@
 		<dependency>
       		<groupId>io.swagger</groupId>
       		<artifactId>swagger-annotations</artifactId>
-      		<version>1.5.16</version>
-      		<scope>compile</scope>
     	</dependency>
     	<dependency>
       		<groupId>io.swagger</groupId>
       		<artifactId>swagger-models</artifactId>
-      		<version>1.5.16</version>
-      		<scope>compile</scope>
     	</dependency>
 
 		<!-- Test dependencies -->

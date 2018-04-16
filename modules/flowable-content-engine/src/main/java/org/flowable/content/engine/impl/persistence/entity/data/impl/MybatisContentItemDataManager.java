@@ -12,7 +12,9 @@
  */
 package org.flowable.content.engine.impl.persistence.entity.data.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.flowable.content.api.ContentItem;
 import org.flowable.content.engine.ContentEngineConfiguration;
@@ -55,11 +57,19 @@ public class MybatisContentItemDataManager extends AbstractContentDataManager<Co
 
     @Override
     public void deleteContentItemsByTaskId(String taskId) {
-        getDbSqlSession().delete("deleteContentItemsByTaskId", taskId);
+        getDbSqlSession().delete("deleteContentItemsByTaskId", taskId, getManagedEntityClass());
     }
 
     @Override
     public void deleteContentItemsByProcessInstanceId(String processInstanceId) {
-        getDbSqlSession().delete("deleteContentItemsByProcessInstanceId", processInstanceId);
+        getDbSqlSession().delete("deleteContentItemsByProcessInstanceId", processInstanceId, getManagedEntityClass());
+    }
+    
+    @Override
+    public void deleteContentItemsByScopeIdAndScopeType(String scopeId, String scopeType) {
+        Map<String, String> params = new HashMap<>(2);
+        params.put("scopeId", scopeId);
+        params.put("scopeType", scopeType);
+        getDbSqlSession().delete("deleteContentItemsByScopeIdAndScopeType", params, getManagedEntityClass());
     }
 }

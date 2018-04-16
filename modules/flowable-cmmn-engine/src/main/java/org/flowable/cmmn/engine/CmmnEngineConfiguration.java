@@ -63,6 +63,7 @@ import org.flowable.cmmn.engine.impl.history.CmmnHistoryTaskManager;
 import org.flowable.cmmn.engine.impl.history.CmmnHistoryVariableManager;
 import org.flowable.cmmn.engine.impl.history.DefaultCmmnHistoryManager;
 import org.flowable.cmmn.engine.impl.interceptor.CmmnCommandInvoker;
+import org.flowable.cmmn.engine.impl.job.AsyncActivatePlanItemInstanceJobHandler;
 import org.flowable.cmmn.engine.impl.job.TriggerTimerEventJobHandler;
 import org.flowable.cmmn.engine.impl.parser.CmmnActivityBehaviorFactory;
 import org.flowable.cmmn.engine.impl.parser.CmmnParser;
@@ -220,7 +221,6 @@ public class CmmnEngineConfiguration extends AbstractEngineConfiguration impleme
     protected HistoricCaseInstanceDataManager historicCaseInstanceDataManager;
     protected HistoricMilestoneInstanceEntityManager historicMilestoneInstanceEntityManager;
 
-    // IDM ENGINE /////////////////////////////////////////////////////
     protected boolean disableIdmEngine;
 
     protected CaseInstanceHelper caseInstanceHelper;
@@ -285,7 +285,7 @@ public class CmmnEngineConfiguration extends AbstractEngineConfiguration impleme
     protected TaskServiceConfiguration taskServiceConfiguration;
     protected InternalHistoryTaskManager internalHistoryTaskManager;
     protected InternalTaskVariableScopeResolver internalTaskVariableScopeResolver;
-    protected boolean isEnableTaskRelationshipCounts;
+    protected boolean isEnableTaskRelationshipCounts = true;
     protected int taskQueryLimit;
     protected int historicTaskQueryLimit;
 
@@ -1092,6 +1092,7 @@ public class CmmnEngineConfiguration extends AbstractEngineConfiguration impleme
     public void initJobHandlers() {
         jobHandlers = new HashMap<>();
         jobHandlers.put(TriggerTimerEventJobHandler.TYPE, new TriggerTimerEventJobHandler());
+        jobHandlers.put(AsyncActivatePlanItemInstanceJobHandler.TYPE, new AsyncActivatePlanItemInstanceJobHandler());
 
         // if we have custom job handlers, register them
         if (customJobHandlers != null) {
