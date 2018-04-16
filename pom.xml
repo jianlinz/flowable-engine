@@ -1552,6 +1552,7 @@
 				<module>modules/flowable-dmn-spring-configurator</module>
 				<module>modules/flowable-dmn-rest</module>
 				<module>modules/flowable-form-model</module>
+				<module>modules/flowable-cmmn-json-converter</module>
 				<module>modules/flowable-form-json-converter</module>
 				<module>modules/flowable-form-engine</module>
 				<module>modules/flowable-form-engine-configurator</module>
@@ -1569,7 +1570,6 @@
 				<module>modules/flowable-rest</module>
 				<module>modules/flowable-app-rest</module>
 				<module>modules/flowable-cxf</module>
-				<module>modules/flowable-osgi</module>
 				<module>modules/flowable-camel</module>
 				<module>modules/flowable-http</module>
 				<module>modules/flowable-cdi</module>
