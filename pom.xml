@@ -1585,13 +1585,12 @@
 			<build>
 				<plugins>
 					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-source-plugin</artifactId>
-						<version>2.4</version>
-						<configuration>
-							<attach>true</attach>
-						</configuration>
+						<version>2.1.1</version>
 						<executions>
 							<execution>
+								<id>attach-sources</id>
 								<phase>package</phase>
 								<goals>
 									<goal>jar-no-fork</goal>
