@@ -361,14 +361,14 @@ public class UserTaskActivityBehavior extends TaskActivityBehavior {
                         Iterator userIdSet = ((Collection) value).iterator();
                         while (userIdSet.hasNext()) {
                             IdentityLinkEntity identityLinkEntity = CommandContextUtil.getIdentityLinkService().createTaskIdentityLink(
-                                            task.getId(), userIdSet.next().toString(), null, customUserIdentityLinkType);
+                                    task.getId(), userIdSet.next().toString(), null, null, customUserIdentityLinkType);
                             IdentityLinkUtil.handleTaskIdentityLinkAddition(task, identityLinkEntity);
                         }
 
                     } else {
                         List<String> userIds = extractCandidates(value.toString());
                         for (String userId : userIds) {
-                            IdentityLinkEntity identityLinkEntity = CommandContextUtil.getIdentityLinkService().createTaskIdentityLink(task.getId(), userId, null, customUserIdentityLinkType);
+                            IdentityLinkEntity identityLinkEntity = CommandContextUtil.getIdentityLinkService().createTaskIdentityLink(task.getId(), userId, null,null, customUserIdentityLinkType);
                             IdentityLinkUtil.handleTaskIdentityLinkAddition(task, identityLinkEntity);
                         }
 
@@ -390,7 +390,7 @@ public class UserTaskActivityBehavior extends TaskActivityBehavior {
                         Iterator groupIdSet = ((Collection) value).iterator();
                         while (groupIdSet.hasNext()) {
                             IdentityLinkEntity identityLinkEntity = CommandContextUtil.getIdentityLinkService().createTaskIdentityLink(
-                                            task.getId(), null, groupIdSet.next().toString(), customGroupIdentityLinkType);
+                                    task.getId(), null, groupIdSet.next().toString(), null, customGroupIdentityLinkType);
                             IdentityLinkUtil.handleTaskIdentityLinkAddition(task, identityLinkEntity);
                         }
 
@@ -398,7 +398,7 @@ public class UserTaskActivityBehavior extends TaskActivityBehavior {
                         List<String> groupIds = extractCandidates(value.toString());
                         for (String groupId : groupIds) {
                             IdentityLinkEntity identityLinkEntity = CommandContextUtil.getIdentityLinkService().createTaskIdentityLink(
-                                            task.getId(), null, groupId, customGroupIdentityLinkType);
+                                    task.getId(), null, groupId, null, customGroupIdentityLinkType);
                             IdentityLinkUtil.handleTaskIdentityLinkAddition(task, identityLinkEntity);
                         }
 
