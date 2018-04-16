@@ -409,6 +409,32 @@ public class UserTaskActivityBehavior extends TaskActivityBehavior {
 
         }
 
+        if (userTask.getCustomRoleIdentityLinks() != null && !userTask.getCustomRoleIdentityLinks().isEmpty()) {
+            for (String customRoleIdentityLinkType : userTask.getCustomRoleIdentityLinks().keySet()) {
+                for (String roleIdentityLink : userTask.getCustomRoleIdentityLinks().get(customRoleIdentityLinkType)) {
+                    Expression idExpression = expressionManager.createExpression(roleIdentityLink);
+                    Object value = idExpression.getValue(execution);
+                    if (value instanceof String) {
+                        List<String> roleIds = extractCandidates((String) value);
+                        for (String roleId : roleIds) {
+                            IdentityLinkEntity identityLinkEntity = CommandContextUtil.getIdentityLinkService().createTaskIdentityLink(
+                                    task.getId(), null, null, roleId, customRoleIdentityLinkType);
+                            IdentityLinkUtil.handleTaskIdentityLinkAddition(task, identityLinkEntity);
+                        }
+                    } else if (value instanceof Collection) {
+                        Iterator roleIdSet = ((Collection) value).iterator();
+                        while (roleIdSet.hasNext()) {
+                            IdentityLinkEntity identityLinkEntity = CommandContextUtil.getIdentityLinkService().createTaskIdentityLink(
+                                    task.getId(), null, null, (String) roleIdSet.next(), customRoleIdentityLinkType);
+                            IdentityLinkUtil.handleTaskIdentityLinkAddition(task, identityLinkEntity);
+                        }
+                    } else {
+                        throw new FlowableException("Expression did not resolve to a string or collection of strings");
+                    }
+
+                }
+            }
+        }
     }
 
     /**
