@@ -39,5 +39,11 @@ public interface HistoricIdentityLinkEntity extends HistoricIdentityLink, Entity
     void setCreateTime(Date createTime);
 
     void setProcessInstanceId(String processInstanceId);
+    
+    void setScopeId(String scopeId);
+    
+    void setScopeType(String scopeType);
+    
+    void setScopeDefinitionId(String scopeDefinitionId);
 
 }

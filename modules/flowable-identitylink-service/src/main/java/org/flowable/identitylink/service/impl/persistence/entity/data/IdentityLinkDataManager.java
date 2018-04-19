@@ -12,10 +12,10 @@
  */
 package org.flowable.identitylink.service.impl.persistence.entity.data;
 
+import java.util.List;
+
 import org.flowable.engine.common.impl.persistence.entity.data.DataManager;
 import org.flowable.identitylink.service.impl.persistence.entity.IdentityLinkEntity;
-
-import java.util.List;
 
 /**
  * @author Joram Barrez
@@ -28,12 +28,26 @@ public interface IdentityLinkDataManager extends DataManager<IdentityLinkEntity>
 
     List<IdentityLinkEntity> findIdentityLinksByProcessDefinitionId(String processDefinitionId);
 
-    List<IdentityLinkEntity> findIdentityLinkByTaskUserGroupRoleAndType(String taskId, String userId, String groupId, String roleId, String type);
-    
-    List<IdentityLinkEntity> findIdentityLinkByProcessInstanceUserGroupRoleAndType(String processInstanceId, String userId, String groupId, String roleId, String type);
+    List<IdentityLinkEntity> findIdentityLinksByScopeIdAndType(String scopeId, String scopeType);
 
-    List<IdentityLinkEntity> findIdentityLinkByProcessDefinitionUserAndGroupAndRole(String processDefinitionId, String userId, String groupId, String roleId);
+    List<IdentityLinkEntity> findIdentityLinksByScopeDefinitionIdAndType(String scopeDefinitionId, String scopeType);
+
+    List<IdentityLinkEntity> findIdentityLinkByTaskUserGroupAndType(String taskId, String userId, String groupId, String roleId, String type);
+
+    List<IdentityLinkEntity> findIdentityLinkByProcessInstanceUserGroupAndType(String processInstanceId, String userId, String groupId, String roleId, String type);
+
+    List<IdentityLinkEntity> findIdentityLinkByProcessDefinitionUserAndGroup(String processDefinitionId, String userId, String groupId, String roleId);
+
+    List<IdentityLinkEntity> findIdentityLinkByScopeIdScopeTypeUserGroupAndType(String scopeId, String scopeType, String userId, String groupId, String roleId, String type);
+
+    List<IdentityLinkEntity> findIdentityLinkByScopeDefinitionScopeTypeUserAndGroup(String scopeDefinitionId, String scopeType, String userId, String groupId, String roleId);
+
+    void deleteIdentityLinksByTaskId(String taskId);
 
     void deleteIdentityLinksByProcDef(String processDefId);
+
+    void deleteIdentityLinksByProcessInstanceId(String processInstanceId);
+
+    void deleteIdentityLinksByScopeIdAndScopeType(String scopeId, String scopeType);
 
 }

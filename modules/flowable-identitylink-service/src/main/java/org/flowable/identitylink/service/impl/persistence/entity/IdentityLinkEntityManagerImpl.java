@@ -13,6 +13,10 @@
 
 package org.flowable.identitylink.service.impl.persistence.entity;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import org.flowable.engine.common.api.delegate.event.FlowableEngineEventType;
 import org.flowable.engine.common.api.delegate.event.FlowableEventDispatcher;
 import org.flowable.engine.common.impl.persistence.entity.data.DataManager;
@@ -20,10 +24,6 @@ import org.flowable.identitylink.service.IdentityLinkServiceConfiguration;
 import org.flowable.identitylink.service.IdentityLinkType;
 import org.flowable.identitylink.service.event.impl.FlowableIdentityLinkEventBuilder;
 import org.flowable.identitylink.service.impl.persistence.entity.data.IdentityLinkDataManager;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 /**
  * @author Tom Baeyens
@@ -45,16 +45,6 @@ public class IdentityLinkEntityManagerImpl extends AbstractEntityManager<Identit
     }
 
     @Override
-    public void deleteIdentityLink(IdentityLinkEntity identityLink) {
-        delete(identityLink, false);
-        
-        FlowableEventDispatcher eventDispatcher = getEventDispatcher();
-        if (eventDispatcher != null && eventDispatcher.isEnabled()) {
-            getEventDispatcher().dispatchEvent(FlowableIdentityLinkEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_DELETED, identityLink));
-        }
-    }
-
-    @Override
     public List<IdentityLinkEntity> findIdentityLinksByTaskId(String taskId) {
         return identityLinkDataManager.findIdentityLinksByTaskId(taskId);
     }
@@ -65,8 +55,18 @@ public class IdentityLinkEntityManagerImpl extends AbstractEntityManager<Identit
     }
 
     @Override
+    public List<IdentityLinkEntity> findIdentityLinksByScopeIdAndType(String scopeId, String scopeType) {
+        return identityLinkDataManager.findIdentityLinksByScopeIdAndType(scopeId, scopeType);
+    }
+
+    @Override
     public List<IdentityLinkEntity> findIdentityLinksByProcessDefinitionId(String processDefinitionId) {
         return identityLinkDataManager.findIdentityLinksByProcessDefinitionId(processDefinitionId);
+    }
+
+    @Override
+    public List<IdentityLinkEntity> findIdentityLinksByScopeDefinitionIdAndType(String scopeDefinitionId, String scopeType) {
+        return identityLinkDataManager.findIdentityLinksByScopeDefinitionIdAndType(scopeDefinitionId, scopeType);
     }
 
     @Override
@@ -85,12 +85,35 @@ public class IdentityLinkEntityManagerImpl extends AbstractEntityManager<Identit
     }
     
     @Override
+    public List<IdentityLinkEntity> findIdentityLinkByScopeIdScopeTypeUserGroupAndType(String scopeId, String scopeType, String userId, String groupId, String type) {
+        return identityLinkDataManager.findIdentityLinkByScopeIdScopeTypeUserGroupAndType(scopeId, scopeType, userId, groupId, type);
+    }
+
+    @Override
+    public List<IdentityLinkEntity> findIdentityLinkByScopeDefinitionScopeTypeUserAndGroup(String scopeDefinitionId, String scopeType, String userId, String groupId) {
+        return identityLinkDataManager.findIdentityLinkByScopeDefinitionScopeTypeUserAndGroup(scopeDefinitionId, scopeType, userId, groupId);
+    }
+
+    @Override
     public IdentityLinkEntity addProcessInstanceIdentityLink(String processInstanceId, String userId, String groupId, String roleId, String type) {
         IdentityLinkEntity identityLinkEntity = identityLinkDataManager.create();
         identityLinkEntity.setProcessInstanceId(processInstanceId);
         identityLinkEntity.setUserId(userId);
         identityLinkEntity.setGroupId(groupId);
         identityLinkEntity.setRoleId(roleId);
+        identityLinkEntity.setType(type);
+        insert(identityLinkEntity);
+        return identityLinkEntity;
+    }
+
+    @Override
+    public IdentityLinkEntity addScopeIdentityLink(String scopeDefinitionId, String scopeId, String scopeType, String userId, String groupId, String type) {
+        IdentityLinkEntity identityLinkEntity = identityLinkDataManager.create();
+        identityLinkEntity.setScopeDefinitionId(scopeDefinitionId);
+        identityLinkEntity.setScopeId(scopeId);
+        identityLinkEntity.setScopeType(scopeType);
+        identityLinkEntity.setUserId(userId);
+        identityLinkEntity.setGroupId(groupId);
         identityLinkEntity.setType(type);
         insert(identityLinkEntity);
         return identityLinkEntity;
@@ -116,6 +139,18 @@ public class IdentityLinkEntityManagerImpl extends AbstractEntityManager<Identit
         identityLinkEntity.setUserId(userId);
         identityLinkEntity.setGroupId(groupId);
         identityLinkEntity.setRoleId(roleId);
+        identityLinkEntity.setType(IdentityLinkType.CANDIDATE);
+        insert(identityLinkEntity);
+        return identityLinkEntity;
+    }
+
+    @Override
+    public IdentityLinkEntity addScopeDefinitionIdentityLink(String scopeDefinitionId, String scopeType, String userId, String groupId) {
+        IdentityLinkEntity identityLinkEntity = identityLinkDataManager.create();
+        identityLinkEntity.setScopeDefinitionId(scopeDefinitionId);
+        identityLinkEntity.setScopeType(scopeType);
+        identityLinkEntity.setUserId(userId);
+        identityLinkEntity.setGroupId(groupId);
         identityLinkEntity.setType(IdentityLinkType.CANDIDATE);
         insert(identityLinkEntity);
         return identityLinkEntity;
@@ -157,6 +192,17 @@ public class IdentityLinkEntityManagerImpl extends AbstractEntityManager<Identit
                 userId, groupId, roleId, type);
 
         for (IdentityLinkEntity identityLink : identityLinks) {
+            delete(identityLink);
+        }
+
+        return identityLinks;
+    }
+
+    @Override
+    public List<IdentityLinkEntity> deleteScopeIdentityLink(String scopeId, String scopeType, String userId, String groupId, String type) {
+        List<IdentityLinkEntity> identityLinks = findIdentityLinkByScopeIdScopeTypeUserGroupAndType(scopeId, scopeType, userId, groupId, type);
+
+        for (IdentityLinkEntity identityLink : identityLinks) {
             deleteIdentityLink(identityLink);
         }
 
@@ -172,7 +218,7 @@ public class IdentityLinkEntityManagerImpl extends AbstractEntityManager<Identit
         List<IdentityLinkEntity> removedIdentityLinkEntities = new ArrayList<>();
         List<String> identityLinkIds = new ArrayList<>();
         for (IdentityLinkEntity identityLink : identityLinks) {
-            deleteIdentityLink(identityLink);
+            delete(identityLink);
             identityLinkIds.add(identityLink.getId());
             removedIdentityLinkEntities.add(identityLink);
         }
@@ -187,7 +233,7 @@ public class IdentityLinkEntityManagerImpl extends AbstractEntityManager<Identit
                             || (groupId != null && groupId.equals(identityLinkEntity.getGroupId()))||(roleId != null &&
                             roleId.equals(identityLinkEntity.getRoleId()))) {
 
-                        deleteIdentityLink(identityLinkEntity);
+                        delete(identityLinkEntity);
                         removedIdentityLinkEntities.add(identityLinkEntity);
     
                     }
@@ -204,15 +250,15 @@ public class IdentityLinkEntityManagerImpl extends AbstractEntityManager<Identit
         List<IdentityLinkEntity> identityLinks = findIdentityLinkByProcessDefinitionUserAndGroupAndRole
                 (processDefinitionId, userId, groupId, roleId);
         for (IdentityLinkEntity identityLink : identityLinks) {
-            deleteIdentityLink(identityLink);
+            delete(identityLink);
         }
         
         return identityLinks;
     }
 
     @Override
-    public List<IdentityLinkEntity> deleteIdentityLinksByTaskId(String taskId) {
-        List<IdentityLinkEntity> identityLinks = findIdentityLinksByTaskId(taskId);
+    public List<IdentityLinkEntity> deleteScopeDefinitionIdentityLink(String scopeDefinitionId, String scopeType, String userId, String groupId) {
+        List<IdentityLinkEntity> identityLinks = findIdentityLinkByScopeDefinitionScopeTypeUserAndGroup(scopeDefinitionId, scopeType, userId, groupId);
         for (IdentityLinkEntity identityLink : identityLinks) {
             deleteIdentityLink(identityLink);
         }
@@ -220,11 +266,34 @@ public class IdentityLinkEntityManagerImpl extends AbstractEntityManager<Identit
         return identityLinks;
     }
 
+    public void deleteIdentityLink(IdentityLinkEntity identityLink) {
+        delete(identityLink, false);
+
+        FlowableEventDispatcher eventDispatcher = getEventDispatcher();
+        if (eventDispatcher != null && eventDispatcher.isEnabled()) {
+            getEventDispatcher().dispatchEvent(FlowableIdentityLinkEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_DELETED, identityLink));
+        }
+    }
+
+    @Override
+    public void deleteIdentityLinksByTaskId(String taskId) {
+        identityLinkDataManager.deleteIdentityLinksByTaskId(taskId);
+    }
+
     @Override
     public void deleteIdentityLinksByProcDef(String processDefId) {
         identityLinkDataManager.deleteIdentityLinksByProcDef(processDefId);
     }
-    
+
+    @Override
+    public void deleteIdentityLinksByProcessInstanceId(String processInstanceId) {
+        identityLinkDataManager.deleteIdentityLinksByProcessInstanceId(processInstanceId);
+    }
+
+    @Override
+    public void deleteIdentityLinksByScopeIdAndScopeType(String scopeId, String scopeType) {
+        identityLinkDataManager.deleteIdentityLinksByScopeIdAndScopeType(scopeId, scopeType);
+    }
 
     @Override
     public IdentityLinkEntity addCandidateRole(String taskId, String roleId) {
@@ -237,17 +306,9 @@ public class IdentityLinkEntityManagerImpl extends AbstractEntityManager<Identit
         for (String candidateRole : candidateRoles) {
             identityLinks.add(addCandidateRole(taskId, candidateRole));
         }
-        
+
         return identityLinks;
     }
-
-    
-
-    
-
-
-
-
 
     public IdentityLinkDataManager getIdentityLinkDataManager() {
         return identityLinkDataManager;

@@ -90,7 +90,7 @@ public class DeleteIdentityLinkCmd extends NeedsActiveTaskCmd<Void> {
             IdentityLinkUtil.deleteTaskIdentityLinks(task, userId, groupId, roleId, type);
         }
 
-        CommandContextUtil.getHistoryManager(commandContext).createIdentityLinkComment(taskId, userId, groupId, type, false);
+        CommandContextUtil.getHistoryManager(commandContext).createIdentityLinkComment(task, userId, groupId, type, false);
 
         return null;
     }
