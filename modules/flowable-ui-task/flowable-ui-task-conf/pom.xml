@@ -22,7 +22,7 @@
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>org.flowable</groupId>
+            <groupId>com.proper.enterprise.platform</groupId>
             <artifactId>flowable-spring-boot-starter</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -126,7 +126,7 @@
             <artifactId>flowable-cmmn-model</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.flowable</groupId>
+            <groupId>com.proper.enterprise.platform</groupId>
             <artifactId>flowable-cmmn-rest</artifactId>
         </dependency>
         <dependency>

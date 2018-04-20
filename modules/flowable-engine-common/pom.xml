@@ -137,7 +137,7 @@
             <artifactId>flowable-engine-common-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.flowable</groupId>
+            <groupId>com.proper.enterprise.platform</groupId>
             <artifactId>flowable-variable-service-api</artifactId>
         </dependency>
         <dependency>

@@ -36,13 +36,16 @@ public class AddIdentityLinkForCaseInstanceCmd implements Command<Void>, Seriali
 
     protected String groupId;
 
+    protected String roleId;
+
     protected String type;
 
-    public AddIdentityLinkForCaseInstanceCmd(String caseInstanceId, String userId, String groupId, String type) {
+    public AddIdentityLinkForCaseInstanceCmd(String caseInstanceId, String userId, String groupId, String roleId, String type) {
         validateParams(caseInstanceId, userId, groupId, type);
         this.caseInstanceId = caseInstanceId;
         this.userId = userId;
         this.groupId = groupId;
+        this.roleId = roleId;
         this.type = type;
     }
 
@@ -56,8 +59,8 @@ public class AddIdentityLinkForCaseInstanceCmd implements Command<Void>, Seriali
             throw new FlowableIllegalArgumentException("type is required when adding a new case instance identity link");
         }
 
-        if (userId == null && groupId == null) {
-            throw new FlowableIllegalArgumentException("userId and groupId cannot both be null");
+        if (userId == null && groupId == null && roleId == null) {
+            throw new FlowableIllegalArgumentException("userId and groupId and roleId cannot both be null");
         }
 
     }
@@ -72,7 +75,7 @@ public class AddIdentityLinkForCaseInstanceCmd implements Command<Void>, Seriali
             throw new FlowableObjectNotFoundException("Cannot find case instance with id " + caseInstanceId, CaseInstanceEntity.class);
         }
 
-        IdentityLinkUtil.createCaseInstanceIdentityLink(caseInstance, userId, groupId, type);
+        IdentityLinkUtil.createCaseInstanceIdentityLink(caseInstance, userId, groupId, roleId, type);
         
         return null;
 

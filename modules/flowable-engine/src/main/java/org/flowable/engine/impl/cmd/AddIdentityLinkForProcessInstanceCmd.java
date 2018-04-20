@@ -86,7 +86,7 @@ public class AddIdentityLinkForProcessInstanceCmd implements Command<Void>, Seri
         }
 
         IdentityLinkUtil.createProcessInstanceIdentityLink(processInstance, userId, groupId, roleId, type);
-        CommandContextUtil.getHistoryManager(commandContext).createProcessInstanceIdentityLinkComment(processInstanceId, userId, groupId, type, true);
+        CommandContextUtil.getHistoryManager(commandContext).createProcessInstanceIdentityLinkComment(processInstance, userId, groupId, roleId, type, true);
 
         return null;
 

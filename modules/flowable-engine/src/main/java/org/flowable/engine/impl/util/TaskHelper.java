@@ -86,7 +86,7 @@ public class TaskHelper {
         if (Authentication.getAuthenticatedUserId() != null && taskEntity.getProcessInstanceId() != null) {
             ExecutionEntity processInstanceEntity = CommandContextUtil.getExecutionEntityManager(commandContext).findById(taskEntity.getProcessInstanceId());
             IdentityLinkUtil.createProcessInstanceIdentityLink(processInstanceEntity,
-                    Authentication.getAuthenticatedUserId(), null, IdentityLinkType.PARTICIPANT);
+                    Authentication.getAuthenticatedUserId(), null, null, IdentityLinkType.PARTICIPANT);
         }
 
         FlowableEventDispatcher eventDispatcher = CommandContextUtil.getProcessEngineConfiguration().getEventDispatcher();

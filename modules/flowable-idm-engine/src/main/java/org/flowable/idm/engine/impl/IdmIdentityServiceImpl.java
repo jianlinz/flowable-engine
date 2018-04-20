@@ -12,23 +12,11 @@
  */
 package org.flowable.idm.engine.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.flowable.engine.common.impl.identity.Authentication;
-import org.flowable.idm.api.Group;
-import org.flowable.idm.api.GroupQuery;
-import org.flowable.idm.api.IdmIdentityService;
-import org.flowable.idm.api.NativeGroupQuery;
-import org.flowable.idm.api.NativeTokenQuery;
-import org.flowable.idm.api.NativeUserQuery;
-import org.flowable.idm.api.Picture;
-import org.flowable.idm.api.Privilege;
-import org.flowable.idm.api.PrivilegeMapping;
-import org.flowable.idm.api.PrivilegeQuery;
-import org.flowable.idm.api.Token;
-import org.flowable.idm.api.TokenQuery;
-import org.flowable.idm.api.User;
-import org.flowable.idm.api.UserQuery;
+import org.flowable.idm.api.*;
 import org.flowable.idm.engine.impl.cmd.AddPrivilegeMappingCmd;
 import org.flowable.idm.engine.impl.cmd.CheckPassword;
 import org.flowable.idm.engine.impl.cmd.CreateGroupCmd;

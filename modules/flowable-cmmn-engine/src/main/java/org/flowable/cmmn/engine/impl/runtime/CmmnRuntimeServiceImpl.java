@@ -201,22 +201,32 @@ public class CmmnRuntimeServiceImpl extends ServiceImpl implements CmmnRuntimeSe
 
     @Override
     public void addUserIdentityLink(String caseInstanceId, String userId, String identityLinkType) {
-        commandExecutor.execute(new AddIdentityLinkForCaseInstanceCmd(caseInstanceId, userId, null, identityLinkType));
+        commandExecutor.execute(new AddIdentityLinkForCaseInstanceCmd(caseInstanceId, userId, null, null, identityLinkType));
     }
 
     @Override
     public void addGroupIdentityLink(String caseInstanceId, String groupId, String identityLinkType) {
-        commandExecutor.execute(new AddIdentityLinkForCaseInstanceCmd(caseInstanceId, null, groupId, identityLinkType));
+        commandExecutor.execute(new AddIdentityLinkForCaseInstanceCmd(caseInstanceId, null, groupId, null, identityLinkType));
+    }
+
+    @Override
+    public void addRoleIdentityLink(String caseInstanceId, String roleId, String identityLinkType) {
+        commandExecutor.execute(new AddIdentityLinkForCaseInstanceCmd(caseInstanceId, null, null, roleId, identityLinkType));
     }
 
     @Override
     public void deleteUserIdentityLink(String caseInstanceId, String userId, String identityLinkType) {
-        commandExecutor.execute(new DeleteIdentityLinkForCaseInstanceCmd(caseInstanceId, userId, null, identityLinkType));
+        commandExecutor.execute(new DeleteIdentityLinkForCaseInstanceCmd(caseInstanceId, userId, null,null, identityLinkType));
     }
 
     @Override
     public void deleteGroupIdentityLink(String caseInstanceId, String groupId, String identityLinkType) {
-        commandExecutor.execute(new DeleteIdentityLinkForCaseInstanceCmd(caseInstanceId, null, groupId, identityLinkType));
+        commandExecutor.execute(new DeleteIdentityLinkForCaseInstanceCmd(caseInstanceId, null, groupId,null, identityLinkType));
+    }
+
+    @Override
+    public void deleteRoleIdentityLink(String caseInstanceId, String roleId, String identityLinkType) {
+        commandExecutor.execute(new DeleteIdentityLinkForCaseInstanceCmd(caseInstanceId, null, null,roleId, identityLinkType));
     }
 
     @Override

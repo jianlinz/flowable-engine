@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.flowable</groupId>
+        <groupId>com.proper.enterprise.platform</groupId>
         <artifactId>flowable-spring-boot-starters</artifactId>
         <version>6.3.0-SNAPSHOT</version>
     </parent>
@@ -21,39 +21,39 @@
 
         <!-- common -->
         <dependency>
-            <groupId>org.flowable</groupId>
+            <groupId>com.proper.enterprise.platform</groupId>
             <artifactId>flowable-engine</artifactId>
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>org.flowable</groupId>
+            <groupId>com.proper.enterprise.platform</groupId>
             <artifactId>flowable-spring</artifactId>
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>org.flowable</groupId>
+            <groupId>com.proper.enterprise.platform</groupId>
             <artifactId>flowable-form-spring-configurator</artifactId>
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>org.flowable</groupId>
+            <groupId>com.proper.enterprise.platform</groupId>
             <artifactId>flowable-dmn-spring-configurator</artifactId>
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>org.flowable</groupId>
+            <groupId>com.proper.enterprise.platform</groupId>
             <artifactId>flowable-cmmn-spring-configurator</artifactId>
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>org.flowable</groupId>
+            <groupId>com.proper.enterprise.platform</groupId>
             <artifactId>flowable-ldap</artifactId>
             <optional>true</optional>
         </dependency>
 
         <!-- rest api -->
         <dependency>
-            <groupId>org.flowable</groupId>
+            <groupId>com.proper.enterprise.platform</groupId>
             <artifactId>flowable-rest</artifactId>
             <exclusions>
                 <exclusion>
@@ -64,7 +64,7 @@
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>org.flowable</groupId>
+            <groupId>com.proper.enterprise.platform</groupId>
             <artifactId>flowable-common-rest</artifactId>
             <optional>true</optional>
             <exclusions>
@@ -75,7 +75,7 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>org.flowable</groupId>
+            <groupId>com.proper.enterprise.platform</groupId>
             <artifactId>flowable-cmmn-rest</artifactId>
             <optional>true</optional>
             <exclusions>
@@ -86,7 +86,7 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>org.flowable</groupId>
+            <groupId>com.proper.enterprise.platform</groupId>
             <artifactId>flowable-content-rest</artifactId>
             <optional>true</optional>
             <exclusions>
@@ -97,7 +97,7 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>org.flowable</groupId>
+            <groupId>com.proper.enterprise.platform</groupId>
             <artifactId>flowable-dmn-rest</artifactId>
             <optional>true</optional>
             <exclusions>
@@ -108,7 +108,7 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>org.flowable</groupId>
+            <groupId>com.proper.enterprise.platform</groupId>
             <artifactId>flowable-form-rest</artifactId>
             <optional>true</optional>
             <exclusions>
@@ -119,7 +119,7 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>org.flowable</groupId>
+            <groupId>com.proper.enterprise.platform</groupId>
             <artifactId>flowable-idm-rest</artifactId>
             <optional>true</optional>
             <exclusions>
@@ -131,7 +131,7 @@
         </dependency>
 
         <dependency>
-            <groupId>org.flowable</groupId>
+            <groupId>com.proper.enterprise.platform</groupId>
             <artifactId>flowable-content-spring-configurator</artifactId>
             <optional>true</optional>
         </dependency>
@@ -151,17 +151,17 @@
 
         <!-- actuator -->
         <dependency>
-            <groupId>org.flowable</groupId>
+            <groupId>com.proper.enterprise.platform</groupId>
             <artifactId>flowable-image-generator</artifactId>
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>org.flowable</groupId>
+            <groupId>com.proper.enterprise.platform</groupId>
             <artifactId>flowable-bpmn-model</artifactId>
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>org.flowable</groupId>
+            <groupId>com.proper.enterprise.platform</groupId>
             <artifactId>flowable-bpmn-layout</artifactId>
             <optional>true</optional>
         </dependency>

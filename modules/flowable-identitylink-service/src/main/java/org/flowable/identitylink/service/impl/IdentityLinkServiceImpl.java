@@ -90,8 +90,8 @@ public class IdentityLinkServiceImpl extends ServiceImpl implements IdentityLink
     }
     
     @Override
-    public IdentityLinkEntity createScopeIdentityLink(String scopeDefinitionId, String scopeId, String scopeType, String userId, String groupId, String type) {
-        return getIdentityLinkEntityManager().addScopeIdentityLink(scopeDefinitionId, scopeId, scopeType, userId, groupId, type);
+    public IdentityLinkEntity createScopeIdentityLink(String scopeDefinitionId, String scopeId, String scopeType, String userId, String groupId, String roleId, String type) {
+        return getIdentityLinkEntityManager().addScopeIdentityLink(scopeDefinitionId, scopeId, scopeType, userId, groupId, roleId, type);
     }
 
     @Override
@@ -107,8 +107,8 @@ public class IdentityLinkServiceImpl extends ServiceImpl implements IdentityLink
     }
     
     @Override
-    public IdentityLinkEntity createScopeDefinitionIdentityLink(String scopeDefinitionId, String scopeType, String userId, String groupId) {
-        return getIdentityLinkEntityManager().addScopeDefinitionIdentityLink(scopeDefinitionId, scopeType, userId, groupId);
+    public IdentityLinkEntity createScopeDefinitionIdentityLink(String scopeDefinitionId, String scopeType, String userId, String groupId, String roleId) {
+        return getIdentityLinkEntityManager().addScopeDefinitionIdentityLink(scopeDefinitionId, scopeType, userId, groupId, roleId);
     }
 
     @Override
@@ -134,8 +134,8 @@ public class IdentityLinkServiceImpl extends ServiceImpl implements IdentityLink
     }
     
     @Override
-    public List<IdentityLinkEntity> deleteScopeIdentityLink(String scopeId, String scopeType, String userId, String groupId, String type) {
-        return getIdentityLinkEntityManager().deleteScopeIdentityLink(scopeId, scopeType, userId, groupId, type);
+    public List<IdentityLinkEntity> deleteScopeIdentityLink(String scopeId, String scopeType, String userId, String groupId, String roleId, String type) {
+        return getIdentityLinkEntityManager().deleteScopeIdentityLink(scopeId, scopeType, userId, groupId, roleId, type);
     }
 
     @Override
@@ -153,8 +153,8 @@ public class IdentityLinkServiceImpl extends ServiceImpl implements IdentityLink
     }
     
     @Override
-    public List<IdentityLinkEntity> deleteScopeDefinitionIdentityLink(String scopeDefinitionId, String scopeType, String userId, String groupId) {
-        return getIdentityLinkEntityManager().deleteScopeDefinitionIdentityLink(scopeDefinitionId, scopeType, userId, groupId);
+    public List<IdentityLinkEntity> deleteScopeDefinitionIdentityLink(String scopeDefinitionId, String scopeType, String userId, String groupId, String roleId) {
+        return getIdentityLinkEntityManager().deleteScopeDefinitionIdentityLink(scopeDefinitionId, scopeType, userId, groupId, roleId);
     }
 
     @Override

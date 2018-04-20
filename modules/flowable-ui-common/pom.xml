@@ -41,7 +41,7 @@
 
     <!-- Flowable auto configure in order to pull deprecation properties -->
     <dependency>
-      <groupId>org.flowable</groupId>
+      <groupId>com.proper.enterprise.platform</groupId>
       <artifactId>flowable-spring-boot-autoconfigure</artifactId>
       <version>${project.version}</version>
     </dependency>

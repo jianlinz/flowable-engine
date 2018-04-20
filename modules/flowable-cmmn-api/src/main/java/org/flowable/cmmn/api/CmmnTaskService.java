@@ -455,6 +455,20 @@ public interface CmmnTaskService {
      *             when the task or group doesn't exist.
      */
     void addGroupIdentityLink(String taskId, String groupId, String identityLinkType);
+
+    /**
+     * Involves a group with a task. The type of identityLink is defined by the given identityLink.
+     *
+     * @param taskId
+     *            id of the task, cannot be null.
+     * @param roleId
+     *            id of the role to involve, cannot be null.
+     * @param identityLinkType
+     *            type of identity, cannot be null.
+     * @throws FlowableObjectNotFoundException
+     *             when the task or group doesn't exist.
+     */
+    void addRoleIdentityLink(String taskId, String roleId, String identityLinkType);
     
     /**
      * Removes the association between a user and a task for the given identityLinkType.
@@ -469,6 +483,20 @@ public interface CmmnTaskService {
      *             when the task or user doesn't exist.
      */
     void deleteUserIdentityLink(String taskId, String userId, String identityLinkType);
+
+    /**
+     * Removes the association between a user and a task for the given identityLinkType.
+     *
+     * @param taskId
+     *            id of the task, cannot be null.
+     * @param roleId
+     *            id of the role involve, cannot be null.
+     * @param identityLinkType
+     *            type of identityLink, cannot be null.
+     * @throws FlowableObjectNotFoundException
+     *             when the task or user doesn't exist.
+     */
+    void deleteRoleIdentityLink(String taskId, String roleId, String identityLinkType);
 
     /**
      * Removes the association between a group and a task for the given identityLinkType.

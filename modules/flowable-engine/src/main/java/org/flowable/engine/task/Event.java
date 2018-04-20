@@ -43,9 +43,19 @@ public interface Event extends Serializable {
     String ACTION_ADD_GROUP_LINK = "AddGroupLink";
 
     /**
+     * A role identity link was added with following message parts: [0] roleId [2] identity link type (aka role)
+     */
+    String ACTION_ADD_ROLE_LINK = "AddRoleLink";
+
+    /**
      * A group identity link was added with following message parts: [0] groupId [1] identity link type (aka role)
      */
     String ACTION_DELETE_GROUP_LINK = "DeleteGroupLink";
+
+    /**
+     * A role identity link was added with following message parts: [0] roleId [2] identity link type (aka role)
+     */
+    String ACTION_DELETE_ROLE_LINK = "DeleteRoleLink";
 
     /**
      * An user comment was added with the short version of the comment as message.

@@ -16,7 +16,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.flowable</groupId>
+            <groupId>com.proper.enterprise.platform</groupId>
             <artifactId>flowable-spring-boot-starter-process</artifactId>
         </dependency>
         <dependency>

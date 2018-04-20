@@ -8,7 +8,7 @@
     <packaging>bundle</packaging>
 
     <parent>
-        <groupId>com.proper.enterprise.platform</groupId>
+        <groupId>org.flowable</groupId>
         <artifactId>flowable-root</artifactId>
         <relativePath>../..</relativePath>
         <version>6.3.0-SNAPSHOT</version>

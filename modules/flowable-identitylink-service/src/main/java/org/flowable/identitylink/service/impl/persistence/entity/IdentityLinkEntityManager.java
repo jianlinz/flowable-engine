@@ -32,15 +32,15 @@ public interface IdentityLinkEntityManager extends EntityManager<IdentityLinkEnt
 
     List<IdentityLinkEntity> findIdentityLinksByScopeDefinitionIdAndType(String scopeDefinitionId, String scopeType);
 
-    List<IdentityLinkEntity> findIdentityLinkByTaskUserGroupAndType(String taskId, String userId, String groupId,String roleId, String type);
+    List<IdentityLinkEntity> findIdentityLinkByTaskUserGroupRoleAndType(String taskId, String userId, String groupId,String roleId, String type);
 
     List<IdentityLinkEntity> findIdentityLinkByProcessInstanceUserGroupRoleAndType(String processInstanceId, String userId, String groupId, String roleId, String type);
 
-    List<IdentityLinkEntity> findIdentityLinkByProcessDefinitionUserAndGroup(String processDefinitionId, String userId, String groupId);
+    List<IdentityLinkEntity> findIdentityLinkByProcessDefinitionUserAndGroupAndRole(String processDefinitionId, String userId, String groupId, String roleId);
 
     List<IdentityLinkEntity> findIdentityLinkByScopeIdScopeTypeUserGroupAndType(String scopeId, String scopeType, String userId, String groupId, String roleId, String type);
 
-    List<IdentityLinkEntity> findIdentityLinkByScopeDefinitionScopeTypeUserAndGroup(String scopeDefinitionId, String scopeType, String userId, String groupId, String roleId);
+    List<IdentityLinkEntity> findIdentityLinkByScopeDefinitionScopeTypeUserAndGroupAndRole(String scopeDefinitionId, String scopeType, String userId, String groupId, String roleId);
 
     IdentityLinkEntity addProcessInstanceIdentityLink(String processInstanceId, String userId, String groupId, String roleId, String type);
 

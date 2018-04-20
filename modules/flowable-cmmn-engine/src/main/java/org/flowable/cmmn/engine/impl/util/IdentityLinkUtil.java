@@ -26,24 +26,24 @@ import org.flowable.task.service.impl.persistence.entity.TaskEntity;
  */
 public class IdentityLinkUtil {
     
-    public static IdentityLinkEntity createCaseInstanceIdentityLink(CaseInstance caseInstance, String userId, String groupId, String type) {
+    public static IdentityLinkEntity createCaseInstanceIdentityLink(CaseInstance caseInstance, String userId, String groupId, String roleId, String type) {
         IdentityLinkEntity identityLinkEntity = CommandContextUtil.getIdentityLinkService().createScopeIdentityLink(
-                        caseInstance.getCaseDefinitionId(), caseInstance.getId(), ScopeTypes.CMMN, userId, groupId, type);
+                caseInstance.getCaseDefinitionId(), caseInstance.getId(), ScopeTypes.CMMN, userId, groupId, roleId, type);
         
         CommandContextUtil.getCmmnHistoryManager().recordIdentityLinkCreated(identityLinkEntity);
         
         return identityLinkEntity;
     }
     
-    public static void deleteTaskIdentityLinks(TaskEntity taskEntity, String userId, String groupId, String type) {
+    public static void deleteTaskIdentityLinks(TaskEntity taskEntity, String userId, String groupId, String roleId, String type) {
         List<IdentityLinkEntity> removedIdentityLinkEntities = CommandContextUtil.getIdentityLinkService().deleteTaskIdentityLink(
-                        taskEntity.getId(), taskEntity.getIdentityLinks(), userId, groupId, type);
+                        taskEntity.getId(), taskEntity.getIdentityLinks(), userId, groupId, roleId, type);
         handleTaskIdentityLinkDeletions(taskEntity, removedIdentityLinkEntities, true);
     }
 
-    public static void deleteCaseInstanceIdentityLinks(CaseInstance caseInstance, String userId, String groupId, String type) {
+    public static void deleteCaseInstanceIdentityLinks(CaseInstance caseInstance, String userId, String groupId, String roleId, String type) {
         List<IdentityLinkEntity> removedIdentityLinkEntities = CommandContextUtil.getIdentityLinkService().deleteScopeIdentityLink(
-                        caseInstance.getId(), ScopeTypes.CMMN, userId, groupId, type);
+                        caseInstance.getId(), ScopeTypes.CMMN, userId, groupId, roleId, type);
         
         for (IdentityLinkEntity identityLinkEntity : removedIdentityLinkEntities) {
             CommandContextUtil.getCmmnHistoryManager().recordIdentityLinkDeleted(identityLinkEntity.getId());
@@ -75,7 +75,7 @@ public class IdentityLinkUtil {
                     }
                 }
                 
-                createCaseInstanceIdentityLink(caseInstance, identityLinkEntity.getUserId(), null, IdentityLinkType.PARTICIPANT);
+                createCaseInstanceIdentityLink(caseInstance, identityLinkEntity.getUserId(), null,null, IdentityLinkType.PARTICIPANT);
             }
         }
     }

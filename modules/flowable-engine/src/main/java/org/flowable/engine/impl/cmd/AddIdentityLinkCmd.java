@@ -138,8 +138,10 @@ public class AddIdentityLinkCmd extends NeedsActiveTaskCmd<Void> {
 
         if (IDENTITY_USER == identityIdType) {
             CommandContextUtil.getHistoryManager(commandContext).createUserIdentityLinkComment(task, identityId, identityType, true, forceNullUserId);
-        } else {
+        } else if(IDENTITY_GROUP == identityIdType){
             CommandContextUtil.getHistoryManager(commandContext).createGroupIdentityLinkComment(task, identityId, identityType, true);
+        }else if(IDENTITY_ROLE == identityIdType){
+            CommandContextUtil.getHistoryManager(commandContext).createRoleIdentityLinkComment(task, identityId, identityType, true);
         }
 
         return null;

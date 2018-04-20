@@ -25,7 +25,7 @@ For example for Maven:
 [source,xml,linenums]
 ----
 <dependency>
-    <groupId>org.flowable</groupId>
+    <groupId>com.proper.enterprise.platform</groupId>
     <artifactId>flowable-spring-boot-starter</artifactId>
     <version>${flowable.version}</version>
 </dependency>
@@ -365,7 +365,7 @@ To add JPA support for Flowable in Spring Boot, add following dependency:
 [source,xml,linenums]
 ----
 <dependency>
-    <groupId>org.flowable</groupId>
+    <groupId>com.proper.enterprise.platform</groupId>
     <artifactId>flowable-spring-boot-starter</artifactId>
     <version>${flowable.version}</version>
 </dependency>
@@ -953,22 +953,22 @@ For example to use the Process, CMMN, Form and IDM engine and use LDAP you need 
 [source,xml,linenums]
 ----
 <dependency>
-    <groupId>org.flowable</groupId>
+    <groupId>com.proper.enterprise.platform</groupId>
     <artifactId>flowable-spring-boot-starter-process</artifactId>
     <version>${flowable.version}</version>
 </dependency>
 <dependency>
-    <groupId>org.flowable</groupId>
+    <groupId>com.proper.enterprise.platform</groupId>
     <artifactId>flowable-spring-boot-starter-cmmn</artifactId>
     <version>${flowable.version}</version>
 </dependency>
 <dependency>
-    <groupId>org.flowable</groupId>
+    <groupId>com.proper.enterprise.platform</groupId>
     <artifactId>flowable-content-spring-configurator</artifactId>
     <version>${flowable.version}</version>
 </dependency>
 <dependency>
-    <groupId>org.flowable</groupId>
+    <groupId>com.proper.enterprise.platform</groupId>
     <artifactId>flowable-ldap</artifactId>
     <version>${flowable.version}</version>
 </dependency>

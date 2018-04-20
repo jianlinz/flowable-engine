@@ -38,17 +38,20 @@ public class DeleteIdentityLinkForCaseInstanceCmd implements Command<Object>, Se
 
     protected String groupId;
 
+    protected String roleId;
+
     protected String type;
 
-    public DeleteIdentityLinkForCaseInstanceCmd(String caseInstanceId, String userId, String groupId, String type) {
-        validateParams(userId, groupId, caseInstanceId, type);
+    public DeleteIdentityLinkForCaseInstanceCmd(String caseInstanceId, String userId, String groupId, String roleId, String type) {
+        validateParams(userId, groupId, roleId, caseInstanceId, type);
         this.caseInstanceId = caseInstanceId;
         this.userId = userId;
         this.groupId = groupId;
+        this.roleId = roleId;
         this.type = type;
     }
 
-    protected void validateParams(String userId, String groupId, String caseInstanceId, String type) {
+    protected void validateParams(String userId, String groupId, String roleId, String caseInstanceId, String type) {
         if (caseInstanceId == null) {
             throw new FlowableIllegalArgumentException("caseInstanceId is null");
         }
@@ -57,8 +60,8 @@ public class DeleteIdentityLinkForCaseInstanceCmd implements Command<Object>, Se
             throw new FlowableIllegalArgumentException("type is required when deleting a process identity link");
         }
 
-        if (userId == null && groupId == null) {
-            throw new FlowableIllegalArgumentException("userId and groupId cannot both be null");
+        if (userId == null && groupId == null && roleId == null) {
+            throw new FlowableIllegalArgumentException("userId and groupId and roleId cannot both be null");
         }
     }
 
@@ -70,7 +73,7 @@ public class DeleteIdentityLinkForCaseInstanceCmd implements Command<Object>, Se
             throw new FlowableObjectNotFoundException("Cannot find case instance with id " + caseInstanceId, CaseInstanceEntity.class);
         }
 
-        IdentityLinkUtil.deleteCaseInstanceIdentityLinks(caseInstance, userId, groupId, type);
+        IdentityLinkUtil.deleteCaseInstanceIdentityLinks(caseInstance, userId, groupId, roleId, type);
         
         return null;
     }

@@ -94,11 +94,11 @@
             <artifactId>flowable-cmmn-engine</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.flowable</groupId>
+            <groupId>com.proper.enterprise.platform</groupId>
             <artifactId>flowable-spring-common</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.flowable</groupId>
+            <groupId>com.proper.enterprise.platform</groupId>
             <artifactId>flowable-job-spring-service</artifactId>
         </dependency>
         <dependency>

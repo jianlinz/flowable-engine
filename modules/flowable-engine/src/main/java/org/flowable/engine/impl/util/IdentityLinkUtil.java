@@ -48,7 +48,6 @@ public class IdentityLinkUtil {
 
     public static void deleteProcessInstanceIdentityLinks(ExecutionEntity processInstanceEntity, String userId, String groupId, String roleId, String type) {
         List<IdentityLinkEntity> removedIdentityLinkEntities = CommandContextUtil.getIdentityLinkService().deleteProcessInstanceIdentityLink(
-                        processInstanceEntity.getId(), userId, groupId, type);
                 processInstanceEntity.getId(), userId, groupId, roleId, type);
 
         for (IdentityLinkEntity identityLinkEntity : removedIdentityLinkEntities) {

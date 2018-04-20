@@ -139,18 +139,20 @@ public class MybatisIdentityLinkDataManager extends AbstractDataManager<Identity
         parameters.put("scopeType", scopeType);
         parameters.put("userId", userId);
         parameters.put("groupId", groupId);
+        parameters.put("roleId", roleId);
         parameters.put("type", type);
         return getDbSqlSession().selectList("selectIdentityLinkByScopeIdScopeTypeUserGroupAndType", parameters);
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<IdentityLinkEntity> findIdentityLinkByScopeDefinitionScopeTypeUserAndGroup(String scopeDefinitionId, String scopeType, String userId, String groupId,String roleId) {
+    public List<IdentityLinkEntity> findIdentityLinkByScopeDefinitionScopeTypeUserAndGroupAndRole(String scopeDefinitionId, String scopeType, String userId, String groupId,String roleId) {
         Map<String, String> parameters = new HashMap<>();
         parameters.put("scopeDefinitionId", scopeDefinitionId);
         parameters.put("scopeType", scopeType);
         parameters.put("userId", userId);
         parameters.put("groupId", groupId);
+        parameters.put("roleId", roleId);
         return getDbSqlSession().selectList("selectIdentityLinkByScopeDefinitionScopeTypeUserAndGroup", parameters);
     }
 

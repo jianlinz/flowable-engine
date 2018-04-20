@@ -49,7 +49,7 @@ public interface IdentityLinkService {
     
     IdentityLinkEntity createScopeIdentityLink(String scopeDefinitionId, String scopeId, String scopeType, String userId, String groupId, String roleId, String type);
 
-    IdentityLinkEntity createTaskIdentityLink(String taskId, String userId, String groupId, String type);
+    IdentityLinkEntity createTaskIdentityLink(String taskId, String userId, String groupId, String roleId, String type);
     
     IdentityLinkEntity createProcessDefinitionIdentityLink(String processDefinitionId, String userId, String groupId,
                                                            String roleId);
@@ -66,7 +66,7 @@ public interface IdentityLinkService {
     
     List<IdentityLinkEntity> deleteScopeIdentityLink(String scopeId, String scopeType, String userId, String groupId, String roleId, String type);
 
-    List<IdentityLinkEntity> deleteTaskIdentityLink(String taskId, List<IdentityLinkEntity> currentIdentityLinks, String userId, String groupId, String type);
+    List<IdentityLinkEntity> deleteTaskIdentityLink(String taskId, List<IdentityLinkEntity> currentIdentityLinks, String userId, String groupId, String roleId, String type);
     
     List<IdentityLinkEntity> deleteProcessDefinitionIdentityLink(String processDefinitionId, String userId, String groupId, String roleId);
     

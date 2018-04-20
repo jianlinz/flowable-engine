@@ -102,7 +102,7 @@ public interface CmmnRuntimeService {
 
     /**
      * Involves a group with a case instance. The type of identityLink is defined by the given identityLink.
-     * 
+     *
      * @param caseInstanceId
      *            id of the case instance, cannot be null.
      * @param groupId
@@ -113,6 +113,20 @@ public interface CmmnRuntimeService {
      *             when the process instance or group doesn't exist.
      */
     void addGroupIdentityLink(String caseInstanceId, String groupId, String identityLinkType);
+
+    /**
+     * Involves a group with a case instance. The type of identityLink is defined by the given identityLink.
+     *
+     * @param caseInstanceId
+     *            id of the case instance, cannot be null.
+     * @param roleId
+     *            id of the group to involve, cannot be null.
+     * @param identityLinkType
+     *            type of identity, cannot be null.
+     * @throws FlowableObjectNotFoundException
+     *             when the process instance or group doesn't exist.
+     */
+    void addRoleIdentityLink(String caseInstanceId, String roleId, String identityLinkType);
 
     /**
      * Removes the association between a user and a process instance for the given identityLinkType.
@@ -141,6 +155,20 @@ public interface CmmnRuntimeService {
      *             when the task or group doesn't exist.
      */
     void deleteGroupIdentityLink(String caseInstanceId, String groupId, String identityLinkType);
+
+    /**
+     * Removes the association between a group and a process instance for the given identityLinkType.
+     *
+     * @param caseInstanceId
+     *            id of the case instance, cannot be null.
+     * @param roleId
+     *            id of the role to involve, cannot be null.
+     * @param identityLinkType
+     *            type of identity, cannot be null.
+     * @throws FlowableObjectNotFoundException
+     *             when the task or group doesn't exist.
+     */
+    void deleteRoleIdentityLink(String caseInstanceId, String roleId, String identityLinkType);
 
     /**
      * Retrieves the {@link IdentityLink}s associated with the given case instance. Such an identity link informs how a certain user is involved with a case instance.

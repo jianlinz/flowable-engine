@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -50,7 +50,7 @@ public abstract class AbstractHistoryManager extends AbstractManager implements 
         this.historyLevel = historyLevel;
         this.enableProcessDefinitionHistoryLevel = processEngineConfiguration.isEnableProcessDefinitionHistoryLevel();
     }
-    
+
     @Override
     public boolean isHistoryLevelAtLeast(HistoryLevel level) {
         return isHistoryLevelAtLeast(level, null);
@@ -71,12 +71,12 @@ public abstract class AbstractHistoryManager extends AbstractManager implements 
                 }
                 return historyLevel.isAtLeast(level);
             }
-            
+
         } else {
             if (LOGGER.isDebugEnabled()) {
                 LOGGER.debug("Current history level: {}, level required: {}", historyLevel, level);
             }
-            
+
             // Comparing enums actually compares the location of values declared in the enum
             return historyLevel.isAtLeast(level);
         }
@@ -89,7 +89,7 @@ public abstract class AbstractHistoryManager extends AbstractManager implements 
         }
         return historyLevel != HistoryLevel.NONE;
     }
-    
+
     @Override
     public boolean isHistoryEnabled(String processDefinitionId) {
         if (enableProcessDefinitionHistoryLevel && processDefinitionId != null) {
@@ -105,7 +105,7 @@ public abstract class AbstractHistoryManager extends AbstractManager implements 
                 }
                 return !historyLevel.equals(HistoryLevel.NONE);
             }
-           
+
         } else {
             if (LOGGER.isDebugEnabled()) {
                 LOGGER.debug("Current history level: {}", historyLevel);
@@ -115,32 +115,37 @@ public abstract class AbstractHistoryManager extends AbstractManager implements 
     }
 
     @Override
-    public void createIdentityLinkComment(TaskEntity taskEntity, String userId, String groupId, String type, boolean create) {
-        createIdentityLinkComment(taskEntity, userId, groupId, type, create, false);
+    public void createIdentityLinkComment(TaskEntity taskEntity, String userId, String groupId, String roleId, String type, boolean create) {
+        createIdentityLinkComment(taskEntity, userId, groupId, roleId, type, create, false);
     }
 
     @Override
     public void createUserIdentityLinkComment(TaskEntity taskEntity, String userId, String type, boolean create) {
-        createIdentityLinkComment(taskEntity, userId, null, type, create, false);
+        createIdentityLinkComment(taskEntity, userId, null,null, type, create, false);
     }
 
     @Override
     public void createGroupIdentityLinkComment(TaskEntity taskEntity, String groupId, String type, boolean create) {
-        createIdentityLinkComment(taskEntity, null, groupId, type, create, false);
+        createIdentityLinkComment(taskEntity, null,groupId, null, type, create, false);
+    }
+
+    @Override
+    public void createRoleIdentityLinkComment(TaskEntity taskEntity, String roleId, String type, boolean create) {
+        createIdentityLinkComment(taskEntity, null,null, roleId, type, create, false);
     }
 
     @Override
     public void createUserIdentityLinkComment(TaskEntity taskEntity, String userId, String type, boolean create, boolean forceNullUserId) {
-        createIdentityLinkComment(taskEntity, userId, null, type, create, forceNullUserId);
+        createIdentityLinkComment(taskEntity, userId, null,null, type, create, forceNullUserId);
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.flowable.engine.impl.history.HistoryManagerInterface# createIdentityLinkComment(java.lang.String, java.lang.String, java.lang.String, java.lang.String, boolean, boolean)
      */
     @Override
-    public void createIdentityLinkComment(TaskEntity taskEntity, String userId, String groupId, String type, boolean create, boolean forceNullUserId) {
+    public void createIdentityLinkComment(TaskEntity taskEntity, String userId, String groupId, String roleId, String type, boolean create, boolean forceNullUserId) {
         if (isHistoryLevelAtLeast(HistoryLevel.AUDIT, taskEntity.getProcessDefinitionId())) {
             String authenticatedUserId = Authentication.getAuthenticatedUserId();
             CommentEntity comment = getCommentEntityManager().create();
@@ -155,13 +160,20 @@ public abstract class AbstractHistoryManager extends AbstractManager implements 
                     comment.setAction(Event.ACTION_DELETE_USER_LINK);
                 }
                 comment.setMessage(new String[] { userId, type });
-            } else {
+            } else if(groupId != null){
                 if (create) {
                     comment.setAction(Event.ACTION_ADD_GROUP_LINK);
                 } else {
                     comment.setAction(Event.ACTION_DELETE_GROUP_LINK);
                 }
                 comment.setMessage(new String[] { groupId, type });
+            } else if (roleId != null) {
+                if (create) {
+                    comment.setAction(Event.ACTION_ADD_ROLE_LINK);
+                } else {
+                    comment.setAction(Event.ACTION_DELETE_ROLE_LINK);
+                }
+                comment.setMessage(new String[] { roleId, type });
             }
 
             getCommentEntityManager().insert(comment);
@@ -169,12 +181,12 @@ public abstract class AbstractHistoryManager extends AbstractManager implements 
     }
 
     @Override
-    public void createProcessInstanceIdentityLinkComment(ExecutionEntity processInstance, String userId, String groupId, String type, boolean create) {
-        createProcessInstanceIdentityLinkComment(processInstance, userId, groupId, type, create, false);
+    public void createProcessInstanceIdentityLinkComment(ExecutionEntity processInstance, String userId, String groupId, String roleId, String type, boolean create) {
+        createProcessInstanceIdentityLinkComment(processInstance, userId, groupId,  roleId, type, create, false);
     }
 
     @Override
-    public void createProcessInstanceIdentityLinkComment(ExecutionEntity processInstance, String userId, String groupId, String type, boolean create, boolean forceNullUserId) {
+    public void createProcessInstanceIdentityLinkComment(ExecutionEntity processInstance, String userId, String groupId, String roleId, String type, boolean create, boolean forceNullUserId) {
         if (isHistoryLevelAtLeast(HistoryLevel.AUDIT, processInstance.getProcessDefinitionId())) {
             String authenticatedUserId = Authentication.getAuthenticatedUserId();
             CommentEntity comment = getCommentEntityManager().create();
@@ -189,13 +201,20 @@ public abstract class AbstractHistoryManager extends AbstractManager implements 
                     comment.setAction(Event.ACTION_DELETE_USER_LINK);
                 }
                 comment.setMessage(new String[] { userId, type });
-            } else {
+            } else if (groupId != null){
                 if (create) {
                     comment.setAction(Event.ACTION_ADD_GROUP_LINK);
                 } else {
                     comment.setAction(Event.ACTION_DELETE_GROUP_LINK);
                 }
                 comment.setMessage(new String[] { groupId, type });
+            } else if (roleId != null) {
+                if (create) {
+                    comment.setAction(Event.ACTION_ADD_ROLE_LINK);
+                } else {
+                    comment.setAction(Event.ACTION_DELETE_ROLE_LINK);
+                }
+                comment.setMessage(new String[] { roleId, type });
             }
             getCommentEntityManager().insert(comment);
         }
@@ -203,7 +222,7 @@ public abstract class AbstractHistoryManager extends AbstractManager implements 
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.flowable.engine.impl.history.HistoryManagerInterface# createAttachmentComment(java.lang.String, java.lang.String, java.lang.String, boolean)
      */
     @Override
@@ -331,15 +350,15 @@ public abstract class AbstractHistoryManager extends AbstractManager implements 
         getHistoricActivityInstanceEntityManager().insert(historicActivityInstance);
         return historicActivityInstance;
     }
-    
+
     protected HistoryLevel getProcessDefinitionHistoryLevel(String processDefinitionId) {
         HistoryLevel processDefinitionHistoryLevel = null;
 
         try {
             ProcessDefinition processDefinition = ProcessDefinitionUtil.getProcessDefinition(processDefinitionId);
-            
+
             BpmnModel bpmnModel = ProcessDefinitionUtil.getBpmnModel(processDefinitionId);
-    
+
             Process process = bpmnModel.getProcessById(processDefinition.getKey());
             if (process.getExtensionElements().containsKey("historyLevel")) {
                 ExtensionElement historyLevelElement = process.getExtensionElements().get("historyLevel").iterator().next();
@@ -347,11 +366,11 @@ public abstract class AbstractHistoryManager extends AbstractManager implements 
                 if (StringUtils.isNotEmpty(historyLevelValue)) {
                     try {
                         processDefinitionHistoryLevel = HistoryLevel.getHistoryLevelForKey(historyLevelValue);
-    
+
                     } catch (Exception e) {}
                 }
             }
-    
+
             if (processDefinitionHistoryLevel == null) {
                 processDefinitionHistoryLevel = this.historyLevel;
             }

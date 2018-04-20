@@ -188,6 +188,9 @@
       <if test="parameter.groupId != null">
         and GROUP_ID_ = #{parameter.groupId}
       </if>
+      <if test="parameter.roleId != null">
+          and ROLE_ID_ = #{parameter.roleId}
+      </if>
       <if test="parameter.type != null">
         and TYPE_ = #{parameter.type}
       </if>

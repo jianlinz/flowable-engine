@@ -30,6 +30,7 @@ public class AddIdentityLinkCmd extends NeedsActiveTaskCmd<Void> {
 
     public static int IDENTITY_USER = 1;
     public static int IDENTITY_GROUP = 2;
+    public static int IDENTITY_ROLE = 3;
 
     protected String identityId;
 
@@ -56,12 +57,12 @@ public class AddIdentityLinkCmd extends NeedsActiveTaskCmd<Void> {
         }
 
         if (identityId == null && (identityIdType == IDENTITY_GROUP ||
-                (!IdentityLinkType.ASSIGNEE.equals(identityType) && !IdentityLinkType.OWNER.equals(identityType)))) {
+                (!IdentityLinkType.ASSIGNEE.equals(identityType) && !IdentityLinkType.OWNER.equals(identityType))|| identityIdType == IDENTITY_ROLE)) {
 
             throw new FlowableIllegalArgumentException("identityId is null");
         }
 
-        if (identityIdType != IDENTITY_USER && identityIdType != IDENTITY_GROUP) {
+        if (identityIdType != IDENTITY_USER && identityIdType != IDENTITY_GROUP && identityIdType != IDENTITY_ROLE) {
             throw new FlowableIllegalArgumentException("identityIdType allowed values are 1 and 2");
         }
     }
@@ -100,13 +101,16 @@ public class AddIdentityLinkCmd extends NeedsActiveTaskCmd<Void> {
             assignedToNoOne = identityId == null;
 
         } else if (IDENTITY_USER == identityIdType) {
-            IdentityLinkEntity identityLinkEntity = CommandContextUtil.getIdentityLinkService().createTaskIdentityLink(task.getId(), identityId, null, identityType);
+            IdentityLinkEntity identityLinkEntity = CommandContextUtil.getIdentityLinkService().createTaskIdentityLink(task.getId(), identityId, null,null, identityType);
             IdentityLinkUtil.handleTaskIdentityLinkAddition(task, identityLinkEntity);
             
         } else if (IDENTITY_GROUP == identityIdType) {
-            IdentityLinkEntity identityLinkEntity = CommandContextUtil.getIdentityLinkService().createTaskIdentityLink(task.getId(), null, identityId, identityType);
+            IdentityLinkEntity identityLinkEntity = CommandContextUtil.getIdentityLinkService().createTaskIdentityLink(task.getId(), null, identityId,null, identityType);
             IdentityLinkUtil.handleTaskIdentityLinkAddition(task, identityLinkEntity);
             
+        }else if(IDENTITY_ROLE == identityIdType){
+            IdentityLinkEntity identityLinkEntity = CommandContextUtil.getIdentityLinkService().createTaskIdentityLink(task.getId(), null, null, identityId, identityType);
+            IdentityLinkUtil.handleTaskIdentityLinkAddition(task, identityLinkEntity);
         }
 
         boolean forceNullUserId = false;

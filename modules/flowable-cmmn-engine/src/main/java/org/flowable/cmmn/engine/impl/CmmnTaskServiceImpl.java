@@ -350,15 +350,25 @@ public class CmmnTaskServiceImpl extends ServiceImpl implements CmmnTaskService 
     public void addGroupIdentityLink(String taskId, String groupId, String identityLinkType) {
         commandExecutor.execute(new AddIdentityLinkCmd(taskId, groupId, AddIdentityLinkCmd.IDENTITY_GROUP, identityLinkType));
     }
-    
+
+    @Override
+    public void addRoleIdentityLink(String taskId, String roleId, String identityLinkType) {
+        commandExecutor.execute(new AddIdentityLinkCmd(taskId, roleId, AddIdentityLinkCmd.IDENTITY_ROLE, identityLinkType));
+    }
+
     @Override
     public void deleteGroupIdentityLink(String taskId, String groupId, String identityLinkType) {
-        commandExecutor.execute(new DeleteIdentityLinkCmd(taskId, null, groupId, identityLinkType));
+        commandExecutor.execute(new DeleteIdentityLinkCmd(taskId, null, groupId, null, identityLinkType));
     }
 
     @Override
     public void deleteUserIdentityLink(String taskId, String userId, String identityLinkType) {
-        commandExecutor.execute(new DeleteIdentityLinkCmd(taskId, userId, null, identityLinkType));
+        commandExecutor.execute(new DeleteIdentityLinkCmd(taskId, userId, null, null, identityLinkType));
+    }
+
+    @Override
+    public void deleteRoleIdentityLink(String taskId, String roleId, String identityLinkType) {
+        commandExecutor.execute(new DeleteIdentityLinkCmd(taskId, null, null, roleId, identityLinkType));
     }
 
     @Override

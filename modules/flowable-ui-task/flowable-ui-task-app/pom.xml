@@ -42,7 +42,7 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.flowable</groupId>
+            <groupId>com.proper.enterprise.platform</groupId>
             <artifactId>flowable-spring-boot-autoconfigure</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -66,7 +66,7 @@
             <scope>runtime</scope>
         </dependency>
         <dependency>
-            <groupId>org.flowable</groupId>
+            <groupId>com.proper.enterprise.platform</groupId>
             <artifactId>flowable-ui-task-conf</artifactId>
         </dependency>
         <dependency>

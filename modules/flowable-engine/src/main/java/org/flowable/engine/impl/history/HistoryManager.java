@@ -133,7 +133,7 @@ public interface HistoryManager {
     /**
      * Creates a new comment to indicate a new {@link IdentityLink} has been created or deleted, if history is enabled.
      */
-    void createIdentityLinkComment(TaskEntity task, String userId, String groupId, String type, boolean create);
+    void createIdentityLinkComment(TaskEntity task, String userId, String groupId, String roleId, String type, boolean create);
 
     /**
      * Creates a new comment to indicate a new user {@link IdentityLink} has been created or deleted, if history is enabled.
@@ -146,9 +146,14 @@ public interface HistoryManager {
     void createGroupIdentityLinkComment(TaskEntity task, String groupId, String type, boolean create);
 
     /**
+     * Creates a new comment to indicate a new role {@link IdentityLink} has been created or deleted, if history is enabled.
+     */
+    void createRoleIdentityLinkComment(TaskEntity task, String roleId, String type, boolean create);
+
+    /**
      * Creates a new comment to indicate a new {@link IdentityLink} has been created or deleted, if history is enabled.
      */
-    void createIdentityLinkComment(TaskEntity task, String userId, String groupId, String type, boolean create, boolean forceNullUserId);
+    void createIdentityLinkComment(TaskEntity task, String userId, String groupId, String roleId, String type, boolean create, boolean forceNullUserId);
 
     /**
      * Creates a new comment to indicate a new user {@link IdentityLink} has been created or deleted, if history is enabled.
@@ -158,12 +163,12 @@ public interface HistoryManager {
     /**
      * Creates a new comment to indicate a new {@link IdentityLink} has been created or deleted, if history is enabled.
      */
-    void createProcessInstanceIdentityLinkComment(ExecutionEntity processInstance, String userId, String groupId, String type, boolean create);
+    void createProcessInstanceIdentityLinkComment(ExecutionEntity processInstance, String userId, String groupId, String roleId, String type, boolean create);
 
     /**
      * Creates a new comment to indicate a new {@link IdentityLink} has been created or deleted, if history is enabled.
      */
-    void createProcessInstanceIdentityLinkComment(ExecutionEntity processInstance, String userId, String groupId, String type, boolean create, boolean forceNullUserId);
+    void createProcessInstanceIdentityLinkComment(ExecutionEntity processInstance, String userId, String groupId, String roleId, String type, boolean create, boolean forceNullUserId);
 
     /**
      * Creates a new comment to indicate a new attachment has been created or deleted, if history is enabled.

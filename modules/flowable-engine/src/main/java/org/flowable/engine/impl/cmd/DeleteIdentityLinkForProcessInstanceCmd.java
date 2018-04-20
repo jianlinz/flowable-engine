@@ -82,7 +82,7 @@ public class DeleteIdentityLinkForProcessInstanceCmd implements Command<Object>,
         }
 
         IdentityLinkUtil.deleteProcessInstanceIdentityLinks(processInstance, userId, groupId, roleId, type);
-        CommandContextUtil.getHistoryManager(commandContext).createProcessInstanceIdentityLinkComment(processInstanceId, userId, groupId, type, false);
+        CommandContextUtil.getHistoryManager(commandContext).createProcessInstanceIdentityLinkComment(processInstance, userId, groupId, roleId, type, false);
 
         return null;
     }

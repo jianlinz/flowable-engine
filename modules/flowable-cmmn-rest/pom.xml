@@ -7,7 +7,7 @@
   <packaging>jar</packaging>
 
   <parent>
-    <groupId>org.flowable</groupId>
+    <groupId>com.proper.enterprise.platform</groupId>
     <artifactId>flowable-root</artifactId>
     <relativePath>../..</relativePath>
     <version>6.3.0-SNAPSHOT</version>
@@ -88,11 +88,11 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.flowable</groupId>
+      <groupId>com.proper.enterprise.platform</groupId>
       <artifactId>flowable-cmmn-engine</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.flowable</groupId>
+      <groupId>com.proper.enterprise.platform</groupId>
       <artifactId>flowable-common-rest</artifactId>
     </dependency>
 
@@ -137,7 +137,7 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.flowable</groupId>
+      <groupId>com.proper.enterprise.platform</groupId>
       <artifactId>flowable-cmmn-spring</artifactId>
       <scope>test</scope>
     </dependency>
