@@ -28,9 +28,10 @@ import org.springframework.security.config.core.GrantedAuthorityDefaults;
 @Configuration
 public class FlowableRemoteIdmAutoConfiguration {
 
-    @ConditionalOnMissingBean
-    @Bean
-    public GrantedAuthorityDefaults grantedAuthorityDefaults(FlowableCommonAppProperties commonAppProperties) {
-        return new GrantedAuthorityDefaults(commonAppProperties.getRolePrefix());
-    }
+//为了去掉对spring-security-conf的强制依赖
+//    @ConditionalOnMissingBean
+//    @Bean
+//    public GrantedAuthorityDefaults grantedAuthorityDefaults(FlowableCommonAppProperties commonAppProperties) {
+//        return new GrantedAuthorityDefaults(commonAppProperties.getRolePrefix());
+//    }
 }

@@ -3,6 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.proper.enterprise.platform</groupId>
 	<artifactId>flowable-ui-modeler-logic</artifactId>
 	<parent>
 		<groupId>org.flowable</groupId>
@@ -15,8 +16,9 @@
 	
         <!-- Flowable -->
         <dependency>
-           <groupId>org.flowable</groupId>
+           <groupId>com.proper.enterprise.platform</groupId>
            <artifactId>flowable-ui-common</artifactId>
+            <version>6.4.0</version>
         </dependency>
         <dependency>
 			<groupId>org.flowable</groupId>

@@ -76,7 +76,19 @@
 		<flowable.osgi.include.resource>{maven-resources}</flowable.osgi.include.resource>
 		<flowable.osgi.embed></flowable.osgi.embed>
 	</properties>
-
+	<!--打包统一配置 打开注释可以上传到proper仓库-->
+	<distributionManagement>
+		<repository>
+			<id>nexus-releases</id>
+			<name>Nexus Release Repository</name>
+			<url>http://nexus.propersoft.cn:8081/repository/maven-releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>nexus-snapshots</id>
+			<name>Nexus Snapshot Repository</name>
+			<url>http://nexus.propersoft.cn:8081/repository/maven-snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>

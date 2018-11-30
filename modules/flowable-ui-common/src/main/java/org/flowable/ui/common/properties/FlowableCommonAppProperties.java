@@ -142,16 +142,8 @@ public class FlowableCommonAppProperties {
     }
     
     public String determineIdmAppRedirectUrl() {
-        String idmAppRedirectUrl = getIdmRedirectUrl();
-        if (idmAppRedirectUrl != null && idmAppRedirectUrl.length() > 0) {
-            if (!idmAppRedirectUrl.endsWith("/")) {
-                idmAppRedirectUrl += "/";
-            }
-            
-            return idmAppRedirectUrl;
-        }
-        
-        return determineIdmAppUrl();
+        //flowable的流程设计器是多服务形式的  modeler会访问idm的地址  且必须配置  跟我们的设计相悖 去掉对idm地址的强制引用
+        return null;
     }
 
     /**
